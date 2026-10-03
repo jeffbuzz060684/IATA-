@@ -1,4 +1,4 @@
-var CACHE = "iata-mdd-v2";
+var CACHE = "iata-mdd-v3";
 var SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", function(e) {
@@ -15,6 +15,12 @@ self.addEventListener("activate", function(e) {
 
 self.addEventListener("fetch", function(e) {
   if (e.request.method !== "GET") return;
+  var url = e.request.url || "";
+  // version.json : toujours réseau (jamais de cache)
+  if (url.indexOf("version.json") !== -1) {
+    e.respondWith(fetch(e.request).catch(function() { return new Response("{}", { headers: { "Content-Type": "application/json" } }); }));
+    return;
+  }
   if (e.request.mode === "navigate") {
     e.respondWith(fetch(e.request).then(function(r) {
       var copy = r.clone();
