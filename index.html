@@ -81,7 +81,7 @@
   .btn-mini.warn{color:var(--err)}
   .toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
   #vernote{display:none;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.4);border-radius:10px;padding:8px 10px;font-size:.85rem;margin-bottom:10px}
-  .chk{color:var(--ok)}
+  .chk{color:var(--ok);font-weight:700}
   .wrn{color:var(--err)}
   .lblset{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:8px;margin:6px 0}
   .lblset .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -90,8 +90,21 @@
   .ac-list .ac-item{padding:8px 10px;font-size:.85rem;cursor:pointer;border-bottom:1px solid var(--bord)}
   .ac-list .ac-item:hover,.ac-list .ac-item.sel{background:rgba(56,189,248,.15)}
   .dgline{border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0;background:var(--card2)}
-  .dgline .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px}
+  .dgline .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}
   .dgline .g .field{margin:2px 0}
+  .b-lq{background:rgba(250,204,21,.12);color:#a16207;border-color:rgba(250,204,21,.4)}
+  .preview{border:1px dashed var(--acc);border-radius:10px;padding:10px;margin-top:8px}
+  .warnline{color:var(--err);font-size:.85rem;margin-top:4px}
+  .infoline{color:#a16207;font-size:.85rem;margin-top:4px}
+  .okline{color:var(--ok);font-size:.9rem;margin-top:4px}
+  .imp-line{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0}
+  .imp-check{padding-top:4px}
+  .imp-body{flex:1}
+  .dgline-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .ac-list .ac-item.on{background:rgba(56,189,248,.25)}
+  .dgd table.inner{width:100%;border-collapse:collapse;margin:0}
+  .dgd table.inner th,.dgd table.inner td{border:1px solid #999;font-size:.62rem;padding:3px 4px;text-align:left}
+  .lbl-warn{color:var(--err);font-weight:700;margin-top:6px}
   #print-label,#print-dgd{display:none}
   @media print{
     body{background:#fff}
@@ -102,9 +115,7 @@
     .lbl .unu{font-size:16pt;font-weight:bold;margin:3mm 0 1mm}
     .lbl .psnn{font-size:11pt;font-weight:bold;text-transform:uppercase}
     .lbl .pgl{font-size:10pt;margin:1mm 0}
-    .lbl .marks{position:absolute;bottom:6mm;right:6mm;display:flex;gap:4mm;align-items:flex-end;flex-wrap:wrap;max-width:72mm}
-    .lbl .marks svg{width:36mm;height:36mm}
-    .lbl .marks svg.wide{width:50mm;height:33mm}
+    .lbl .marks{position:absolute;bottom:6mm;right:6mm;display:flex;gap:4mm;align-items:flex-end;flex-wrap:wrap;max-width:70mm}
     .lbl .qtyl{position:absolute;bottom:6mm;left:6mm;font-size:9pt}
     .lbl svg{display:block}
     .dgd{min-width:0;width:100%;border:none;padding:0}
@@ -136,7 +147,7 @@
 
 <!-- ======================= RECHERCHE ======================= -->
 <section id="tab-rech">
-  <div class="warnbox">⚠️ Aide-mémoire de terrain — toujours vérifier l'édition du DGR IATA en vigueur et les variations compagnie (CASS) avant d'expédier. Les fiches détaillées s'affichent en premier, puis les entrées de la base ONU (2349 n° — classe, PG, risques subsidiaires).</div>
+  <div class="warnbox">⚠️ Aide-mémoire de terrain — toujours vérifier l'édition du DGR IATA en vigueur et les variations compagnie (CASS) avant d'expédier. Les fiches détaillées s'affichent en premier, puis les entrées de la base ONU (classe, PG, risques subsidiaires).</div>
   <div id="results"></div>
 </section>
 
@@ -231,7 +242,7 @@
       <li>Classe 9 — réfrigérant courant (échantillons, denrées). Quantité nette max/colis selon PI 954 + limites compagnie.</li>
       <li>Emballage permettant l'évacuation du gaz (jamais hermétique), ventilé.</li>
       <li><b>Mention LTA obligatoire</b> : « Dry Ice, UN 1845, n° de colis, quantité nette totale » (DGR 8.2.3) — même si elle refroidit des marchandises non dangereuses.</li>
-      <li>DGD requise si elle refroidit des MDD réglementées (ligne additionnelle) ; information au transporteur toujours obligatoire.</li>
+      <li>DGD requise si elle refroidit des MDD réglementées (ajoutée comme ligne) ; information au transporteur toujours obligatoire.</li>
     </ul>
   </div>
   <div class="card">
@@ -249,7 +260,7 @@
     <h3>Brassières / gilets de sauvetage</h3>
     <ul>
       <li>Gonflants CO₂ : engins de sauvetage autogonflants = <b>UN 2990, classe 9, PI 955</b>. Accord compagnie ; en bagages : généralement 1 gilet porté + 1 en bagage avec cartouches (certaines compagnies ≤ 60 g CO₂/cartouche).</li>
-      <li>Avec fusées : UN 0191 / 0323 (1.4G) — accord obligatoire, souvent refusées.</li>
+      <li>Avec fusées : UN 0191 / 0323 (1.4G) — accord obligatoire, souvent refusées. En bagages, UN 2990 non autorisé sauf exception prévue (2.3).</li>
       <li>Avec pile lithium : régime UN 3481 (§ II de PI 967/970 en général).</li>
       <li>Mousse : pas de restriction MDD.</li>
     </ul>
@@ -288,7 +299,7 @@
       <tr><td>Éthanol / alcool à brûler</td><td>UN 1170</td><td>3</td><td>II/III</td><td>355/366</td></tr>
       <tr><td>Peintures, vernis</td><td>UN 1263</td><td>3</td><td>II/III</td><td>355/366 · Y343/Y344</td></tr>
     </table>
-    <p class="note">PG selon point éclair : II si &lt; +23 °C, III si +23 à 60,5 °C. PI 355 (PG I-II) / 366 (PG III) — vérifier la table 4.2 de l'édition en vigueur.</p>
+    <p class="note">PG selon point éclair : II si &lt; +23 °C, III si +23 à 60,5 °C. PI 355 (PG I-II) / 366 (PG III) — vérifier la table 4.2 du DGR en vigueur.</p>
   </div>
   <div class="card">
     <h3>Moteurs &amp; machines</h3>
@@ -372,7 +383,16 @@
 <!-- ======================= COLIS (état de colisage) ======================= -->
 <section id="tab-colis">
   <h2 style="font-size:1rem;margin-bottom:8px">📦 Mon état de colisage</h2>
-  <div class="warnbox">Tes colis sont enregistrés <b>uniquement sur ton appareil</b> (sauvegarde auto). L'app calcule automatiquement les <b>étiquettes requises</b> (diamants de classe, CAO, marque Y, marquage lithium, orientations), te prévient des <b>oublis de conformité</b>, génère la <b>DGD</b> et l'<b>étiquette imprimable</b> de chaque colis. Exports Excel/CSV/JSON + import et analyse intelligente.</div>
+  <div class="warnbox">Tes colis sont enregistrés <b>uniquement sur ton appareil</b> (sauvegarde auto). L'app calcule automatiquement les <b>étiquettes requises</b> (diamants de classe, CAO, marque Y, marquage lithium, orientations), te prévient des <b>oublis de conformité</b>, génère la <b>DGD</b> et l'<b>étiquette imprimable</b> pour chaque colis.</div>
+  <div class="card">
+    <h3>🧪 Analyse d'un fichier de colisage (Excel ou CSV)</h3>
+    <p class="dim">Importe ton état de colisage : l'app <b>identifie chaque matière dangereuse</b> (n° ONU, classe, PG, PI, étiquettes, particularités) via la base des 2349 n° ONU + synonymes, <b>signale les anomalies</b> (CAO manquant, orientations, interdictions), puis propose le colisage — tout reste <b>modifiable</b> avant et après import.</p>
+    <div class="field"><label>Fichier .xlsx ou .csv (colonnes libres : ONU, matière, quantité, colis, emballage, expéditeur, destinataire…)</label><input type="file" id="imp-file" accept=".xlsx,.csv,text/csv"></div>
+    <div id="imp-result"></div>
+    <div class="toolbar" id="imp-actions" style="display:none">
+      <button class="btn acc" id="imp-add">➕ Ajouter les lignes cochées à mes colis</button>
+    </div>
+  </div>
   <div class="card">
     <h3 id="c-title">➕ Nouveau colis</h3>
     <div class="field ac"><label>Matière — tape un n° ONU ou un nom (base : 2349 n° ONU)</label>
@@ -400,68 +420,60 @@
     </div>
   </div>
   <div class="card">
-    <h3>🧪 Analyser un état de colisage (Excel/CSV)</h3>
-    <p class="dim">Importe un fichier <b>.xlsx</b> ou <b>.csv</b> listant des articles (une ligne par article, colonnes libres). L'app <b>détecte automatiquement les marchandises dangereuses</b> (n° ONU présent ou mots-clés), puis propose pour chacune : n° ONU, PSN, classe, PG, PI, colisage, étiquettes, documents (DGD/LTA) et autorisations. <b>Tout reste modifiable</b> avant enregistrement dans tes colis.</p>
-    <div class="toolbar">
-      <button class="btn acc" id="a-btn">📂 Choisir un fichier (.xlsx / .csv)</button>
-      <input type="file" id="a-file" accept=".xlsx,.csv" style="display:none">
-    </div>
-    <div id="a-out"></div>
-  </div>
-  <div class="card">
     <h3>📋 Mes colis enregistrés</h3>
     <div id="c-list"></div>
     <div class="toolbar">
       <button class="btn" id="c-xlsx">⬇️ Export Excel (.xlsx)</button>
       <button class="btn" id="c-csv">⬇️ Export CSV</button>
       <button class="btn" id="c-json">💾 Sauvegarde (JSON)</button>
-      <button class="btn" id="c-imp">⬆️ Import CSV (format app)</button>
+      <button class="btn" id="c-imp">⬆️ Importer CSV</button>
       <input type="file" id="c-file" accept=".csv,text/csv" style="display:none">
-      <button class="btn" id="c-dgd-all" style="border-color:var(--acc);color:var(--acc)">📄 DGD de toute la liste</button>
+      <button class="btn" id="c-dgd-all" style="border-color:var(--acc);color:var(--acc)">📄 Générer la DGD de toute la liste</button>
       <button class="btn warn" id="c-clear" style="color:var(--err)">🗑️ Tout effacer</button>
     </div>
-    <p class="note">Le fichier Excel contient l'état complet du colisage (matière, ONU, PSN, classe, PG, PI, quantités, emballage, étiquettes, CAO, LQ, notes) — un onglet, prêt pour Excel/Sheets.</p>
+    <p class="note">Le fichier Excel contient l'état complet du colisage — un onglet, prêt pour Excel/Sheets. L'export peut être ré-importé et ré-analysé ici même.</p>
   </div>
 </section>
 
 <!-- ======================= DGD ======================= -->
 <section id="tab-dgd">
   <h2 style="font-size:1rem;margin-bottom:8px">📄 DGD — générateur officiel multi-lignes</h2>
+  <div class="warnbox">Modèle reprenant le format IATA (rubriques 8.1) : bordure hachurée rouge, « Shipment type : non-radioactive », tableau « Nature and Quantity of Dangerous Goods », déclaration de conformité, signature. <b>Modifiable à volonté</b>, imprimable A4. Signature manuscrite obligatoire sur l'original.</div>
   <div class="card">
-    <h3>En-tête de l'expédition</h3>
-    <div class="field"><label>Expéditeur (nom, adresse complète, tél. 24h/24)</label><textarea id="d-ship" rows="2" placeholder="BMPM — Détachement… — tél. 24h/24"></textarea></div>
+    <h3>1 · En-tête de l'expédition</h3>
+    <div class="field"><label>Expéditeur (nom, adresse complète, tél. 24h/24)</label><textarea id="d-ship" rows="2" placeholder="BMPM — Détachement…, adresse complète, +33 6 XX XX XX XX"></textarea></div>
     <div class="field"><label>Destinataire (nom, adresse complète)</label><textarea id="d-cons" rows="2" placeholder="Nom, adresse complète"></textarea></div>
     <div class="field"><label>Compagnie aérienne (transporteur)</label><input type="text" id="d-cie" placeholder="ex. Qatar Airways"></div>
     <div class="field"><label>N° LTA (air waybill)</label><input type="text" id="d-awb" placeholder="157-12345675"></div>
-    <div class="field"><label>Référence expéditeur (shipper's reference)</label><input type="text" id="d-ref" placeholder="facultatif"></div>
-    <div class="field"><label>Aéroport de départ (adresse complète)</label><input type="text" id="d-dep" placeholder="Marseille (MRS)"></div>
-    <div class="field"><label>Aéroport de destination (adresse complète)</label><input type="text" id="d-arr" placeholder="Doha (DOH)"></div>
-    <div class="field"><label>N° de vol / date de départ</label><input type="text" id="d-flight" placeholder="QR 106 — 04/10/2026"></div>
-    <div class="field"><label>Type d'aéronef applicable</label><select id="d-atype"><option value="">— Selon les lignes —</option><option value="pax">Passenger and Cargo Aircraft</option><option value="cao">CARGO AIRCRAFT ONLY</option></select></div>
-    <div class="field"><label>Contact d'urgence 24h/24</label><input type="text" id="d-ec" placeholder="Nom + tél. disponible 24h/24"></div>
-    <div class="field"><label>Informations de manipulation complémentaires (handling information)</label><textarea id="d-hi" rows="2" placeholder="ex. SoC ≤ 30 % documenté…"></textarea></div>
+    <div class="field"><label>Référence expéditeur (shipper's ref.)</label><input type="text" id="d-ref" placeholder="facultatif"></div>
+    <div class="field"><label>Aéroport de départ (Request it on the AWB route)</label><input type="text" id="d-dep" placeholder="Marseille (MRS)"></div>
+    <div class="field"><label>Aéroport de destination</label><input type="text" id="d-arr" placeholder="Doha (DOH)"></div>
+    <div class="field"><label>N° de vol / date (transport details)</label><input type="text" id="d-flight" placeholder="QR 40 / 05-10-2026"></div>
+    <div class="field"><label>Informations de manipulation (handling information)</label><textarea id="d-hi" rows="2" placeholder="ex. Contact urgence 24h/24 : +33 6 XX XX XX XX"></textarea></div>
+    <div class="field"><label>Nom et fonction du signataire</label><input type="text" id="d-sign" placeholder="J. FONTAINE — Responsable MDD / Expéditeur"></div>
+    <div class="field"><label>Lieu et date de signature</label><input type="text" id="d-place" placeholder="Marseille — 03/10/2026"></div>
   </div>
   <div class="card">
-    <h3>Lignes « Nature and Quantity of Dangerous Goods »</h3>
+    <h3>2 · Matières transportées (lignes du tableau)</h3>
+    <div class="toolbar">
+      <button class="btn acc" id="d-addline">➕ Ajouter une matière</button>
+      <button class="btn" id="d-fromcolis">📦 Importer depuis mes colis</button>
+      <button class="btn warn" id="d-cleardlines" style="color:var(--err)">🗑️ Vider les lignes</button>
+    </div>
     <div id="d-lines"></div>
-    <div class="toolbar">
-      <button class="btn acc" id="d-addline">➕ Ajouter une ligne</button>
-      <button class="btn" id="d-from-colis">📥 Importer mes colis enregistrés</button>
-    </div>
-    <p class="note">Chaque ligne = une matière. « Quantity and Type of Packing » = nombre d'emballages + type + quantité nette par emballage (ex. « 2 × fût ONU 3A1/Y1.5, 150 L chacun »).</p>
   </div>
   <div class="card">
-    <h3>🖼️ Modèle DGD (aperçu direct)</h3>
+    <h3>🖼️ Aperçu de la DGD</h3>
     <div class="dgd-wrap"><div class="dgd" id="dgd-preview"></div></div>
-    <p class="note">Format conforme : bordure hachurée rouge à 45°, « Shipment type: NON-RADIOACTIVE », tableau officiel (UN No. / Proper Shipping Name / Class or Div (Sub Risk) / PG / Quantity and Type of Packing / Packing Inst / Authorization), déclaration de conformité, bloc signature. Le vrai document est au format paysage A4 — l'impression suit ce modèle.</p>
     <div class="toolbar">
-      <button class="btn acc" id="dgd-print">🖨️ Imprimer la DGD</button>
+      <button class="btn acc" id="d-print">🖨️ Imprimer (A4)</button>
+      <button class="btn" id="d-copy">📄 Copier les lignes</button>
     </div>
   </div>
   <div class="card">
-    <h3>📋 Lignes à recopier / copier</h3>
+    <h3>📋 Lignes à recopier (LTA / e-DGD)</h3>
     <div class="copybox" id="dgd-line"></div>
-    <button class="btn acc" id="dgd-copy" style="margin-top:8px">📄 Copier le texte</button>
+    <p class="note">La vraie DGD : format paysage, bordure hachurée rouge à 45°, texte noir sur fond blanc. Rubriques non applicables : rayer ou « N/A ». Toujours vérifier le modèle exigé par ta compagnie (certaines ont leur propre format via CASS).</p>
   </div>
 </section>
 
@@ -469,122 +481,142 @@
 <nav id="nav"></nav>
 <div id="print-label"></div>
 <div id="print-dgd"></div>
-<div class="disclaimer">🛫 Assistant de terrain — sources : base ONU publique (49 CFR 172.101 + listes ONU), DGR IATA (édition en vigueur). Vérifier systématiquement les variations compagnie (CASS) et l'édition du DGR avant toute expédition.</div>
+<div class="disclaimer">🛫 Assistant de terrain — source : DGR IATA (édition en vigueur) + base publique des n° ONU. Vérifier systématiquement les variations compagnie (CASS) et l'édition du DGR avant toute expédition. Étiquettes générées = modèles à vérifier avant impression.</div>
 <script src="db-onu.js"></script>
 <script>
-if (typeof DB_ONU === "undefined") var DB_ONU = [];
-var DBX = {};
-DB_ONU.forEach(function(e){ if(!DBX[e[0]]) DBX[e[0]] = { un:e[0], psn:e[1], cl:e[2], pg:e[3], sub:e[4] }; });
-// ====================== DONNÉES ======================
+if (typeof DB_ONU === "undefined") { var DB_ONU = []; }
+
+// ================== DONNÉES ==================
 var FICHES = [
   { un:"3480", psn:"Piles au lithium-ion", cl:"9", pi:"965 (IA/IB)", pg:"—", lbl:"9 (lithium-ion) + CAO", pax:"INTERDIT avion passagers", cargo:"SoC ≤ 30 % · DGD obligatoire (IA et IB)",
-    notes:"Seules. Section II supprimée depuis 2022. IB : cellule ≤ 20 Wh, pile ≤ 100 Wh, ≤ 10 kg/colis. IA au-delà (emballage ONU PG II). Marquage lithium + téléphone. UN 38.3 test summary." },
+    notes:"Seules. Section II supprimée depuis 2022 (éd. 63). IB : cellule ≤ 20 Wh, pile ≤ 100 Wh, ≤ 10 kg/colis. IA au-delà (emballage ONU PG II). Marquage lithium + téléphone. UN 38.3 test summary." },
   { un:"3481", psn:"Piles au lithium-ion emballées avec / contenues dans un équipement", cl:"9", pi:"966 / 967", pg:"—", lbl:"9 (lithium-ion)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
-    notes:"§ II : cellule ≤ 20 Wh, pile ≤ 100 Wh, ≤ 5 kg/colis — pas de DGD, mention LTA. § I au-delà de 100 Wh : DGD + emballage ONU PG II. SoC ≤ 30 % depuis 01/01/2026 pour piles emballées avec équipement (> 2,7 Wh). Exception marquage : piles bouton / petites consignations." },
+    notes:"§ II : cellule ≤ 20 Wh, pile ≤ 100 Wh, ≤ 5 kg/colis — pas de DGD, mention LTA. § I au-delà de 100 Wh : DGD + emballage ONU PG II, 5 kg pax / 35 kg CAO. SoC ≤ 30 % depuis 01/01/2026 pour piles emballées avec équipement (> 2,7 Wh). Exception marquage : piles bouton / petites consignations." },
   { un:"3090", psn:"Piles au lithium-métal", cl:"9", pi:"968 (IA/IB)", pg:"—", lbl:"9 (lithium-métal) + CAO", pax:"INTERDIT avion passagers", cargo:"DGD obligatoire (IA et IB)",
     notes:"Section II supprimée depuis 2022. IB : cellule ≤ 1 g, pile ≤ 2 g, ≤ 2,5 kg/colis. IA au-delà. Étiquette 9 lithium-métal spécifique." },
   { un:"3091", psn:"Piles au lithium-métal avec/dans équipement", cl:"9", pi:"969 / 970", pg:"—", lbl:"9 (lithium-métal)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
-    notes:"§ II : ≤ 1 g/cellule, ≤ 2 g/pile. Pas de DGD, marquage lithium, mention LTA. Test summary UN 38.3." },
-  { un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"977 (IA/IB)", pg:"—", lbl:"9", pax:"INTERDIT seules (avion passagers)", cargo:"SoC ≤ 30 %",
-    notes:"Régime analogue au lithium-ion. UN 3552 avec/dans équipement : PI 978. Vérifier l'édition en vigueur." },
+    notes:"§ II : ≤ 1 g/cellule, ≤ 2 g/pile, ≤ 5 kg/colis. Pas de DGD, marquage lithium, mention LTA. § I : DGD + ONU PG II. Test summary UN 38.3." },
+  { un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"977 (IA/IB)", pg:"—", lbl:"9 (sodium-ion) + CAO", pax:"INTERDIT avion passagers", cargo:"SoC ≤ 30 % · DGD obligatoire",
+    notes:"Régime analogue au lithium-ion (désignations propres depuis l'éd. 66). 3551 seules (977), 3552 avec/dans équipement (978). Vérifier l'édition en vigueur." },
+  { un:"3552", psn:"Piles sodium-ion avec/dans équipement", cl:"9", pi:"978", pg:"—", lbl:"9 (sodium-ion)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
+    notes:"§ II possible : pas de DGD, marquage sodium. § I : DGD. Vérifier DGR en vigueur." },
   { un:"2794", psn:"Piles au plomb, acide (électrolyte liquide)", cl:"8", pi:"872", pg:"—", lbl:"8", pax:"Selon compagnie", cargo:"Selon compagnie",
-    notes:"Souvent refusées en soute passagers. Étanchéité, protection courts-circuits, bornes vers le haut." },
+    notes:"Souvent refusées en soute passagers. Étanchéité, protection courts-circuits, bornes vers le haut, étiquettes d'orientation." },
+  { un:"2795", psn:"Accumulateurs au plomb (électrolyte liquide)", cl:"8", pi:"872", pg:"—", lbl:"8", pax:"Selon compagnie", cargo:"Selon compagnie", notes:"Idem UN 2794." },
   { un:"2800", psn:"Accumulateurs au plomb, non déversables (VRLA)", cl:"8", pi:"806", pg:"—", lbl:"Exempt possible (SP A67)", pax:"Exempt si conditions", cargo:"Exempt si conditions",
-    notes:"Exemptées si protégées contre court-circuit, bornes vers le haut, marquage « non-spillable » (vérifier liste des exceptées du DGR)." },
-  { un:"3171", psn:"Véhicule électrique à batterie / équipement à batterie", cl:"9", pi:"952", pg:"—", lbl:"9 (selon batteries)", pax:"Selon compagnie", cargo:"Autorisé",
-    notes:"Batteries li-ion : régime UN 3480/3481 applicable (SoC, protection). Accord compagnie courant. PI 950 (véhicule liquide) / 951 (gaz) / 952 (batterie)." },
+    notes:"Exemptées si protégées contre court-circuit, bornes vers le haut, marquage « non-spillable » — vérifier la liste des exceptées du DGR." },
+  { un:"3171", psn:"Véhicule électrique à batterie / appareil à batterie", cl:"9", pi:"952", pg:"—", lbl:"9", pax:"Selon compagnie", cargo:"Autorisé (accord)",
+    notes:"Batteries li-ion : régime piles applicable (SoC, protection). PI 950/951/952 selon énergie (véhicules/machines). Accord compagnie courant. Batteries endommagées/défaut : refusées (A154)." },
   { un:"3496", psn:"Condensateurs électriques à double couche (supercondensateurs)", cl:"9", pi:"973", pg:"—", lbl:"9 si > 0,3 Wh", pax:"Autorisé si ≤ 0,3 Wh", cargo:"Autorisé",
     notes:"≤ 0,3 Wh/élément : non réglementés. Au-delà : UN 3496, accord compagnie." },
   { un:"1072", psn:"Oxygène, comprimé", cl:"2.2 (5.1)", pi:"200", pg:"—", lbl:"2.2 + 5.1", pax:"Selon compagnie / accord", cargo:"Autorisé (PI 200)",
     notes:"Étiquette 5.1 OBLIGATOIRE (comburant). Pression service ≤ 2/3 pression d'épreuve. Bouteilles médicales : accord compagnie." },
   { un:"1002", psn:"Air, comprimé", cl:"2.2", pi:"200", pg:"—", lbl:"2.2", pax:"Selon compagnie", cargo:"Autorisé", notes:"Sans étiquette 5.1 (contrairement à l'O₂)." },
-  { un:"1845", psn:"Dioxyde de carbone, solide (glace carbonique)", cl:"9", pi:"954", pg:"—", lbl:"9", pax:"Autorisé (limites)", cargo:"Autorisé (limites)",
-    notes:"Réfrigérant. Mention LTA obligatoire (8.2.3) : « Dry Ice, UN 1845, n° colis, qté nette ». Pas de DGD si elle ne refroidit pas d'autres MDD. Emballage non hermétique." },
+  { un:"1845", psn:"Dioxyde de carbone, solide (glace carbonique)", cl:"9", pi:"954", pg:"—", lbl:"9 (sauf mention LTA seule)", pax:"Autorisé (limites compagnie)", cargo:"Autorisé (limites)",
+    notes:"Réfrigérant. Mention LTA obligatoire : « Dry Ice, UN 1845, n° colis, qté nette totale » (8.2.3). Emballage ventilé. DGD si refroidit des MDD réglementées. Limites quantité/colis : PI 954 + CASS." },
   { un:"1950", psn:"Aérosols", cl:"2.1 (ou 2.2)", pi:"203 / Y203 (LQ)", pg:"—", lbl:"2.1", pax:"Quota bagages limité", cargo:"Autorisé (LQ possible)",
-    notes:"LQ PI Y203 : colis ≤ 30 kg net, contenants ≤ 1 L. Marque Y, pas de DGD en LQ." },
+    notes:"LQ PI Y203 : colis ≤ 30 kg net, contenants ≤ 1 L, marque « Y » (losange). Pas de DGD en LQ." },
   { un:"1044", psn:"Extincteurs, chargés", cl:"2.2", pi:"213 (selon gaz propulseur)", pg:"—", lbl:"2.2 (selon gaz)", pax:"Souvent refusé", cargo:"Selon compagnie",
-    notes:"CO₂/azote : 2.2. Vérifier CASS. Installé, non amorcé." },
-  { un:"2990", psn:"Engins de sauvetage autogonflants (gilets CO₂)", cl:"9", pi:"955", pg:"—", lbl:"9", pax:"Bagages : accord, gilet + cartouches", cargo:"Accord compagnie",
-    notes:"Gilets auto-gonflants avec cartouche CO₂. Classe 9 (pas 2.2). Certaines compagnies ≤ 60 g CO₂/cartouche. En bagages : 1 porté + 1 en soute avec cartouches de rechange selon CASS." },
+    notes:"CO₂/azote : 2.2. PI 213 : emballage extérieur solide contre l'activation accidentelle. Vérifier CASS." },
+  { un:"2990", psn:"Engins de sauvetage autogonflants (gilets gonflants CO₂)", cl:"9", pi:"955", pg:"—", lbl:"9", pax:"Bagages : accord, ≤ 2 gilets", cargo:"Accord compagnie",
+    notes:"Gilets auto-gonflants avec cartouche CO₂ (certaines compagnies ≤ 60 g CO₂/cartouche). UN 2990 interdit en bagage sauf exception 2.3. Fusées → UN 0191/0323 (1.4G)." },
   { un:"0191", psn:"Fusées, détresse (gilets de sauvetage)", cl:"1.4G", pi:"135", pg:"—", lbl:"1.4G", pax:"Refusé en général", cargo:"Accord obligatoire",
     notes:"Accord compagnie préalable systématique. Souvent refusées." },
+  { un:"0323", psn:"Cartouches, dispositifs de signalisation", cl:"1.4G", pi:"135", pg:"—", lbl:"1.4G", pax:"Refusé en général", cargo:"Accord obligatoire", notes:"Idem UN 0191." },
   { un:"1011", psn:"Butane", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"INTERDIT", cargo:"CAO selon compagnie", notes:"Réchauds/bouteilles camping : souvent refusés même vides (résidus)." },
   { un:"1978", psn:"Propane", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"INTERDIT", cargo:"CAO selon compagnie", notes:"Cartouches camping gaz : quota bagages selon CASS." },
   { un:"2037", psn:"Récipients à pression rechargeables (camping)", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"Selon CASS", cargo:"Selon compagnie", notes:"Cartouches rechargeables type Campingaz." },
-  { un:"1203", psn:"Essence / motor spirit / petrol", cl:"3", pi:"358 · Y341 (LQ)", pg:"II", lbl:"3", pax:"INTERDIT bagages", cargo:"Autorisé fret",
-    notes:"PG II. LQ Y341 : colis ≤ 30 kg. Mélange éthanol : UN 3475. Moteur à essence : UN 3528 réservoir purgé." },
-  { un:"1202", psn:"Gasoil / carburant diesel", cl:"3", pi:"366 · Y344 (LQ)", pg:"III", lbl:"3", pax:"INTERDIT bagages", cargo:"Autorisé fret", notes:"PG III (PE > 60,5 °C : non réglementé possible)." },
-  { un:"1223", psn:"Kérosène (pétrole)", cl:"3", pi:"366", pg:"II/III selon PE", lbl:"3", pax:"INTERDIT", cargo:"Autorisé fret", notes:"Le point éclair détermine le PG." },
-  { un:"3475", psn:"Essence-éthanol / moteur avec carburant EDBE", cl:"3", pi:"358/366 selon PE", pg:"II/III", lbl:"3", pax:"INTERDIT", cargo:"Autorisé", notes:"Carburants oxygénés (EDBE/E85)." },
+  { un:"1203", psn:"Essence / motor spirit / petrol", cl:"3", pi:"358 · Y341 (LQ)", pg:"II", lbl:"3 + orientations", pax:"INTERDIT bagages", cargo:"Autorisé fret",
+    notes:"PG II. LQ Y341 : colis ≤ 30 kg. Mélange éthanol : UN 3475. Moteur à essence : UN 3528 (PI 378), réservoir purgé." },
+  { un:"1202", psn:"Gasoil / carburant diesel", cl:"3", pi:"366 · Y344 (LQ)", pg:"III", lbl:"3 + orientations", pax:"INTERDIT bagages", cargo:"Autorisé fret", notes:"PG III (PE > 60,5 °C : non réglementé possible)." },
+  { un:"1223", psn:"Kérosène (pétrole)", cl:"3", pi:"366 · Y344 (LQ)", pg:"II/III selon PE", lbl:"3 + orientations", pax:"INTERDIT", cargo:"Autorisé fret", notes:"Le point éclair détermine le PG (II si < 23 °C)." },
+  { un:"3475", psn:"Essence-éthanol / moteur avec carburant oxygéné", cl:"3", pi:"358/366 selon PE", pg:"II/III", lbl:"3 + orientations", pax:"INTERDIT", cargo:"Autorisé", notes:"Carburants oxygénés (EDBE/E85)." },
   { un:"3528", psn:"Moteur/machine à combustion, carburant liquide inflammable", cl:"3", pi:"378", pg:"III", lbl:"3", pax:"Selon compagnie", cargo:"Autorisé accord",
     notes:"Générateurs, tronçonneuses, tondeuses. Réservoir vidé/purgé exigé par la plupart des compagnies. NB : 3529 = carburant gaz (2.1), 3530 = polluant marin (9, PI 972)." },
-  { un:"1170", psn:"Alcool éthylique / solution alcool à brûler", cl:"3", pi:"355/366", pg:"II/III selon PE", lbl:"3", pax:"Quota bagages (alcools forts)", cargo:"Autorisé fret",
+  { un:"3530", psn:"Moteur/machine, carburant polluant marin uniquement", cl:"9", pi:"972", pg:"—", lbl:"9 (MP)", pax:"Selon compagnie", cargo:"Autorisé accord", notes:"Uniquement polluant marin sans liquide inflammable." },
+  { un:"1170", psn:"Alcool éthylique / solution alcool à brûler", cl:"3", pi:"355/366 selon PG", pg:"II/III selon PE", lbl:"3 + orientations", pax:"Quota bagages (alcools forts)", cargo:"Autorisé fret",
     notes:"Boissons ≤ 24 % : pas de limite ; 24-70 % : ≤ 5 L par personne en bagage ; > 70 % : interdites." },
-  { un:"1263", psn:"Peinture / matière peinture apparentée", cl:"3", pi:"355/366 · Y343/Y344", pg:"II/III", lbl:"3", pax:"INTERDIT", cargo:"Autorisé fret", notes:"Base eau non inflammable : non réglementée." },
+  { un:"1263", psn:"Peinture / matière peinture apparentée", cl:"3", pi:"355/366 · Y343/Y344", pg:"II/III", lbl:"3 + orientations", pax:"INTERDIT", cargo:"Autorisé fret", notes:"Base eau non inflammable : non réglementée." },
+  { un:"3363", psn:"Marchandises dangereuses contenues dans des machines/appareils", cl:"9", pi:"953 (à confirmer au DGR)", pg:"—", lbl:"9", pax:"Selon", cargo:"Autorisé",
+    notes:"Pour petites quantités intégrées dans un appareil dont ce n'est pas la fonction (SP A48) — allègements possibles d'emballage/marquage selon DGR." },
   { un:"3356", psn:"Générateur d'oxygène, chimique", cl:"5.1", pi:"—", pg:"—", lbl:"5.1", pax:"INTERDIT", cargo:"INTERDIT", notes:"Interdits en fret ET bagages enregistrés." },
   { un:"1944", psn:"Allumettes, sûres (boîte)", cl:"4.1", pi:"—", pg:"—", lbl:"4.1", pax:"Interdites en soute (cabine selon CASS)", cargo:"Accord compagnie", notes:"Sur soi en cabine souvent toléré ; jamais en soute." },
   { un:"1057", psn:"Briquets, gaz (pétrole liquéfié)", cl:"2.1", pi:"—", pg:"—", lbl:"2.1", pax:"1 briquet sur soi (jamais en soute)", cargo:"Interdit bagages",
-    notes:"Briquets essence (Zippo) : interdits partout en avion." },
-  { un:"3363", psn:"Marchandises dangereuses contenues dans des objets / machines / appareils", cl:"9", pi:"953", pg:"—", lbl:"Selon contenu", pax:"Selon contenu", cargo:"Selon contenu",
-    notes:"Petites quantités de MDD nécessaires au fonctionnement de l'appareil (ex. batterie, cartouche). Le PSN doit inclure la marchandise concernée. Vérifier PI 953 au DGR." }
+    notes:"Briquets essence (Zippo) : interdits partout en avion." }
 ];
-var CLASSES = [
-  {n:1,t:"Explosifs",d:"1.1 à 1.6 + S · PI 1XX"},{n:2,t:"Gaz",d:"2.1 inflammable · 2.2 non infl. · 2.3 toxique · PI 2XX"},
-  {n:3,t:"Liquides inflammables",d:"Point éclair ≤ 60,5 °C · PG I-III · PI 3XX"},{n:4,t:"Solides inflammables",d:"4.1 · 4.2 spontané · 4.3 au contact eau"},
-  {n:5,t:"Comburants / peroxydes",d:"5.1 comburants · 5.2 peroxydes organiques"},{n:6,t:"Toxiques / infectieux",d:"6.1 toxiques · 6.2 infectieux (PI 650)"},
-  {n:7,t:"Radioactifs",d:"Matières fissiles et radioactives (IAEA)"},{n:8,t:"Corrosifs",d:"Acides, bases · PI 8XX"},
-  {n:9,t:"Divers",d:"Lithium, CO₂ solide, moteurs, véhicules…"}
-];
-// Superpositions AÉRIENNES vérifiées (PI, CAO, particularités) — sinon « voir DGR »
+
+// Overlay aérien — valeurs vérifiées (recherches web 03/10/2026) : PI, CAO, marquages
 var AIRX = {
-  "3480":{pi:"965 IA/IB",cao:true,li:"ion"},
-  "3481":{pi:"966 (avec) / 967 (dans)",li:"ion"},
-  "3090":{pi:"968 IA/IB",cao:true,li:"metal"},
-  "3091":{pi:"969 (avec) / 970 (dans)",li:"metal"},
-  "3551":{pi:"977 IA/IB",cao:true,li:"na"},
-  "3552":{pi:"978 (avec/dans)",li:"na"},
-  "2794":{pi:"872"},"2795":{pi:"872"},
+  "3480":{pi:"965 IA/IB",cao:true,li:"ion",dgd:true},
+  "3481":{pi:"966 / 967",li:"ion"},
+  "3090":{pi:"968 IA/IB",cao:true,li:"metal",dgd:true},
+  "3091":{pi:"969 / 970",li:"metal"},
+  "3551":{pi:"977 IA/IB",cao:true,li:"na",dgd:true},
+  "3552":{pi:"978",li:"na"},
+  "2794":{pi:"872",dgd:true},"2795":{pi:"872",dgd:true},
   "2800":{pi:"806 (exceptées possibles — SP A67)"},
-  "3171":{pi:"952"},
+  "3171":{pi:"952 (950/951/952 selon véhicule)",dgd:true},
   "3496":{pi:"973"},
-  "1072":{pi:"200",sub:"5.1"},
-  "1002":{pi:"200"},
-  "1845":{pi:"954",noDgd:true,note:"Mention LTA obligatoire (8.2.3)"},
+  "1072":{pi:"200",sub:"5.1",dgd:true},
+  "1002":{pi:"200",dgd:true},
+  "1845":{pi:"954",noDgd:true,awb:true},
   "1950":{pi:"203 · LQ Y203",lq:true},
-  "1044":{pi:"213 (gaz propulseur — vérifier édition)"},
-  "2990":{pi:"955"},
-  "0191":{pi:"135"},"0323":{pi:"135"},
-  "1011":{pi:"200"},"1978":{pi:"200"},"1965":{pi:"200"},"1049":{pi:"200"},"2037":{pi:"200"},
-  "1203":{pi:"358 · LQ Y341",orient:true},
-  "1202":{pi:"366 · LQ Y344",orient:true},
-  "1223":{pi:"366 · LQ Y344",orient:true},
-  "3475":{pi:"358/366 selon PE",orient:true},
-  "3528":{pi:"378"},
-  "3529":{pi:"— (gaz : voir DGR)"},
-  "3530":{pi:"972"},
-  "1170":{pi:"355/366 selon PE",orient:true},
-  "1263":{pi:"355/366 · LQ Y343/Y344",orient:true},
-  "3363":{pi:"953 (à confirmer au DGR)"},
-  "3356":{pi:"— (INTERDIT fret et bagages)"},
-  "1090":{pi:"355/366 selon PE",orient:true},
-  "1219":{pi:"355/366 selon PE",orient:true},
-  "1230":{pi:"355/366 selon PE",orient:true},
-  "1133":{pi:"355/366 selon PE",orient:true},
-  "1266":{pi:"355/366 selon PE",orient:true},
-  "1866":{pi:"355/366 selon PE",orient:true},
-  "1993":{pi:"355/366 selon PE",orient:true},
-  "1268":{pi:"355/366 selon PE",orient:true},
-  "1789":{pi:"856/857/858 selon PG (vérifier DGR)",orient:true},
-  "1824":{pi:"856/857/858 selon PG (vérifier DGR)",orient:true},
-  "2796":{pi:"856/857/858 selon PG (vérifier DGR)",orient:true},
-  "2031":{pi:"— (8 brût : souvent interdit pax — vérifier DGR)"},
-  "2014":{pi:"5XX selon concentration (vérifier DGR)"},
-  "1593":{pi:"— (vérifier DGR)"},
-  "1888":{pi:"— (vérifier DGR)"},
-  "1066":{pi:"200"}
+  "1044":{pi:"213",dgd:true},
+  "2990":{pi:"955",dgd:true},
+  "0191":{pi:"135",dgd:true},"0323":{pi:"135",dgd:true},
+  "1011":{pi:"200",dgd:true},"1978":{pi:"200",dgd:true},"1965":{pi:"200",dgd:true},"1049":{pi:"200",dgd:true},"2037":{pi:"200",dgd:true},
+  "1203":{pi:"358 · LQ Y341",orient:true,dgd:true},
+  "1202":{pi:"366 · LQ Y344",orient:true,dgd:true},
+  "1223":{pi:"366 · LQ Y344",orient:true,dgd:true},
+  "3475":{pi:"358/366 selon PE",orient:true,dgd:true},
+  "3528":{pi:"378",dgd:true},
+  "3529":{pi:"— (gaz : voir DGR)",dgd:true},
+  "3530":{pi:"972",dgd:true},
+  "1170":{pi:"355/366 selon PG",orient:true,dgd:true},
+  "1263":{pi:"355/366 · LQ Y343/Y344",orient:true,dgd:true},
+  "3356":{pi:"— INTERDIT fret",interdit:true},
+  "3363":{pi:"953 (vérifier DGR)",dgd:true}
 };
 
-// ====================== NAV ======================
+// Synonymes pour la détection de matière (analyse d'import / autocomplétion)
+var SYNONYMES = {
+  "essence":"1203","sans plomb":"1203","super":"1203","carburant essence":"1203","gasoline":"1203","petrol":"1203",
+  "gasoil":"1202","gazole":"1202","diesel":"1202","fioul":"1202",
+  "kerosene":"1223","kérosène":"1223",
+  "ethanol":"1170","éthanol":"1170","alcool":"1170","alcool a bruler":"1170",
+  "peinture":"1263","vernis":"1263","peint":"1263",
+  "parfum":"1266","eau de parfum":"1266","parfumerie":"1266",
+  "oxygene":"1072","oxygène":"1072","o2":"1072","bouteille oxygene":"1072",
+  "air comprime":"1002","air comprimé":"1002",
+  "aerosol":"1950","aérosol":"1950","bombes spray":"1950","spray":"1950",
+  "extincteur":"1044","extincteurs":"1044",
+  "butane":"1011","propane":"1978","gaz camping":"2037","campingaz":"2037","cartouche gaz":"2037","rechaud":"1011",
+  "pile lithium ion":"3480","piles lithium ion":"3480","li-ion":"3480","li ion":"3480","lithium ion":"3480","batterie lithium":"3480","batterie li-ion":"3480","powerbank":"3480","power bank":"3480","accumulateur lithium":"3480",
+  "lithium metal":"3090","lithium métal":"3090","pile lithium metal":"3090","li-met":"3090",
+  "sodium":"3551","sodium ion":"3551","sodium-ion":"3551",
+  "gilet":"2990","gilets":"2990","brassiere":"2990","brassières":"2990","gilet gonflable":"2990","life jacket":"2990","brassiere gonflante":"2990",
+  "dry ice":"1845","glace carbonique":"1845","neige carbonique":"1845","carbonique":"1845",
+  "moteur":"3528","generateur":"3528","générateur":"3528","generateur electrique":"3528","tondeuse":"3528","tronconneuse":"3528","groupe electrogene":"3528",
+  "plomb":"2794","batterie plomb":"2794","vrla":"2800","accumulateur plomb":"2795",
+  "supercondensateur":"3496","condensateur":"3496",
+  "allumettes":"1944","briquet":"1057",
+  "chlorhydrique":"1789","acide chlorhydrique":"1789","soude":"1824","hydroxyde de sodium":"1823","sulfurique":"1830","acide sulfurique":"1830","nitrique":"2031",
+  "vehicule":"3171","véhicule":"3171","trottinette":"3171","velo electrique":"3171","vélo électrique":"3171","hoverboard":"3171"
+};
+
+var CLASSES = [
+  {n:1,t:"Explosifs",d:"1.1 à 1.6 + S · PI 1XX-13X"},
+  {n:2,t:"Gaz",d:"2.1 inflammable · 2.2 non infl. · 2.3 toxique · PI 200"},
+  {n:3,t:"Liquides inflammables",d:"Point éclair ≤ 60,5 °C · PG I-III · PI 3XX"},
+  {n:4,t:"Solides inflammables",d:"4.1 · 4.2 spontané · 4.3 au contact eau"},
+  {n:5,t:"Comburants / peroxydes",d:"5.1 comburants · 5.2 peroxydes organiques"},
+  {n:6,t:"Toxiques / infectieux",d:"6.1 toxiques · 6.2 infectieux (PI 650)"},
+  {n:7,t:"Radioactifs",d:"Matières fissiles et radioactives (IAEA)"},
+  {n:8,t:"Corrosifs",d:"Acides, bases · PI 8XX"},
+  {n:9,t:"Divers",d:"Lithium, sodium, CO₂ solide, moteurs, véhicules…"}
+];
+
+// ---------- NAV ----------
 var TABS = [
   {id:"wiz", ic:"🧭", t:"Décision"},
   {id:"rech", ic:"🔎", t:"Recherche"},
@@ -597,106 +629,92 @@ var TABS = [
   {id:"dgd", ic:"📄", t:"DGD"}
 ];
 var nav = document.getElementById("nav");
-function switchTab(id){
-  document.querySelectorAll("section").forEach(function(s){ s.classList.remove("on"); });
-  var s = document.getElementById("tab-" + id);
-  if(s) s.classList.add("on");
-  nav.querySelectorAll("button").forEach(function(b){ b.classList.remove("on"); });
-  TABS.forEach(function(t, i){ if(t.id === id){ var b = nav.querySelectorAll("button")[i]; if(b) b.classList.add("on"); } });
-  try { window.scrollTo(0, 0); } catch(e){}
-}
-TABS.forEach(function(t){
+TABS.forEach(function(t, i){
   var b = document.createElement("button");
-  b.innerHTML = '<span class="ic">' + t.ic + '</span>' + t.t;
-  b.onclick = function(){ switchTab(t.id); };
+  b.innerHTML = '<span class="ic">'+t.ic+'</span>'+t.t;
+  b.onclick = function(){
+    document.querySelectorAll("section").forEach(function(s){s.classList.remove("on")});
+    document.getElementById("tab-"+t.id).classList.add("on");
+    nav.querySelectorAll("button").forEach(function(x){x.classList.remove("on")});
+    b.classList.add("on");
+    window.scrollTo(0,0);
+  };
+  if(i===0) b.classList.add("on");
   nav.appendChild(b);
 });
-(function(){ var f = nav.querySelector("button"); if(f) f.classList.add("on"); })();
+
 var cg = document.getElementById("cl-grid");
-if(cg) CLASSES.forEach(function(c){
+CLASSES.forEach(function(c){
   var d = document.createElement("div");
   d.className = "cl";
-  d.innerHTML = "<b>" + c.n + " — " + c.t + "</b>" + c.d;
+  d.innerHTML = "<b>"+c.n+" — "+c.t+"</b>"+c.d;
   cg.appendChild(d);
 });
 
-// ====================== RECHERCHE (fiches + base 2349 ONU) ======================
-function esc(s){ return String(s === null || s === undefined ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
-function norm(s){ return String(s === null || s === undefined ? "" : s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+// ---------- RECHERCHE (fiches + base ONU) ----------
+function norm(s){ return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+function dbByUn(un){ var u = String(un||"").replace(/\D/g,""); return DB_ONU.filter(function(e){return e[0]===u;})[0] || null; }
 var res = document.getElementById("results");
-function render(list, q, nmore){
-  if(!res) return;
-  res.innerHTML = "";
-  if(!list.length){ res.innerHTML = '<div class="card">Aucun résultat pour « ' + esc(q) + ' ». Essaie : lithium, oxygène, essence, aérosol, 3480…</div>'; return; }
-  list.forEach(function(f){
-    var c = document.createElement("div");
-    c.className = "card";
-    if(f.db){
-      var ax = AIRX[f.un] || {};
-      c.innerHTML = '<h3>UN ' + f.un + ' — ' + esc(f.psn) + ' <span class="badge b-cl">Classe ' + esc(f.cl) + '</span>' + (f.pg ? ' <span class="badge">PG ' + esc(f.pg) + '</span>' : '') + (f.sub ? ' <span class="badge">Sub ' + esc(f.sub) + '</span>' : '') + '</h3>'
-        + (ax.pi ? '<div class="kv"><b>PI aérienne (vérifiée)</b><span>' + esc(ax.pi) + '</span></div>' : '')
-        + '<p class="dim">Entrée de la base ONU publique (classe, groupe d\'emballage, risques subsidiaires). PI et conditions aériennes : voir l\'édition du DGR en vigueur.</p>';
-    } else {
-      c.innerHTML = '<h3>UN ' + f.un + ' — ' + esc(f.psn) + ' <span class="badge b-cl">Classe ' + f.cl + '</span> <span class="badge">PI ' + f.pi + '</span>' + (f.pg !== "—" ? ' <span class="badge">PG ' + f.pg + '</span>' : '') + '</h3>'
-        + '<div class="kv">'
-        + '<b>Étiquettes</b><span>' + esc(f.lbl) + '</span>'
-        + '<b>Avion pax</b><span>' + esc(f.pax) + '</span>'
-        + '<b>Cargo</b><span>' + esc(f.cargo) + '</span>'
-        + '</div><ul><li>' + esc(f.notes) + '</li></ul>'
-        + '<div class="note">Vérifier l\'édition du DGR en vigueur + variations compagnie (CASS).</div>';
-    }
-    res.appendChild(c);
-  });
-  if(nmore > 0){
-    var m = document.createElement("div");
-    m.className = "card";
-    m.innerHTML = '<p class="dim">+ ' + nmore + ' autres entrées de la base ONU correspondent — affiche-les avec un terme plus précis (ex. n° ONU exact).</p>';
-    res.appendChild(m);
-  }
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function ficheCard(f){
+  return '<div class="card"><h3>UN '+f.un+' — '+esc(f.psn)+' <span class="badge b-cl">Classe '+f.cl+'</span> <span class="badge">PI '+f.pi+'</span>'+(f.pg!=="—"?' <span class="badge">PG '+f.pg+'</span>':'')+'</h3>'
+    + '<div class="kv">'
+    + '<b>Étiquettes</b><span>'+esc(f.lbl)+'</span>'
+    + '<b>Avion pax</b><span>'+esc(f.pax)+'</span>'
+    + '<b>Cargo</b><span>'+esc(f.cargo)+'</span>'
+    + '</div><ul><li>'+esc(f.notes)+'</li></ul>'
+    + '<div class="note">Vérifier l\'édition du DGR en vigueur + variations compagnie (CASS).</div></div>';
+}
+function dbCard(e){
+  var ov = AIRX[e[0]];
+  return '<div class="card"><h3>UN '+e[0]+' — '+esc(e[1])+' <span class="badge b-cl">Classe '+esc(e[2])+'</span>'+(e[3]?' <span class="badge">PG '+esc(e[3])+'</span>':'')+(e[4]?' <span class="badge b-warn">Subs. '+esc(e[4])+'</span>':'')+'</h3>'
+    + '<div class="kv">'
+    + '<b>Base ONU</b><span>'+esc(e[2])+(e[3]?' · PG '+esc(e[3]):'')+(e[4]?' · subsidiaires : '+esc(e[4]):'')+'</span>'
+    + '<b>PI aérienne</b><span>'+(ov && ov.pi ? esc(ov.pi) : 'voir DGR en vigueur')+'</span>'
+    + '<b>Particularités</b><span>'+(ov ? (ov.cao?'Cargo Aircraft Only. ':'')+(ov.li?'Marquage piles. ':'')+(ov.interdit?'INTERDIT en fret aérien. ':'')+(ov.noDgd?'Pas de DGD (mention LTA). ':'')+(ov.dgd?'DGD obligatoire. ':'')+(ov.awb?'Mention LTA obligatoire. ':'') : '—')+'</span>'
+    + '</div>'
+    + (ov ? '<ul><li>'+(ov.cao?'Interdit avion passagers (CAO). ':'')+(ov.li?'Régime piles : sections/SoC selon configuration — voir onglet Piles. ':'')+'</li></ul>' : '')
+    + '<div class="note">Entrée base publique ONU — la désignation officielle de transport exacte (PSN) et les limites aériennes : toujours au DGR en vigueur + CASS.</div></div>';
 }
 function search(){
   var q = document.getElementById("q").value.trim();
+  if(!q){ res.innerHTML = FICHES.map(ficheCard).join("") + '<div class="card"><h3>📚 Base ONU complète</h3><p class="dim">Tape un n° ONU ou une matière pour interroger la base des '+DB_ONU.length+' n° ONU.</p></div>'; return; }
   var nq = norm(q);
-  if(!nq){ render(FICHES, "", 0); return; }
-  var list = FICHES.filter(function(f){
-    return norm(f.un + " " + f.psn + " " + f.cl + " " + f.pi + " " + f.lbl + " " + f.notes).indexOf(nq) !== -1;
+  var fiches = FICHES.filter(function(f){ return norm(f.un+" "+f.psn+" "+f.cl+" "+f.pi+" "+f.lbl+" "+f.notes).indexOf(nq) !== -1; });
+  var uq = q.replace(/\D/g,"");
+  var db = [];
+  if(uq.length >= 2){
+    db = DB_ONU.filter(function(e){ return e[0].indexOf(uq) === 0; });
+  } else {
+    db = DB_ONU.filter(function(e){ return norm(e[1]).indexOf(nq) !== -1; }).slice(0, 12);
+  }
+  var html = fiches.map(ficheCard).join("");
+  if(!fiches.length && !db.length){ res.innerHTML = '<div class="card">Aucun résultat pour « '+esc(q)+' ». Essaie : lithium, oxygène, essence, aérosol, 3480…</div>'; return; }
+  db.forEach(function(e){
+    if(!fiches.some(function(f){return f.un===e[0];})) html += dbCard(e);
   });
-  var seen = {};
-  list.forEach(function(f){ seen[f.un] = 1; });
-  var digits = q.replace(/\D/g, "");
-  var dbhits = [];
-  Object.keys(DBX).forEach(function(u){
-    if(seen[u]) return;
-    var d = DBX[u];
-    var hay = norm(u + " " + d.psn + " " + d.cl + " " + (d.pg || "") + " " + (d.sub || ""));
-    if(hay.indexOf(nq) !== -1) dbhits.push({ db: true, un: u, psn: d.psn, cl: d.cl, pg: d.pg, sub: d.sub, pre: digits && u.indexOf(digits) === 0, pos: hay.indexOf(nq) });
-  });
-  dbhits.sort(function(a, b){ return (b.pre ? 1 : 0) - (a.pre ? 1 : 0) || a.pos - b.pos; });
-  var CAP = 60, nmore = Math.max(0, dbhits.length - CAP);
-  list = list.concat(dbhits.slice(0, CAP));
-  render(list, q, nmore);
+  res.innerHTML = html;
 }
-var qEl = document.getElementById("q");
-if(qEl) qEl.addEventListener("input", search);
-render(FICHES, "", 0);
+document.getElementById("q").addEventListener("input", search);
+search();
 
 // ---------- CALCULATEUR Wh ----------
 function wh(){
   var ah = parseFloat(document.getElementById("wh-ah").value);
   var v = parseFloat(document.getElementById("wh-v").value);
   var out = document.getElementById("wh-out"), cls = document.getElementById("wh-class");
-  if(!ah || !v || ah <= 0 || v <= 0){ out.textContent = ""; cls.textContent = ""; return; }
-  var w = Math.round(ah * v * 100) / 100;
+  if(!ah || !v || ah<=0 || v<=0){ out.textContent=""; cls.textContent=""; return; }
+  var w = Math.round(ah*v*100)/100;
   out.textContent = "= " + w + " Wh";
-  if(w <= 100) cls.textContent = "≤ 100 Wh : régime standard (§ II possible si avec/dans équipement, § IB si seule).";
-  else if(w <= 160) cls.textContent = "100–160 Wh : restrictions passagers (accord compagnie, max 2 en cabine). § I en fret.";
+  if(w<=100) cls.textContent = "≤ 100 Wh : régime standard (§ II possible si avec/dans équipement, § IB si seule).";
+  else if(w<=160) cls.textContent = "100–160 Wh : restrictions passagers (accord compagnie, max 2 en cabine). § I en fret.";
   else cls.textContent = "> 160 Wh : pleinement réglementée (Section I, DGD, restrictions fortes).";
 }
-var whGo = document.getElementById("wh-go");
-if(whGo) whGo.addEventListener("click", wh);
+document.getElementById("wh-go").addEventListener("click", wh);
 
-// ====================== ASSISTANT DE DÉCISION (bug corrigé : les champs ne s'effacent plus) ======================
-var WZ = { cat: null, sub: null };
+// ---------- ASSISTANT DE DÉCISION (v4 : champs conservés à la saisie) ----------
+var WZ = { cat: null, sub: null, params: {} };
+var WZ_BUILT = "";
 var CATS = [
   {v:"piles", t:"🔋 Piles & accus"},
   {v:"gaz", t:"💨 Gaz & bouteilles"},
@@ -735,29 +753,29 @@ var SUBS = {
   ]}
 };
 function paramsHtml(cat, sub){
-  if(cat === "piles" && (sub === "liion" || sub === "sodium")){
+  if(cat==="piles" && (sub==="liion"||sub==="sodium")){
     return '<div class="wz-label">3 · Configuration</div>'
     + '<div><div class="field"><select id="wz-config"><option value="">— Choisir —</option><option value="seul">Piles seules (en vrac)</option><option value="avec">Emballées AVEC l\'équipement</option><option value="dans">Installées DANS l\'équipement</option></select></div>'
     + '<div class="field"><label>Wh par pile (si inconnu : Ah × V, ou calcule dans l\'onglet Piles)</label><input type="number" id="wz-wh" step="0.01" placeholder="ex. 98"></div>'
     + '<div class="field"><label>Wh par cellule (si connu)</label><input type="number" id="wz-whc" step="0.01" placeholder="ex. 18"></div>'
     + '<div class="field"><label>État</label><select id="wz-etat"><option value="neuf">Neuve / saine</option><option value="def">Endommagée, défectueuse ou rappelée</option></select></div></div>';
   }
-  if(cat === "piles" && sub === "limetal"){
+  if(cat==="piles" && sub==="limetal"){
     return '<div class="wz-label">3 · Configuration</div>'
     + '<div><div class="field"><select id="wz-config"><option value="">— Choisir —</option><option value="seul">Piles seules (en vrac)</option><option value="avec">Emballées AVEC l\'équipement</option><option value="dans">Installées DANS l\'équipement</option></select></div>'
     + '<div class="field"><label>Lithium par cellule (g)</label><input type="number" id="wz-g" step="0.01" placeholder="ex. 0.8"></div>'
     + '<div class="field"><label>Lithium total par pile (g)</label><input type="number" id="wz-gt" step="0.01" placeholder="ex. 1.6"></div>'
     + '<div class="field"><label>État</label><select id="wz-etat"><option value="neuf">Neuve / saine</option><option value="def">Endommagée, défectueuse ou rappelée</option></select></div></div>';
   }
-  if(cat === "piles" && sub === "plomb") return '<p class="dim">Piles/accumulateurs au plomb à électrolyte liquide — résultat direct :</p>';
-  if(cat === "piles" && sub === "vrla") return '<p class="dim">Accumulateurs plomb étanches (VRLA, « non déversable ») — résultat direct :</p>';
-  if(cat === "piles" && sub === "nimh") return '<p class="dim">Piles alcalines / NiMH neuves — résultat direct :</p>';
-  if(cat === "piles" && sub === "vehicule"){
+  if(cat==="piles" && sub==="plomb") return '<p class="dim">Piles/accumulateurs au plomb à électrolyte liquide — résultat direct :</p>';
+  if(cat==="piles" && sub==="vrla") return '<p class="dim">Accumulateurs plomb étanches (VRLA, « non déversable ») — résultat direct :</p>';
+  if(cat==="piles" && sub==="nimh") return '<p class="dim">Piles alcalines / NiMH neuves — résultat direct :</p>';
+  if(cat==="piles" && sub==="vehicule"){
     return '<div class="field"><label>Type de batterie</label><select id="wz-veh"><option value="li">Lithium-ion</option><option value="autre">Autre (plomb, etc.)</option></select></div>';
   }
-  if(cat === "gaz" && sub === "o2") return '<div class="field"><label>Usage</label><select id="wz-o2use"><option value="fret">Fret / expédition</option><option value="med">Bouteille médicale personnelle (passager)</option></select></div>';
-  if(cat === "gaz" && sub === "aerosol") return '<div class="field"><label>Volume par flacon (L)</label><input type="number" id="wz-vol" step="0.01" placeholder="ex. 0.5"></div>';
-  if(cat === "carb" && sub === "essence") return '<div class="field"><label>Mode</label><select id="wz-mode"><option value="fret">Fret / expédition</option><option value="bag">Bagage</option></select></div>';
+  if(cat==="gaz" && sub==="o2") return '<div class="field"><label>Usage</label><select id="wz-o2use"><option value="fret">Fret / expédition</option><option value="med">Bouteille médicale personnelle (passager)</option></select></div>';
+  if(cat==="gaz" && sub==="aerosol") return '<div class="field"><label>Volume par flacon (L)</label><input type="number" id="wz-vol" step="0.01" placeholder="ex. 0.5"></div>';
+  if(cat==="carb" && sub==="essence") return '<div class="field"><label>Mode</label><select id="wz-mode"><option value="fret">Fret / expédition</option><option value="bag">Bagage</option></select></div>';
   return '';
 }
 function readParams(){
@@ -770,10 +788,11 @@ function readParams(){
 }
 function chips(containerId, opts, current, onPick){
   var c = document.getElementById(containerId);
+  if(!c) return;
   c.innerHTML = "";
   opts.forEach(function(o){
     var s = document.createElement("button");
-    s.className = "chip" + (current === o.v ? " on" : "");
+    s.className = "chip" + (current===o.v ? " on":"");
     s.textContent = o.t;
     s.onclick = function(){ onPick(o.v); };
     c.appendChild(s);
@@ -785,82 +804,85 @@ function resultCard(r){
   var h = '<div class="card rescard ' + cls + '">';
   h += '<h3>' + r.title + '</h3>';
   if(r.un) h += '<div class="kv"><b>ONU / PSN</b><span>UN ' + r.un + ' — ' + esc(r.psn) + '</span><b>Classe / PG</b><span>' + esc(r.cl) + '</span><b>PI / section</b><span>' + esc(r.pi) + '</span></div>';
-  if(r.soc) h += '<div class="sec-title">⚡ Particularités</div><ul>' + r.soc.map(function(x){return '<li>' + x + '</li>';}).join("") + '</ul>';
-  if(r.emballage) h += '<div class="sec-title">📦 Emballage & colisage</div><ul>' + r.emballage.map(function(x){return '<li>' + x + '</li>';}).join("") + '</ul>';
-  if(r.marquage) h += '<div class="sec-title">🖊️ Marquage (inscriptions)</div><ul>' + r.marquage.map(function(x){return '<li>' + x + '</li>';}).join("") + '</ul>';
-  if(r.etiquette) h += '<div class="sec-title">🏷️ Étiquetage</div><ul>' + r.etiquette.map(function(x){return '<li>' + x + '</li>';}).join("") + '</ul>';
-  if(r.docs) h += '<div class="sec-title">📄 Documents</div><ul>' + r.docs.map(function(x){return '<li>' + x + '</li>';}).join("") + '</ul>';
-  if(r.autor) h += '<div class="sec-title">⚠️ Autorisations / interdictions</div><ul>' + r.autor.map(function(x){return '<li>' + x + '</li>';}).join("") + '</ul>';
-  if(r.verif) h += '<div class="sec-title">✅ Vérifie avant expédition</div><ul>' + r.verif.map(function(x){return '<li>' + x + '</li>';}).join("") + '</ul>';
+  if(r.soc) h += '<div class="sec-title">⚡ Particularités</div><ul>' + r.soc.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.emballage) h += '<div class="sec-title">📦 Emballage & colisage</div><ul>' + r.emballage.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.marquage) h += '<div class="sec-title">🖊️ Marquage (inscriptions)</div><ul>' + r.marquage.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.etiquette) h += '<div class="sec-title">🏷️ Étiquetage</div><ul>' + r.etiquette.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.docs) h += '<div class="sec-title">📄 Documents</div><ul>' + r.docs.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.autor) h += '<div class="sec-title">⚠️ Autorisations / interdictions</div><ul>' + r.autor.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.verif) h += '<div class="sec-title">✅ Vérifie avant expédition</div><ul>' + r.verif.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
   h += '<div class="note">Valeurs indicatives — toujours confirmer dans l\'édition du DGR en vigueur + variations compagnie (CASS).</div></div>';
   return h;
 }
 function compute(cat, sub, p){
-  if(cat === "piles") return computePiles(sub, p);
-  if(cat === "gaz") return computeGaz(sub, p);
-  if(cat === "carb") return computeCarb(sub, p);
-  if(cat === "gilet") return computeGilet(sub);
+  if(cat==="piles") return computePiles(sub, p);
+  if(cat==="gaz") return computeGaz(sub, p);
+  if(cat==="carb") return computeCarb(sub, p);
+  if(cat==="gilet") return computeGilet(sub);
   return null;
 }
+function li(x){return "• " + x}
 function computePiles(sub, p){
-  if(sub === "liion" || sub === "sodium"){
-    var isNa = sub === "sodium";
+  if(sub==="liion" || sub==="sodium"){
+    var isNa = sub==="sodium";
     var ion = isNa ? "sodium-ion" : "lithium-ion";
     var unSeul = isNa ? "3551" : "3480";
     var unEq = isNa ? "3552" : "3481";
-    if(p["wz-etat"] === "def") return {tone:"err", title:"⛔ INTERDIT — pile endommagée / défectueuse / rappelée", autor:["Transport aérien interdit (fret ET bagages), quelle que soit la configuration."], soc:["Faire recycler au sol selon la filière locale."]};
+    if(p["wz-etat"]==="def") return {tone:"err", title:"⛔ INTERDIT — pile endommagée / défectueuse / rappelée", autor:["Transport aérien interdit (fret ET bagages), quelle que soit la configuration."], soc:["Faire recycler au sol selon la filière locale."]};
     var cfg = p["wz-config"];
     if(!cfg) return {tone:"", title:"ℹ️ Choisis la configuration (seule / avec / dans l'équipement) pour obtenir la recommandation.", autor:[]};
     var wh = parseFloat(p["wz-wh"]);
     var whc = parseFloat(p["wz-whc"]);
-    if(cfg === "seul"){
+    if(cfg==="seul"){
       var sec, pack;
-      if(wh && wh <= 100 && (!whc || whc <= 20)) sec = "IB";
+      if(wh && wh<=100 && (!whc || whc<=20)) sec = "IB";
       else sec = "IA";
-      if(isNa) sec = wh && wh <= 100 ? "IB (à confirmer dans l'édition)" : "IA";
+      if(isNa) sec = wh && wh<=100 ? "IB (à confirmer dans l'édition)" : "IA";
       return {
         title: "🛫 Piles " + ion + " seules — UN " + unSeul,
-        un: unSeul, psn: "Piles au " + ion, cl: "9", pi: (isNa ? "977" : "965") + " — Section " + sec,
+        un: unSeul, psn: "Piles au " + ion, cl: "9", pi: (isNa?"977":"965") + " — Section " + sec,
         soc: ["<b>SoC ≤ 30 %</b> de la capacité nominale (contrôle documenté).", "UN 38.3 : résumé d'essais du fabricant à disposition.", "Protection contre les courts-circuits (bornes isolées)."],
-        emballage: sec === "IB" ? ["Emballage extérieur solide (pas d'emballage ONU exigé en IB, mais résistance 1,2 m).", "Quantité max : <b>10 kg nets par colis</b> (vérifier Table 965-IB)."] : ["Emballage <b>ONU agréé PG II</b> obligatoire.", "Quantités selon PI (Table 965-IA)."],
+        emballage: sec==="IB" ? ["Emballage extérieur solide (pas d'emballage ONU exigé en IB, mais résistance 1,2 m).", "Quantité max : <b>10 kg nets par colis</b> (vérifier Table 965-IB)."] : ["Emballage <b>ONU agréé PG II</b> obligatoire.", "Quantités selon PI (Table 965-IA)."],
         marquage: ["Marquage lithium (min 100×100 mm) + <b>n° de téléphone</b> de renseignement.", "En § IB, le n° ONU/PSN n'est pas requis sur le colis ; en Section IA : UN " + unSeul + " + PSN sur chaque colis."],
         etiquette: ["Étiquette Classe 9 « " + ion + " ».", "<b>Étiquette CARGO AIRCRAFT ONLY</b> — toujours."],
-        docs: ["<b>DGD obligatoire</b> (Sections IA ET IB).", "LTA : mention MDD (dangerous goods as per attached DGD)."],
+        docs: ["<b>DGD obligatoire</b> (Sections IA ET IB — la Section II de la PI 965 n'existe plus depuis l'édition 63).", "LTA : mention MDD (dangerous goods as per attached DGD)."],
         autor: ["<b>Interdit sur avion passagers</b> — fret cargo uniquement.", "Accord préalable compagnie souvent exigé (vérifier CASS)."],
         verif: ["SoC ≤ 30 % documenté.", "Test summary UN 38.3 disponible.", "Étiquette CAO + Classe 9 apposées.", "DGD signée."]
       };
     } else {
-      var avec = cfg === "avec";
+      var avec = cfg==="avec";
       var sec2 = "II";
-      if(wh && wh > 100) sec2 = "I";
+      var over = wh && wh>100;
+      if(over) sec2 = "I";
       var piEq = isNa ? "978" : (avec ? "966" : "967");
-      return {
-        title: "🛫 Piles " + ion + " " + (avec ? "emballées avec" : "installées dans") + " l'équipement — UN " + unEq,
-        un: unEq, psn: "Piles au " + ion + (avec ? " emballées avec un équipement" : " contenues dans un équipement"), cl: "9",
+      var r = {
+        title: "🛫 Piles " + ion + " " + (avec?"emballées avec":"installées dans") + " l'équipement — UN " + unEq,
+        un: unEq, psn: "Piles au " + ion + (avec?" emballées avec un équipement":" contenues dans un équipement"), cl: "9",
         pi: piEq + " — Section " + sec2,
-        soc: (avec && sec2 === "II") ? ["<b>SoC ≤ 30 %</b> (ou capacité indiquée ≤ 25 %) depuis le <b>01/01/2026</b> si cellules > 2,7 Wh.", "Protection contre l'activation accidentelle de l'équipement.", "UN 38.3 : résumé d'essais."] : ["UN 38.3 : résumé d'essais.", "Protection contre l'activation accidentelle de l'équipement."],
-        emballage: sec2 === "II" ? ["Emballage extérieur solide (résistance 1,2 m).", "<b>≤ 5 kg nets de piles par colis</b>."] : ["Emballage <b>ONU agréé PG II</b>.", "≤ 5 kg/colis (avion pax) / ≤ 35 kg (CAO)."],
-        marquage: sec2 === "II" ? ["Marquage lithium + téléphone — sauf exception (piles bouton dans l'équipement, ou ≤ 2 colis avec ≤ 4 cellules / 2 piles)."] : ["N° ONU + PSN sur le colis.", "Marquage lithium + téléphone."],
-        etiquette: sec2 === "II" ? ["Pas d'étiquette de risque en Section II."] : ["Étiquette Classe 9 « " + ion + " »."],
-        docs: sec2 === "II" ? ["<b>Pas de DGD.</b>", "Mention sur la LTA : « Piles au " + ion + " en conformité avec la Section II de la PI " + piEq + " »."] : ["<b>DGD obligatoire</b>."],
+        soc: (avec && sec2==="II") ? ["<b>SoC ≤ 30 %</b> (ou capacité indiquée ≤ 25 %) depuis le <b>01/01/2026</b> si cellules > 2,7 Wh.", "Protection contre l'activation accidentelle de l'équipement.", "UN 38.3 : résumé d'essais."] : ["UN 38.3 : résumé d'essais.", "Protection contre l'activation accidentelle de l'équipement."],
+        emballage: sec2==="II" ? ["Emballage extérieur solide (résistance 1,2 m).", "<b>≤ 5 kg nets de piles par colis</b>."] : ["Emballage <b>ONU agréé PG II</b>.", "≤ 5 kg/colis (avion pax) / ≤ 35 kg (CAO)."],
+        marquage: sec2==="II" ? ["Marquage lithium + téléphone — sauf exception (piles bouton dans l'équipement, ou ≤ 2 colis avec ≤ 4 cellules / 2 piles)."] : ["N° ONU + PSN sur le colis.", "Marquage lithium + téléphone."],
+        etiquette: sec2==="II" ? ["Pas d'étiquette de risque en Section II."] : ["Étiquette Classe 9 « " + ion + " »."],
+        docs: sec2==="II" ? ["<b>Pas de DGD.</b>", "Mention sur la LTA : « Piles au " + ion + " en conformité avec la Section II de la PI " + piEq + " »."] : ["<b>DGD obligatoire</b>."],
         autor: ["Autorisé sur avion passagers dans les limites indiquées.", "Batteries > 100 Wh : accord compagnie pour l'expédition (et bagages passagers limités)."],
         verif: ["Section déterminée selon Wh réels.", "Marquage/mention LTA conforme.", "Test summary UN 38.3."]
       };
+      return r;
     }
   }
-  if(sub === "limetal"){
-    if(p["wz-etat"] === "def") return {tone:"err", title:"⛔ INTERDIT — pile endommagée / défectueuse / rappelée", autor:["Transport aérien interdit (fret ET bagages)."]};
+  if(sub==="limetal"){
+    if(p["wz-etat"]==="def") return {tone:"err", title:"⛔ INTERDIT — pile endommagée / défectueuse / rappelée", autor:["Transport aérien interdit (fret ET bagages)."]};
     var cfgm = p["wz-config"];
     if(!cfgm) return {tone:"", title:"ℹ️ Choisis la configuration pour obtenir la recommandation.", autor:[]};
     var g = parseFloat(p["wz-g"]);
     var gt = parseFloat(p["wz-gt"]);
-    if(cfgm === "seul"){
-      var secm = (g && g <= 1 && (!gt || gt <= 2)) ? "IB" : "IA";
+    if(cfgm==="seul"){
+      var secm = (g && g<=1 && (!gt || gt<=2)) ? "IB" : "IA";
       return {
         title:"🛫 Piles lithium-métal seules — UN 3090",
         un:"3090", psn:"Piles au lithium-métal", cl:"9", pi:"968 — Section " + secm,
         soc:["UN 38.3 : résumé d'essais.", "Protection courts-circuits."],
-        emballage: secm === "IB" ? ["Emballage extérieur solide (1,2 m).","≤ 2,5 kg nets par colis."] : ["Emballage ONU agréé PG II.","Quantités selon Table 968-IA."],
+        emballage: secm==="IB" ? ["Emballage extérieur solide (1,2 m).","<b>≤ 2,5 kg nets par colis</b> (li-métal § IB)."] : ["Emballage ONU agréé PG II.","Quantités selon Table 968-IA."],
         marquage:["Marquage lithium + téléphone.","N° ONU/PSN requis en Section IA."],
         etiquette:["Étiquette Classe 9 « lithium-métal » (pictogramme spécifique).","<b>CARGO AIRCRAFT ONLY</b> — toujours."],
         docs:["<b>DGD obligatoire</b> (IA et IB)."],
@@ -868,22 +890,22 @@ function computePiles(sub, p){
         verif:["Grammage lithium vérifié.","Étiquettes apposées.","DGD signée."]
       };
     }
-    var small = g && g <= 1 && (!gt || gt <= 2);
+    var small = g && g<=1 && (!gt || gt<=2);
     var secEq = small ? "II" : "I";
     return {
-      title:"🛫 Piles lithium-métal " + (cfgm === "avec" ? "avec" : "dans") + " l'équipement — UN 3091",
-      un:"3091", psn:"Piles au lithium-métal " + (cfgm === "avec" ? "emballées avec un équipement" : "contenues dans un équipement"), cl:"9",
-      pi:(cfgm === "avec" ? "969" : "970") + " — Section " + secEq,
+      title:"🛫 Piles lithium-métal " + (cfgm==="avec"?"avec":"dans") + " l'équipement — UN 3091",
+      un:"3091", psn:"Piles au lithium-métal " + (cfgm==="avec"?"emballées avec un équipement":"contenues dans un équipement"), cl:"9",
+      pi:(cfgm==="avec"?"969":"970") + " — Section " + secEq,
       soc:["UN 38.3 : résumé d'essais.","Protection contre l'activation."],
-      emballage: small ? ["Emballage extérieur solide (1,2 m).","Limites Table " + (cfgm === "avec" ? "969" : "970") + "-II (≤ 5 kg/colis)."] : ["Emballage ONU agréé PG II.","≤ 5 kg (pax) / 35 kg (CAO)."],
+      emballage: small ? ["Emballage extérieur solide (1,2 m).","Limites Table " + (cfgm==="avec"?"969":"970") + "-II (≤ 5 kg/colis)."] : ["Emballage ONU agréé PG II.","≤ 5 kg (pax) / 35 kg (CAO)."],
       marquage: small ? ["Marquage lithium (sauf exception piles bouton)."] : ["N° ONU + PSN.","Marquage lithium + téléphone."],
       etiquette: small ? ["Pas d'étiquette de risque en § II."] : ["Étiquette Classe 9 « lithium-métal »."],
-      docs: small ? ["Pas de DGD.","Mention LTA : « Piles au lithium-métal en conformité avec la Section II de la PI " + (cfgm === "avec" ? "969" : "970") + " »."] : ["DGD obligatoire."],
+      docs: small ? ["Pas de DGD.","Mention LTA : « Piles au lithium-métal en conformité avec la Section II de la PI " + (cfgm==="avec"?"969":"970") + " »."] : ["DGD obligatoire."],
       autor:["Autorisé pax dans les limites.","Au-delà : accord compagnie."],
       verif:["Grammage vérifié.","Section confirmée."]
     };
   }
-  if(sub === "plomb") return {
+  if(sub==="plomb") return {
     title:"🔋 Piles au plomb-acide (électrolyte liquide)",
     un:"2794 (piles) / 2795 (batteries)", psn:"Piles, électriques, au plomb, acide", cl:"8", pi:"872",
     soc:["Bornes vers le haut, jamais à plat.","Fixation anti-déplacement.","Protection courts-circuits."],
@@ -894,7 +916,7 @@ function computePiles(sub, p){
     autor:["<b>Beaucoup de compagnies les refusent</b> — accord préalable quasi systématique (CASS)."],
     verif:["Étanchéité parfaite.","Position debout garantie.","Accord compagnie écrit."]
   };
-  if(sub === "vrla") return {
+  if(sub==="vrla") return {
     title:"🔋 Accumulateurs plomb VRLA (non déversables)",
     un:"2800", psn:"Accumulateurs au plomb, non déversables", cl:"8 (exceptée possible)", pi:"806",
     soc:["Bornes protégées contre les courts-circuits.","Position : bornes vers le haut.","Marquage « non-spillable »."],
@@ -905,7 +927,7 @@ function computePiles(sub, p){
     autor:["Souvent refusées en soute passagers quand même.","Accord compagnie recommandé."],
     verif:["Statut « non-spillable » documenté.","Conditions de l'exception toutes respectées."]
   };
-  if(sub === "nimh") return {
+  if(sub==="nimh") return {
     title:"🔋 Piles alcalines / NiMH",
     soc:["Non classées marchandises dangereuses si neuves et saines."],
     emballage:["Emballage protecteur, séparation pour éviter les courts-circuits.","Pas d'exigence ONU."],
@@ -915,10 +937,10 @@ function computePiles(sub, p){
     autor:["Piles endommagées/fuites : les retirer et traiter à part."],
     verif:["Piles saines, bornes protégées (scotch ou blister)."]
   };
-  if(sub === "vehicule"){
-    var liV = p["wz-veh"] === "li";
+  if(sub==="vehicule"){
+    var liV = p["wz-veh"]==="li";
     return {
-      title:"🛫 " + (liV ? "Véhicule / appareil à batterie lithium-ion" : "Véhicule / appareil à batterie (autre chimie)"),
+      title:"🛫 " + (liV?"Véhicule / appareil à batterie lithium-ion":"Véhicule / appareil à batterie (autre chimie)"),
       un:"3171", psn:"Véhicule électrique à batterie", cl:"9", pi:"952",
       soc: liV ? ["Batterie protégée contre les courts-circuits et l'endommagement.","<b>SoC</b> : suivre les règles UN 3480/3481 — ≤ 30 % recommandé/vérifier CASS.","Véhicule sécurisé (contact coupé, alarmes désactivées)."] : ["Batterie fixée, protégée, bornes isolées."],
       emballage:["Pas d'emballage : le véhicule est l'unité de transport (rendu selon PI 952)."],
@@ -932,8 +954,8 @@ function computePiles(sub, p){
   return null;
 }
 function computeGaz(sub, p){
-  if(sub === "o2"){
-    var med = p["wz-o2use"] === "med";
+  if(sub==="o2"){
+    var med = p["wz-o2use"]==="med";
     return med ? {
       title:"💨 Oxygène comprimé — bouteille médicale personnelle (passager)",
       un:"1072", psn:"Oxygène, comprimé", cl:"2.2 (5.1)", pi:"200",
@@ -956,7 +978,7 @@ function computeGaz(sub, p){
       verif:["Validité rééprouve bouteilles.","Deux étiquettes (2.2 + 5.1).","DGD complète."]
     };
   }
-  if(sub === "air") return {
+  if(sub==="air") return {
     title:"💨 Air comprimé — UN 1002",
     un:"1002", psn:"Air, comprimé", cl:"2.2", pi:"200",
     soc:["Même PI 200 que l'O₂, mais <b>sans risque subsidiaire 5.1</b>."],
@@ -964,75 +986,75 @@ function computeGaz(sub, p){
     marquage:["UN 1002, AIR, COMPRIMÉ + expéditeur/destinataire."],
     etiquette:["Étiquette 2.2 uniquement (pas de 5.1)."],
     docs:["DGD obligatoire."],
-    autor:["Autorisé fret selon CASS.","Ne pas confondre avec les extincteurs à poudre sous azote (vérifier contenu)."],
+    autor:["Autorisé fret selon CASS."],
     verif:["Étiquette 2.2 seule.","DGD conforme."]
   };
-  if(sub === "aerosol"){
+  if(sub==="aerosol"){
     var vol = parseFloat(p["wz-vol"]);
-    var lq = vol && vol <= 1;
+    var lq = vol && vol<=1;
     return {
       title:"💨 Aérosols — UN 1950" + (lq ? " (régime Limited Quantity possible)" : ""),
-      un:"1950", psn:"Aérosols", cl:"2.1 (ou 2.2 selon contenu)", pi: lq ? "Y203 (LQ)" : "203",
-      soc:["Contenant ≤ 1 L par flacon → régime LQ possible."],
-      emballage: lq ? ["Colis ≤ 30 kg nets.","Emballage solide (1,2 m, empilage 24 h)."] : ["Emballages selon PI 203 (ONU selon quantités)."],
-      marquage: lq ? ["<b>Marque « Y » aérienne</b> — losange à bandes noires (min 100×100 mm), PAS la marque LIMITED QUANTITY terrestre ADR.","Pas de n° ONU requis en LQ (vérifier l'édition)."] : ["UN 1950, AÉROSOLS.","Quantité nette."],
-      etiquette: lq ? ["Pas d'étiquette de risque en LQ."] : ["Étiquette 2.1 (ou 2.2 si contenu non inflammable)."],
+      un:"1950", psn:"Aérosols", cl:"2.1 (ou 2.2 selon contenu)", pi: lq ? "Y203 (LQ aérien)" : "203",
+      soc:["Contenant ≤ 1 L par flacon → régime LQ possible (marque « Y » aérienne)."],
+      emballage: lq ? ["Colis ≤ <b>30 kg</b> nets.","Emballage solide (1,2 m, empilage 24 h)."] : ["Emballages selon PI 203 (ONU selon quantités)."],
+      marquage: lq ? ["<b>Marque « Y »</b> : losange avec bandes noires haut/bas, « Y » au centre (la mention « LTD QTY » de l'ADR ne suffit PAS en aérien)."] : ["UN 1950, AÉROSOLS.","Quantité nette."],
+      etiquette: lq ? ["Pas d'étiquette de risque en LQ (marque Y apposée)."] : ["Étiquette 2.1 (ou 2.2 si contenu non inflammable)."],
       docs: lq ? ["<b>Pas de DGD en LQ.</b>"] : ["DGD obligatoire."],
       autor:["Fret selon CASS.","Bagages : quota hygiène limité (2.3)."],
-      verif:["Volume flacon ≤ 1 L.","Colis ≤ 30 kg.","Marque Y si régime LQ."]
+      verif:["Volume flacon ≤ 1 L.","Colis ≤ 30 kg.","Marque « Y » si régime LQ."]
     };
   }
-  if(sub === "extincteur") return {
+  if(sub==="extincteur") return {
     title:"🧯 Extincteur chargé — UN 1044",
-    un:"1044", psn:"Extincteurs, chargés", cl:"2.2 (selon gaz)", pi:"213 (selon gaz propulseur)",
-    soc:["Installé et <b>non amorcé</b> (goupille/sceau).","Gaz propulseur typique : azote/CO₂ → 2.2."],
-    emballage:["Selon PI 213 (vérifier gaz contenu exact)."],
-    marquage:["UN 1044, EXTINCTEURS, CHARGÉS."],
-    etiquette:["Étiquette 2.2 (ou selon gaz)."],
+    un:"1044", psn:"Extincteurs, chargés", cl:"2.2 (selon gaz propulseur)", pi:"213",
+    soc:["Installé et <b>non amorcé</b> (goupille/sceau).","Gaz propulseur typique : azote/CO₂ → 2.2.","PI 213 (ICAO) : emballage solide, protection contre l'activation accidentelle."],
+    emballage:["PI 213 — extincteur sécurisé contre tout déclenchement, calé dans un emballage extérieur solide."],
+    marquage:["UN 1044, EXTINCTEURS, CHARGÉS + expéditeur/destinataire."],
+    etiquette:["Étiquette 2.2 (ou selon gaz contenu)."],
     docs:["DGD obligatoire."],
     autor:["<b>Beaucoup de compagnies refusent les extincteurs</b> — accord préalable indispensable (CASS)."],
-    verif:["Accord compagnie écrit.","Contenu gaz exact identifié."]
+    verif:["Accord compagnie écrit.","Goupille/sceau en place.","Contenu gaz exact identifié."]
   };
-  if(sub === "camping") return {
+  if(sub==="camping") return {
     title:"🔥 Cartouche de gaz (camping/réchaud)",
-    un:"1950 / 2037", psn:"Aérosols / récipients à pression rechargeables", cl:"2.1", pi:"203 / 200",
-    soc:["Cartouches perçables non rechargeables : souvent UN 2037 selon édition.","Cartouches à valve : selon liste ONU."],
-    emballage:["Selon PI — colis résistant (poinçonnement par injecteur interdit)."],
+    un:"2037 (percables) / 1950 (aérosols)", psn:"Récipients, à pression, contenant du gaz / Aérosols", cl:"2.1", pi:"203 (ou 200 selon valve)",
+    soc:["Cartouches percables non rechargeables : UN 2037.","Cartouches à valve rechargeables : liste ONU du DGR (PI 200)."],
+    emballage:["Colis résistant (piqûre par injecteur interdite)."],
     marquage:["N° ONU + PSN selon type exact."],
     etiquette:["Étiquette 2.1."],
     docs:["DGD obligatoire en fret."],
-    autor:["<b>Souvent refusées</b>, même entamées/vidées (résidus) — accord compagnie systématique.","Bagages : selon CASS (généralement refusé en soute)."],
+    autor:["<b>Souvent refusées</b>, même entamées/vidées (résidus) — accord compagnie systématique.","Bagages : généralement refusé en soute."],
     verif:["Type de cartouche identifié.","Accord compagnie."]
   };
   return null;
 }
 function computeCarb(sub, p){
-  if(sub === "essence"){
-    if(p["wz-mode"] === "bag") return {tone:"err", title:"⛔ INTERDIT — essence en bagages", autor:["Bidons d'essence, essence dans un réservoir non purgé : interdits en bagages cabine ET soute.","Seule option : expédition fret UN 1203 (DGD) ou moteur UN 3528 réservoir purgé (accord)."]};
+  if(sub==="essence"){
+    if(p["wz-mode"]==="bag") return {tone:"err", title:"⛔ INTERDIT — essence en bagages", autor:["Bidons d'essence, essence dans un réservoir non purgé : interdits en bagages cabine ET soute.","Seule option : expédition fret UN 1203 (DGD) ou moteur UN 3528 réservoir purgé (accord)."]};
     return {
       title:"⛽ Essence — UN 1203",
       un:"1203", psn:"ESSENCE (MOTOR SPIRIT / PETROL)", cl:"3 · PG II", pi:"358 (LQ : Y341)",
       soc:["Point éclair ≤ −18 °C environ → PG II.","Vapeurs : colis étanches, pas de fuite."],
-      emballage:["Emballages <b>ONU agréés</b> (fûts, jerricans, combinaisons) selon PI 358.","LQ possible : PI Y341, colis ≤ 30 kg (limites intérieures selon édition)."],
-      marquage:["UN 1203, ESSENCE.","Expéditeur/destinataire.","Quantité nette.","Marque « Y » aérienne si LQ (losange à bandes noires — pas la marque ADR)."],
+      emballage:["Emballages <b>ONU agréés</b> (fûts, jerricans, combinaisons) selon PI 358.","LQ possible : PI Y341, colis ≤ 30 kg."],
+      marquage:["UN 1203, ESSENCE.","Expéditeur/destinataire.","Quantité nette.","Marque « Y » si LQ aérien."],
       etiquette:["Étiquette 3 (liquide inflammable).","Étiquettes d'orientation (2 opposées)."],
       docs:["<b>DGD obligatoire</b> (hors LQ).","LQ : pas de DGD mais marque Y."],
-      autor:["<b>Interdit en bagages</b>.","Fret pax et cargo selon CASS (souvent CAO uniquement)."],
+      autor:["<b>Interdit en bagages</b>.","Fret pax et cargo selon CASS (souvent CAO uniquement selon quantités)."],
       verif:["Emballage ONU (marquage 3A/Y…).","Étiquette 3 + orientations.","DGD complète.","Jamais en bagage."]
     };
   }
-  if(sub === "moteur") return {
+  if(sub==="moteur") return {
     title:"⚙️ Moteur/machine à combustion (carburant liquide) — UN 3528",
     un:"3528", psn:"Moteur, à combustion interne", cl:"3 · PG III", pi:"378",
-    soc:["La plupart des compagnies exigent réservoir <b>vidé et purgé</b> (dégazé).","Bouchon sécurisé, conduites bouchées."],
-    emballage:["Pas d'emballage ONU : le moteur est l'unité de transport (rendu selon PI 378) — mais protection des points sensibles.","Calé, fixé si palette."],
-    marquage:["UN 3528, MOTEUR, À COMBUSTION INTERNE (PI 378).","Accord/mention selon CASS."],
+    soc:["La plupart des compagnies exigent réservoir <b>vidé et purgé</b> (dégazé).","Bouchon sécurisé, conduites bouchées.","PI 378 (moteurs) — ne pas confondre avec les véhicules (PI 950-952)."],
+    emballage:["Pas d'emballage ONU (A199/A67) mais protection des points sensibles.","Calleté, fixé si palette."],
+    marquage:["UN 3528, MOTEUR, À COMBUSTION INTERNE + expéditeur/destinataire."],
     etiquette:["Étiquette 3."],
     docs:["DGD obligatoire (selon accord).","Parfois simple mention sur LTA selon compagnie — vérifier CASS."],
-    autor:["<b>Accord compagnie quasi systématique</b> (générateurs, tronçonneuses, tondeuses…).","NB : 3529 = carburant gaz (2.1), 3530 = polluant marin uniquement (9, PI 972)."],
+    autor:["<b>Accord compagnie quasi systématique</b> (générateurs, tronçonneuses, tondeuses…).","Gasoil (PE > 60,5 °C) : peut être non réglementé après purge complète."],
     verif:["Réservoir vidé + purgé.","Étiquette 3 apposée.","Accord écrit."]
   };
-  if(sub === "gasoil") return {
+  if(sub==="gasoil") return {
     title:"⛽ Gasoil / diesel — UN 1202",
     un:"1202", psn:"GAZOLE / CARBURANT DIESEL", cl:"3 · PG III", pi:"366 (LQ : Y344)",
     soc:["Point éclair > 60,5 °C possible → alors non réglementé (vérifier fiche du produit)."],
@@ -1043,18 +1065,18 @@ function computeCarb(sub, p){
     autor:["Interdit en bagages (bidons).","Fret selon CASS."],
     verif:["Point éclair documenté.","Régime LQ ou complet choisi."]
   };
-  if(sub === "alcool") return {
+  if(sub==="alcool") return {
     title:"🥃 Alcool / alcool à brûler — UN 1170",
     un:"1170", psn:"ALCOOL ÉTHYLIQUE (SOLUTION)", cl:"3 · PG II/III selon PE", pi:"355 / 366",
-    soc:["≤ 24 % vol : pas de restriction bagages.","24–70 % : ≤ 5 L par personne, emballage de détail, bagage enregistré.","> 70 % : interdit en bagages."],
+    soc:["≤ 24 % vol : pas de restriction bagages.","24–70 % : ≤ 5 L par personne, emballage de détail, bagage enregistré.","&gt; 70 % : interdit en bagages."],
     emballage:["ONU agréé selon PI 355/366.","LQ possible selon PG (Y343/Y344)."],
     marquage:["UN 1170 + PSN + PG + quantité."],
     etiquette:["Étiquette 3 + orientations."],
     docs:["DGD obligatoire en fret."],
-    autor:["Fret selon CASS.","Parfums : idem (alcool > 24 %) — UN 1266 pour parfums."],
+    autor:["Fret selon CASS.","Parfums : idem (alcool > 24 %)."],
     verif:["Degré alcoolique connu.","PG correctement déterminé."]
   };
-  if(sub === "peinture") return {
+  if(sub==="peinture") return {
     title:"🎨 Peinture / vernis — UN 1263",
     un:"1263", psn:"PEINTURE", cl:"3 · PG II/III selon PE", pi:"355 / 366 (LQ : Y343/Y344)",
     soc:["Base eau non inflammable : non réglementée."],
@@ -1068,31 +1090,31 @@ function computeCarb(sub, p){
   return null;
 }
 function computeGilet(sub){
-  if(sub === "mousse") return {tone:"ok", title:"✅ Gilet en mousse — pas de restriction MDD", autor:["Pas de réglementation marchandises dangereuses (sans dispositif de gonflage ni pyrotechnie)."], verif:["Vérifier qu'il n'y a ni cartouche ni fusée intégrée."]};
-  if(sub === "co2") return {
-    title:"🦺 Gilet gonflable à cartouche CO₂ — UN 2990 (classe 9, PI 955)",
-    un:"2990", psn:"Engins de sauvetage autogonflants", cl:"9", pi:"955",
-    soc:["<b>Classe 9</b> (pas 2.2) — PI 955 (engins de sauvetage).","Cartouche CO₂ sécurisée, dispositif protégé contre le déclenchement accidentel.","Certaines compagnies limitent à ≤ 60 g de CO₂ par cartouche."],
+  if(sub==="mousse") return {tone:"ok", title:"✅ Gilet en mousse — pas de restriction MDD", autor:["Pas de réglementation marchandises dangereuses (sans dispositif de gonflage ni pyrotechnie)."], verif:["Vérifier qu'il n'y a ni cartouche ni fusée intégrée."]};
+  if(sub==="co2") return {
+    title:"🦺 Gilet gonflable à cartouche CO₂ — UN 2990",
+    un:"2990", psn:"Appareils de sauvetage, autogonflants", cl:"9", pi:"955",
+    soc:["<b>Classe 9 en aérien</b> (IATA) — pas 2.2 : l'appareil complet contient le gaz.","Cartouche CO₂ sécurisée, dispositif protégé contre le déclenchement accidentel.","PI 955 : appareils de sauvetage autogonflants."],
     emballage:["Emballage selon PI 955 + accord compagnie."],
-    marquage:["UN 2990, ENGINS DE SAUVETAGE, AUTOGONFLANTS.","Accord/mention selon CASS."],
-    etiquette:["Étiquette Classe 9."],
-    docs:["Fret : DGD obligatoire (PI 955).","Bagages : information au check-in."],
-    autor:["<b>Accord compagnie obligatoire</b> en fret.","En bagages : généralement 1 gilet porté + 1 en soute avec cartouches de rechange selon CASS."],
-    verif:["Nombre de cartouches déclaré.","Accord CASS vérifié.","Étiquette 9 apposée."]
+    marquage:["UN 2990, APPAREILS DE SAUVETAGE, AUTOGONFLANTS."],
+    etiquette:["Étiquette 9 (appareils de sauvetage autogonflants)."],
+    docs:["Fret : DGD selon accord.","Bagages : information au check-in + accord."],
+    autor:["<b>Accord compagnie obligatoire</b> en fret comme en bagage.","Bagages : généralement ≤ 2 gilets avec cartouches + recharges selon CASS."],
+    verif:["Nombre de cartouches déclaré.","Accord CASS vérifié.","Dispositif de gonflage neutralisé/sécurisé."]
   };
-  if(sub === "fusees") return {
+  if(sub==="fusees") return {
     tone:"err",
     title:"⚠️ Gilet avec fusées de détresse — UN 0191 / 0323 (1.4G)",
     un:"0191/0323", psn:"Fusées, détresse / cartouches, signalisation", cl:"1.4G", pi:"135",
-    soc:["Explosifs classe 1 — régime lourd."],
+    soc:["Explosifs classe 1 — régime lourd (A1 acceptation compagnie)."],
     emballage:["Selon PI 135 et accord."],
     marquage:["Selon PI 135 (compatibilité groupe G)."],
     etiquette:["Étiquette 1.4G."],
     docs:["DGD obligatoire en fret."],
-    autor:["<b>Accord compagnie préalable systématique — souvent REFUSÉES, surtout en bagages.","Souvent interdites bagages enregistrés selon compagnies."],
+    autor:["<b>Accord compagnie préalable systématique — souvent REFUSÉES, surtout en bagages.</b>"],
     verif:["Demander l'accord par écrit avant tout achat de billet.","Prévoir un gilet sans fusées en remplacement."]
   };
-  if(sub === "pile") return {
+  if(sub==="pile") return {
     title:"🦺 Gilet avec pile/batterie lithium",
     un:"3481 / 3091", psn:"Piles au lithium [ion/métal] contenues dans un équipement", cl:"9", pi:"967 / 970 — Section II en général",
     soc:["Piles bouton ou petites batteries → Section II le plus souvent."],
@@ -1105,928 +1127,780 @@ function computeGilet(sub){
   };
   return null;
 }
-// --- FIX : le résultat se recalcule à chaque frappe, mais les champs ne sont
-// --- reconstruits QUE quand la catégorie/sous-catégorie change (plus d'effacement).
-function recomputeWiz(){
-  if(!(WZ.cat && WZ.sub)){ document.getElementById("wz-result").innerHTML = ""; return; }
-  var p = readParams();
-  var r = compute(WZ.cat, WZ.sub, p);
-  document.getElementById("wz-result").innerHTML = resultCard(r || {title:"ℹ️ Renseigne les champs ci-dessus.", autor:[]});
-}
-function refreshWiz(){
-  chips("wz-cat", CATS, WZ.cat, function(v){
-    WZ.cat = v; WZ.sub = null; refreshWiz();
-  });
+// ---------- refreshWiz v4 : ne reconstruit les paramètres QUE si cat/sub change ----------
+function refreshWiz(rebuild){
+  chips("wz-cat", CATS, WZ.cat, function(v){ WZ.cat = v; WZ.sub = null; WZ.params = {}; refreshWiz(true); });
   var subWrap = document.getElementById("wz-sub-wrap");
   var subBox = document.getElementById("wz-sub");
   if(WZ.cat && SUBS[WZ.cat]){
     subWrap.style.display = "";
     document.getElementById("wz-sub-label").textContent = SUBS[WZ.cat].label;
-    chips("wz-sub", SUBS[WZ.cat].opts, WZ.sub, function(v){
-      WZ.sub = v; refreshWiz();
-    });
+    chips("wz-sub", SUBS[WZ.cat].opts, WZ.sub, function(v){ WZ.sub = v; refreshWiz(true); });
   } else { subWrap.style.display = "none"; subBox.innerHTML = ""; }
+  var key = (WZ.cat||"") + "/" + (WZ.sub||"");
   var pz = document.getElementById("wz-params");
-  pz.innerHTML = WZ.cat && WZ.sub ? paramsHtml(WZ.cat, WZ.sub) : "";
-  pz.querySelectorAll("input,select").forEach(function(el){
-    el.addEventListener("change", recomputeWiz);
-    el.addEventListener("input", recomputeWiz);
-  });
-  recomputeWiz();
+  if(rebuild === true || WZ_BUILT !== key){
+    pz.innerHTML = WZ.cat && WZ.sub ? paramsHtml(WZ.cat, WZ.sub) : "";
+    WZ_BUILT = key;
+    pz.querySelectorAll("input,select").forEach(function(el){
+      el.addEventListener("change", function(){ refreshWiz(false); });
+      el.addEventListener("input", function(){ refreshWiz(false); });
+    });
+  }
+  var out = document.getElementById("wz-result");
+  if(WZ.cat && WZ.sub){
+    var p = readParams();
+    WZ.params = p;
+    var r = compute(WZ.cat, WZ.sub, p);
+    out.innerHTML = resultCard(r || {title:"ℹ️ Renseigne les champs ci-dessus."});
+  } else out.innerHTML = "";
 }
 refreshWiz();
 
-// ====================== BIBLIOTHÈQUE SVG D'ÉTIQUETTES ======================
-// Rendus simplifiés mais conformes dans la structure (diamants, CAO, marque Y,
-// marquage lithium, orientations). Couleurs/pictogrammes exacts : DGR en vigueur.
-function svgLabel(kind){
-  function dia(fill, inner, txt, txtFill, extra){
-    return '<svg viewBox="0 0 100 100">'
-      + '<polygon points="50,1 99,50 50,99 1,50" fill="' + fill + '" stroke="#000" stroke-width="3"/>'
-      + (inner || "")
-      + (extra || "")
-      + (txt ? '<text x="50" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="' + (txtFill || "#000") + '">' + txt + '</text>' : "")
-      + '</svg>';
-  }
-  var flame = function(fill){ return '<path d="M50 32 C 44 42 38 46 40 56 C 41 63 46 68 50 68 C 54 68 60 63 61 55 C 61.5 50 56 46 54 40 C 53 44 51 45 50 32 Z" fill="' + (fill || "#000") + '"/>'; };
-  switch(kind){
-    case "1": return dia("#f5891f", flame("#000"), "1", "#000");
-    case "2.1": return dia("#d5112e", flame("#000"), "2.1", "#fff");
-    case "2.2":
-      return dia("#16a34a",
-        '<rect x="42" y="38" width="14" height="22" rx="2" fill="#fff" stroke="#000" stroke-width="2"/><rect x="45" y="33" width="8" height="5" fill="#fff" stroke="#000" stroke-width="1.5"/>',
-        "2.2", "#fff");
-    case "2.3": return dia("#fff", '<circle cx="50" cy="44" r="9" fill="#000"/><circle cx="43" cy="40" r="2.5" fill="#fff"/><circle cx="57" cy="40" r="2.5" fill="#fff"/><rect x="34" y="54" width="32" height="4" fill="#000"/><rect x="36" y="60" width="28" height="4" fill="#000"/>', "2.3", "#000");
-    case "3": return dia("#d5112e", flame("#000"), "3", "#fff");
-    case "4.1":
-      return dia("#fff", '<g clip-path="none">' + [0,1,2,3,4,5].map(function(i){ return '<rect x="' + (18 + i * 12) + '" y="46" width="6" height="24" fill="#d5112e" transform="rotate(45 50 58)"/>'; }).join("") + flame("#000") + '</g>', "4.1", "#000");
-    case "4.2":
-      return dia("#fff", '<polygon points="50,1 99,50 50,99 1,50" fill="#d5112e"/><polygon points="50,1 99,50 50,99 1,50" fill="none"/>', "", "")
-        .replace('<polygon points="50,1 99,50 50,99 1,50" fill="none"/>',
-          '<polygon points="50,25 75,50 50,75 25,50" fill="#fff"/>' + flame("#000") + '<text x="50" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">4.2</text>');
-    case "4.3": return dia("#1d4ed8", flame("#000"), "4.3", "#fff");
-    case "5.1":
-      return dia("#f9c511",
-        '<circle cx="50" cy="52" r="12" fill="#000"/>' + flame("#000").replace('50 32', '50 22').replace('50 68', '50 62'),
-        "5.1", "#000");
-    case "5.2":
-      return dia("#fff", '<polygon points="50,1 99,50 50,99 1,50" fill="#f9c511"/><polygon points="50,25 75,50 50,75 25,50" fill="#d5112e"/><text x="50" y="55" text-anchor="middle" font-size="14" font-weight="bold" fill="#000">5.2</text>', "", "");
-    case "6.1": return dia("#fff", '<circle cx="50" cy="42" r="10" fill="#000"/><circle cx="46" cy="40" r="2.6" fill="#fff"/><circle cx="54" cy="40" r="2.6" fill="#fff"/><rect x="35" y="52" width="30" height="4" fill="#000"/><rect x="37" y="58" width="26" height="4" fill="#000"/><circle cx="35" cy="54" r="3" fill="#000"/><circle cx="65" cy="54" r="3" fill="#000"/>', "6.1", "#000");
-    case "7":
-      return dia("#fff",
-        '<circle cx="50" cy="45" r="16" fill="#f9c511" stroke="#000" stroke-width="2"/>'
-        + [0, 1, 2].map(function(i){
-            var a = i * 2.094;
-            var x1 = 50 + Math.cos(a) * 8, y1 = 45 + Math.sin(a) * 8;
-            var x2 = 50 + Math.cos(a + 0.3) * 15, y2 = 45 + Math.sin(a + 0.3) * 15;
-            var x3 = 50 + Math.cos(a - 0.3) * 15, y3 = 45 + Math.sin(a - 0.3) * 15;
-            return '<polygon points="' + x1.toFixed(1) + ',' + y1.toFixed(1) + ' ' + x2.toFixed(1) + ',' + y2.toFixed(1) + ' ' + x3.toFixed(1) + ',' + y3.toFixed(1) + '" fill="#000"/>';
-          }).join(""),
-        "7", "#000");
-    case "8":
-      return dia("#fff",
-        '<polygon points="50,1 99,50 50,99 1,50" fill="#000"/><polygon points="50,25 75,50 50,75 25,50" fill="#fff"/>'
-        + '<rect x="43" y="36" width="6" height="20" fill="#000"/><rect x="52" y="42" width="6" height="14" fill="#000"/>'
-        + '<path d="M40 58 L60 58" stroke="#000" stroke-width="2"/>',
-        "8", "#000");
-    case "9":
-      return dia("#fff",
-        [0,1,2,3,4,5].map(function(i){ return '<rect x="' + (28 + i * 12) + '" y="62" width="6" height="16" fill="#000" transform="rotate(0)"/>'; }).join(""),
-        "9", "#000");
-    case "9li":
-      return dia("#fff",
-        [0,1,2,3].map(function(i){ return '<rect x="' + (34 + i * 9) + '" y="20" width="4.5" height="9" fill="#000"/>'; }).join("")
-        + '<rect x="40" y="38" width="22" height="14" rx="1" fill="#fff" stroke="#000" stroke-width="2"/>'
-        + '<rect x="62" y="41" width="4" height="8" fill="#000"/>'
-        + flame("#d5112e").replace('50 32', '50 20'),
-        "9<br>Li-ion", "#000");
-    case "9lm":
-      return dia("#fff",
-        [0,1,2,3].map(function(i){ return '<rect x="' + (34 + i * 9) + '" y="20" width="4.5" height="9" fill="#000"/>'; }).join("")
-        + '<rect x="40" y="38" width="22" height="14" rx="1" fill="#fff" stroke="#000" stroke-width="2"/>'
-        + '<rect x="62" y="41" width="4" height="8" fill="#000"/>'
-        + flame("#000").replace('50 32', '50 20'),
-        "9<br>Li-métal", "#000");
-    case "9na":
-      return dia("#fff",
-        [0,1,2,3].map(function(i){ return '<rect x="' + (34 + i * 9) + '" y="20" width="4.5" height="9" fill="#000"/>'; }).join("")
-        + '<rect x="40" y="38" width="22" height="14" rx="1" fill="#fff" stroke="#000" stroke-width="2"/>'
-        + '<rect x="62" y="41" width="4" height="8" fill="#000"/>'
-        + '<text x="51" y="49" font-size="8" font-weight="bold" fill="#000">Na</text>',
-        "9<br>Na-ion", "#000");
-    case "cao":
-      return '<svg viewBox="0 0 100 66">'
-        + '<rect x="1" y="1" width="98" height="64" fill="#16a34a" stroke="#000" stroke-width="2"/>'
-        + '<path d="M20 42 L46 42 L36 50 L20 50 Z" fill="#fff"/>'
-        + '<path d="M50 18 L56 18 L62 32 L62 46 L56 46 L56 36 L50 36 L50 46 L44 46 L44 32 Z" fill="#fff"/>'
-        + '<path d="M80 36 L80 48 L76 48 L78 36 Z" fill="#fff"/>'
-        + '<text x="50" y="62" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="bold">CARGO AIRCRAFT ONLY</text>'
-        + '</svg>';
-    case "lqy":
-      return '<svg viewBox="0 0 100 100">'
-        + '<polygon points="50,1 99,50 50,99 1,50" fill="#fff" stroke="#000" stroke-width="3"/>'
-        + '<polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="#000" stroke-width="3"/>'
-        + '<rect x="37" y="10" width="26" height="9" fill="#000" transform="rotate(45 50 14)"/>'
-        + '<rect x="37" y="81" width="26" height="9" fill="#000" transform="rotate(45 50 86)"/>'
-        + '<text x="50" y="62" text-anchor="middle" font-size="34" font-weight="bold" fill="#000">Y</text>'
-        + '</svg>';
-    case "batmark":
-      return '<svg viewBox="0 0 100 70">'
-        + '<rect x="1" y="1" width="98" height="68" fill="#fff" stroke="#000" stroke-width="3"/>'
-        + [0,1,2,3,4].map(function(i){ return '<line x1="' + (4 + i * 7) + '" y1="60" x2="' + (14 + i * 7) + '" y2="6" stroke="#000" stroke-width="2.5"/>'; }).join("")
-        + '<rect x="42" y="24" width="24" height="16" rx="1" fill="#fff" stroke="#000" stroke-width="2"/>'
-        + '<rect x="66" y="28" width="4" height="8" fill="#000"/>'
-        + '<path d="M52 14 C 49 19 46 21 47 26 C 48 29 50 30 52 30 C 54 30 56 29 57 26 C 57 24 55 22 54 19 C 53.5 21 53 21 52 14 Z" fill="#000"/>'
-        + '<rect x="40" y="48" width="18" height="4" fill="#000"/><rect x="60" y="48" width="14" height="4" fill="#000"/>'
-        + '</svg>';
-    case "orient":
-      return '<svg viewBox="0 0 60 100">'
-        + '<rect x="2" y="2" width="56" height="96" fill="#fff" stroke="#000" stroke-width="3"/>'
-        + '<rect x="10" y="46" width="18" height="40" fill="none" stroke="#000" stroke-width="2"/>'
-        + '<path d="M19 44 L12 24 L26 24 Z" fill="#000"/>'
-        + '<rect x="32" y="46" width="18" height="40" fill="#fff" stroke="#000" stroke-width="2"/>'
-        + '<path d="M41 44 L34 24 L48 24 Z" fill="#fff" stroke="#000" stroke-width="2"/>'
-        + '</svg>';
-  }
-  return "";
-}
-var LBL_NAMES = {
-  "1":"1 Explosifs","2.1":"2.1 Gaz inflammable","2.2":"2.2 Gaz non inflammable","2.3":"2.3 Gaz toxique",
-  "3":"3 Liquide inflammable","4.1":"4.1 Solide inflammable","4.2":"4.2 Échauffement spontané",
-  "4.3":"4.3 Dégagement au contact de l'eau","5.1":"5.1 Comburant","5.2":"5.2 Peroxyde organique",
-  "6.1":"6.1 Toxique","7":"7 Radioactif","8":"8 Corrosif","9":"9 Marchandises dangereuses diverses",
-  "9li":"9 lithium-ion","9lm":"9 lithium-métal","9na":"9 sodium-ion",
-  "cao":"CARGO AIRCRAFT ONLY","lqy":"Marque Y (Limited Quantity aérienne)","batmark":"Marquage batteries lithium/Na","orient":"Étiquettes d'orientation"
+// ====================== BIBLIOTHÈQUE D'ÉTIQUETTES SVG ======================
+var CLS_STYLES = {
+  "1":   {c:"#e2591b", t:"1"},
+  "1.4G":{c:"#e2591b", t:"1.4G"},
+  "1.4S":{c:"#e2591b", t:"1.4S"},
+  "2.1": {c:"#d62029", t:"2.1", flame:true},
+  "2.2": {c:"#31a842", t:"2.2", bottle:true},
+  "2.3": {c:"#f7d417", t:"2.3"},
+  "3":   {c:"#d62029", t:"3", flame:true},
+  "4.1": {c:"#fff", stripes:"#d62029", t:"4.1"},
+  "4.2": {c:"#fff", top:"#fff", bot:"#d62029", t:"4.2"},
+  "4.3": {c:"#fff", top:"#2461b3", bot:"#d62029", t:"4.3"},
+  "5.1": {c:"#f7d417", top:"#f7d417", bot:"#2461b3", t:"5.1", flame:true},
+  "5.2": {c:"#f7d417", top:"#f7d417", bot:"#d62029", t:"5.2"},
+  "6.1": {c:"#fff", t:"6.1", skull:true},
+  "7":   {c:"#fff", t:"7", rad:true},
+  "8":   {c:"#fff", top:"#000", bot:"#fff", t:"8", pour:true},
+  "9":   {c:"#fff", t:"9", misc:true}
 };
-function colisIsLi(c){
-  var s = String((c.psn || "") + " " + (c.notes || "") + " " + (c.un || ""));
-  if(/lithium[\s-]*m[eé]tal/i.test(s) || c.un === "3090" || c.un === "3091") return "metal";
-  if(/sodium[\s-]*ion|na-?ion/i.test(s) || c.un === "3551" || c.un === "3552") return "na";
-  if(/lithium|li[\s-]*ion/i.test(s) || c.un === "3480" || c.un === "3481") return "ion";
-  return null;
-}
-function computeLabels(c){
-  var kinds = [], seenK = {};
-  function push(k){ if(!seenK[k]){ seenK[k] = 1; kinds.push(k); } }
-  var li = colisIsLi(c);
-  var cl = String(c.cl || "");
-  var m = cl.match(/(\d(?:\.[1-9])?)/);
-  var primary = m ? m[1] : "";
-  if(li === "ion") push("9li"); else if(li === "metal") push("9lm"); else if(li === "na") push("9na");
-  else if(primary && LBL_NAMES[primary]) push(primary);
-  else if(primary){
-    var p0 = primary.split(".")[0];
-    if(LBL_NAMES[p0]) push(p0);
+function labelSvg(kind){
+  if(kind === "cao"){
+    return '<svg class="lbl cao" viewBox="0 0 120 100" style="width:60px;height:50px"><rect x="2" y="2" width="116" height="96" fill="#0a8f3c" stroke="#000" stroke-width="2"/>'
+      + '<path d="M22 62 L55 62 L44 72 L22 72 Z" fill="#fff"/><path d="M60 30 L66 30 L72 46 L72 72 L66 72 L66 54 L60 54 L60 72 L54 72 L54 46 Z" fill="#fff"/><path d="M92 46 L92 70 L86 70 L89 46 Z" fill="#fff"/><path d="M52 22 L72 22 L64 30 L60 30 Z" fill="#fff"/>'
+      + '<text x="60" y="88" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold" font-family="Arial">CARGO AIRCRAFT ONLY</text></svg>';
   }
-  // risques subsidiaires (champ sub + base)
-  var subs = String(c.sub || "") + " " + ((AIRX[c.un] || {}).sub || "");
-  (subs.match(/\d(?:\.[1-9])?/g) || []).forEach(function(s){
-    if(LBL_NAMES[s] && s !== primary) push(s);
-  });
-  if(c.cao) push("cao");
-  if(c.lq) push("lqy");
-  if(li) push("batmark");
-  var ax = AIRX[c.un] || {};
-  if(cl.indexOf("3") === 0 || ax.orient || /liquide|\bL\b|\blitres?\b/i.test(String(c.qty || "") + " " + cl)) push("orient");
-  if(c.un === "1845" && !seenK["9"]) push("9");
-  return { list: kinds, text: kinds.map(function(k){ return LBL_NAMES[k] || k; }).join(" + ") };
+  if(kind === "y"){
+    return '<svg class="lbl ymark" viewBox="0 0 100 100" style="width:40px;height:40px"><polygon points="50,4 96,50 50,96 4,50" fill="#fff" stroke="#000" stroke-width="3"/>'
+      + '<rect x="18" y="4" width="64" height="16" fill="#000" transform="rotate(45 50 50) translate(-32 -32)"/>'
+      + '<polygon points="50,22 78,50 50,78 22,50" fill="#fff" stroke="#000" stroke-width="2"/>'
+      + '<text x="50" y="62" text-anchor="middle" font-size="32" font-weight="bold" font-family="Arial">Y</text></svg>';
+  }
+  if(kind === "lithium"){
+    return '<svg class="lbl lith" viewBox="0 0 120 80" style="width:60px;height:40px"><rect x="2" y="2" width="116" height="76" fill="#fff" stroke="#000" stroke-width="3"/>'
+      + '<rect x="70" y="2" width="48" height="20" fill="#000"/><rect x="26" y="26" width="42" height="20" fill="#000"/>'
+      + '<rect x="20" y="52" width="80" height="20" fill="none" stroke="#000" stroke-width="3"/>'
+      + '<line x1="26" y1="58" x2="26" y2="66" stroke="#000" stroke-width="3"/><line x1="32" y1="60" x2="42" y2="60" stroke="#000" stroke-width="3"/><line x1="36" y1="56" x2="36" y2="64" stroke="#000" stroke-width="3"/>'
+      + '<line x1="52" y1="62" x2="62" y2="62" stroke="#000" stroke-width="3"/>'
+      + '<text x="98" y="66" text-anchor="end" font-size="12" font-family="Arial">📞</text></svg>';
+  }
+  if(kind === "orient"){
+    return '<svg class="lbl orient" viewBox="0 0 60 100" style="width:24px;height:40px"><rect x="6" y="6" width="48" height="88" fill="#fff" stroke="#000" stroke-width="3"/>'
+      + '<path d="M30 20 L30 74" stroke="#000" stroke-width="6"/><path d="M30 82 L18 62 L42 62 Z" fill="#000"/></svg>';
+  }
+  var st = CLS_STYLES[kind];
+  if(!st) return "";
+  var inner = "";
+  if(st.stripes){ for(var i=0;i<7;i++){ inner += '<rect x="'+(10+i*12)+'" y="12" width="6" height="76" fill="'+st.stripes+'"/>'; } }
+  if(st.top){ inner += '<polygon points="50,4 96,50 50,96 4,50" fill="'+st.top+'"/>'; }
+  if(st.bot){ inner += '<polygon points="50,96 96,50 4,50" fill="'+st.bot+'" transform="rotate(180 50 50)"/>'; }
+  if(st.bottle){ inner += '<path d="M40 20 L40 30 Q36 34 36 40 L36 70 Q36 76 42 76 L58 76 Q64 76 64 70 L64 40 Q64 34 60 30 L60 20 Z" fill="none" stroke="#000" stroke-width="3"/><line x1="38" y1="20" x2="62" y2="20" stroke="#000" stroke-width="3"/>'; }
+  if(st.flame){ inner += '<path d="M50 28 Q36 46 50 66 Q42 58 40 50 Q38 62 50 72 Q62 62 60 50 Q58 58 50 66 Z" fill="#000"/>'; }
+  if(st.skull){ inner += '<circle cx="50" cy="44" r="16" fill="#000"/><rect x="40" y="56" width="20" height="10" fill="#000"/><circle cx="44" cy="42" r="3" fill="#fff"/><circle cx="56" cy="42" r="3" fill="#fff"/>'; }
+  if(st.pour){ inner += '<path d="M50 20 L50 46" stroke="#000" stroke-width="4"/><path d="M44 62 L56 62 L56 74 L44 74 Z" fill="#000"/><path d="M50 46 L44 58 L56 58 Z" fill="#000"/>'; }
+  if(st.misc){ for(var j=0;j<7;j++){ inner += '<rect x="'+(14+j*11)+'" y="8" width="5" height="14" fill="#000"/>'; } inner += '<rect x="30" y="34" width="40" height="34" fill="none" stroke="#000" stroke-width="3"/><line x1="38" y1="40" x2="38" y2="62" stroke="#000" stroke-width="3"/><line x1="46" y1="40" x2="46" y2="62" stroke="#000" stroke-width="3"/><line x1="54" y1="40" x2="54" y2="62" stroke="#000" stroke-width="3"/><line x1="62" y1="40" x2="62" y2="62" stroke="#000" stroke-width="3"/>'; }
+  if(st.rad){ inner += '<circle cx="50" cy="50" r="10" fill="#000"/><circle cx="34" cy="36" r="6" fill="#000"/><circle cx="66" cy="36" r="6" fill="#000"/><circle cx="34" cy="64" r="6" fill="#000"/><circle cx="66" cy="64" r="6" fill="#000"/>'; }
+  var bg = st.c === "#fff" ? "#fff" : st.c;
+  return '<svg class="lbl cl-' + String(kind).replace(".","-") + '" viewBox="0 0 100 100" style="width:40px;height:40px">'
+    + '<polygon points="50,4 96,50 50,96 4,50" fill="' + bg + '" stroke="#000" stroke-width="3"/>'
+    + inner
+    + '<text x="50" y="94" text-anchor="middle" font-size="12" font-weight="bold" font-family="Arial">' + st.t + '</text>'
+    + '</svg>';
 }
-function colisLabelsHtml(c, cls){
-  return computeLabels(c).list.map(function(k){
-    var svg = svgLabel(k);
-    if(!svg) return "";
-    var wide = (k === "cao" || k === "batmark");
-    return '<span class="' + (cls || "") + '" style="display:inline-block;vertical-align:middle;margin:2px">' + svg.replace('<svg ', '<svg width="' + (wide ? "52" : "34") + '" height="' + (k === "cao" ? "34" : (wide ? "36" : "34")) + '" ') + '</span>';
-  }).join("");
-}
-// avertissements de conformité pour un colis
-function analyseColis(c){
-  var w = [];
-  if(!c.un) w.push("N° ONU manquant (marquage obligatoire).");
-  if(!c.psn) w.push("PSN manquante — le marquage doit porter la désignation officielle en majuscules.");
-  if(!c.ship || !c.cons) w.push("Expéditeur/destinataire : marquage obligatoire sur le colis.");
-  if(!c.qty) w.push("Quantité nette manquante (marquage + DGD).");
-  var li = colisIsLi(c);
-  if(li === "ion" && c.un === "3480" && !c.cao) w.push("UN 3480 : étiquette CARGO AIRCRAFT ONLY obligatoire (coche CAO).");
-  if(li === "metal" && c.un === "3090" && !c.cao) w.push("UN 3090 : étiquette CARGO AIRCRAFT ONLY obligatoire (coche CAO).");
-  if(li === "na" && c.un === "3551" && !c.cao) w.push("UN 3551 : CAO généralement obligatoire (vérifier DGR).");
-  if((c.un === "3480" || c.un === "3551") && !/soc/i.test(c.notes || "")) w.push("SoC ≤ 30 % à documenter (notes).");
-  if(c.un === "1845" && !/lta|dry ice/i.test(c.notes || "")) w.push("Glace carbonique : mention LTA obligatoire (« Dry Ice, UN 1845, n° colis, qté nette »).");
-  if(c.cao && /pax|passager/i.test(c.notes || "")) w.push("CAO + passagers : incohérence à vérifier.");
-  if(c.lq && /dgd/i.test(c.notes || "")) w.push("LQ : pas de DGD — vérifie la cohérence du régime choisi.");
-  if(c.lq && c.cao) w.push("LQ + CAO : régime inhabituel — vérifier PI (Y…).");
-  var ax = AIRX[c.un];
-  if(ax && ax.pi && String(c.pi || "").indexOf(ax.pi.split(" ")[0]) === -1 && !c.lq && !String(c.pi || "")) w.push("PI vérifiée pour ce n° ONU : " + ax.pi + " — renseigne le champ PI.");
-  if(String(c.cl || "").indexOf("3") === 0 && !computeLabels(c).list.some(function(k){ return k === "orient"; })) w.push("Liquide inflammable : étiquettes d'orientation requises.");
-  return w;
-}
-
-// ====================== COLIS v2 : état de colisage ======================
+// ====================== COLIS v4 : état de colisage ======================
 var APP_VERSION = 4;
 var COLIS_KEY = "iata-colis-v1";
 var COLIS = [];
+function colisLoad(){ try { COLIS = JSON.parse(localStorage.getItem(COLIS_KEY) || "[]"); } catch(e){ COLIS = []; } }
+function colisSave(){ try { localStorage.setItem(COLIS_KEY, JSON.stringify(COLIS)); } catch(e){} }
+function parseCls(s){
+  var out = [], m = String(s||"").match(/(1\.[1-6][A-LS]?|2\.[123]|4\.[123]|5\.[12]|6\.[12]|[3789])/g);
+  (m||[]).forEach(function(x){ if(out.indexOf(x)===-1) out.push(x); });
+  return out;
+}
+function un4(un){ return String(un||"").replace(/\D/g,""); }
+// Analyse complète d'un colis : étiquettes requises + avertissements
+function analyseColis(c){
+  var labels = [], warns = [], infos = [];
+  var airx = AIRX[un4(c.un)] || null;
+  var cls = parseCls(c.cl).concat(parseCls(c.sub));
+  if(airx && airx.sub && cls.indexOf(airx.sub)===-1) cls.push(airx.sub);
+  cls.forEach(function(k){ if(labels.indexOf(k)===-1 && CLS_STYLES[k]) labels.push(k); });
+  var isLi = !!(airx && airx.li) || /lithium|sodium/i.test((c.psn||"") + " " + (c.notes||""));
+  var caoReq = !!(airx && airx.cao) || un4(c.un)==="3480" || un4(c.un)==="3090" || un4(c.un)==="3551";
+  var orientReq = !!(airx && airx.orient) || cls.indexOf("3")!==-1 || cls.indexOf("8")!==-1;
+  if(caoReq) labels.push("cao");
+  if(c.lq) labels.push("y");
+  if(isLi) labels.push("lithium");
+  if(orientReq && !c.lq) labels.push("orient");
+  // --- avertissements de conformité ---
+  if(airx && airx.interdit) warns.push("⛔ INTERDIT au transport aérien (générateurs chimiques d'O₂…) — ne pas expédier.");
+  if(caoReq && !c.cao) warns.push("🚨 Étiquette CARGO AIRCRAFT ONLY <b>manquante</b> — obligatoire pour UN " + un4(c.un) + " (interdit avion passagers).");
+  if(!c.cao && /IA\b|IB\b/.test(c.pi||"") && /965|968|977/.test(c.pi||"")) warns.push("⚠️ PI " + (c.pi||"") + " : piles seules → toujours CAO. Vérifie.");
+  if(isLi && !/\d{6,}/.test(c.notes||"")) warns.push("🖊️ Marquage lithium : n° de téléphone 24h/24 requis sur le colis (à ajouter dans Particularités).");
+  if(isLi && un4(c.un)==="3480" && !/soc|30 ?%/i.test(c.notes||"")) warns.push("⚡ UN 3480 : SoC ≤ 30 % à documenter (contrôle avant expédition).");
+  if(orientReq && !c.lq && /liquide|essence|gaso|alcool|peinture|corros|acide/i.test(c.psn||"")) infos.push("↕️ Liquides : étiquettes d'orientation sur 2 faces opposées (fournies sur l'étiquette imprimable).");
+  if(cls.indexOf("3")!==-1 && !c.pg) warns.push("📦 Classe 3 sans groupe d'emballage — PG (I/II/III) requis pour la DGD et l'emballage ONU.");
+  if(!c.qty) infos.push("ℹ️ Quantité nette à préciser (obligatoire sur le marquage du colis).");
+  if(!c.un && !c.psn) warns.push("❓ Ni n° ONU ni matière identifiée — utilise l'autocomplétion ou l'import Excel.");
+  if(airx && airx.noDgd) infos.push("📄 Pas de DGD exigée — mais mention sur la LTA obligatoire (ex. glace carbonique : « Dry Ice, UN 1845, xx kg »).");
+  if(airx && airx.dgd) infos.push("📄 DGD obligatoire pour cette matière.");
+  if(c.lq && caoReq) warns.push("🚫 Incohérent : LQ et CAO ne se combinent pas — vérifie le régime.");
+  if(c.lq && (cls.indexOf("1")!==-1)) warns.push("🚫 Classe 1 (explosifs) : jamais en LQ.");
+  return {labels: labels, warns: warns, infos: infos, airx: airx};
+}
+function colisLabelsHtml(c){
+  var a = analyseColis(c);
+  var out = "";
+  a.labels.forEach(function(k){ out += labelSvg(k); });
+  return out;
+}
+function colisBadges(c){
+  var a = analyseColis(c);
+  var out = "";
+  if(a.warns.length) out += ' <span class="badge b-err">' + a.warns.length + ' ⚠️</span>';
+  return out;
+}
+// --- autocomplétion matière ---
 var EDIT_ID = null;
-var PROPS = [];
-function colisLoad(){
-  try { COLIS = JSON.parse(localStorage.getItem(COLIS_KEY) || "[]"); } catch(e){ COLIS = []; }
+function applyDetected(det){
+  setVal("c-un", det.un); setVal("c-psn", det.psn); setVal("c-cl", det.cl);
+  setVal("c-sub", det.sub); setVal("c-pg", det.pg); setVal("c-pi", det.pi);
+  setVal("c-cao", det.cao ? "oui" : "");
+  if(det.note && !document.getElementById("c-notes").value) setVal("c-notes", det.note);
+  colisPreview();
 }
-function colisSave(){
-  try { localStorage.setItem(COLIS_KEY, JSON.stringify(COLIS)); } catch(e){}
-}
-function setVal(id, v){ var e = document.getElementById(id); if(e) e.value = v || ""; }
-function valOf(id){ var e = document.getElementById(id); return e ? String(e.value || "").trim() : ""; }
-function ficheByUn(u){ for(var i = 0; i < FICHES.length; i++){ if(FICHES[i].un === String(u)) return FICHES[i]; } return null; }
-function fichePi(u){
-  var ax = AIRX[u] || {}, f = ficheByUn(u);
-  if(ax.pi && /^[0-9]/.test(ax.pi)) return ax.pi;
-  if(f && /^[0-9]/.test(f.pi)) return f.pi.split(" ")[0];
-  return "";
-}
-function matPick(u){
-  var d = DBX[u] || {}, ax = AIRX[u] || {}, f = ficheByUn(u);
-  setVal("c-un", u);
-  setVal("c-psn", d.psn || (f ? f.psn : "") || "");
-  setVal("c-cl", d.cl || (f ? f.cl : "") || "");
-  setVal("c-pg", (d.pg && d.pg !== "—") ? d.pg : "");
-  setVal("c-sub", d.sub || "");
-  var pi = fichePi(u);
-  setVal("c-pi", pi ? "PI " + pi : "");
-  var caoDef = !!ax.cao || u === "3480" || u === "3090" || u === "3551";
-  setVal("c-cao", caoDef ? "oui" : "");
-  setVal("c-lq", ax.lq ? "oui" : "");
-  var n = document.getElementById("c-notes");
-  if(n && !n.value && f) n.value = f.notes || "";
-  var cm = document.getElementById("c-mat");
-  if(cm) cm.value = "UN " + u + " — " + (d.psn || (f ? f.psn : ""));
-  var ab = document.getElementById("c-ac"); if(ab) ab.style.display = "none";
-  cPreview();
+function detectMatiere(txt){
+  var t = norm(txt).trim();
+  if(!t) return null;
+  var m = t.match(/\d{3,4}/);
+  if(m){
+    var e = dbByUn(m[0]);
+    if(e){
+      var airx = AIRX[un4(e[0])] || {};
+      return {un: e[0], psn: e[1], cl: e[2], sub: e[4] || "", pg: e[3] || "", pi: airx.pi || "",
+        cao: !!airx.cao, note: airx.note || ""};
+    }
+  }
+  var keys = Object.keys(SYNONYMES);
+  for(var i = 0; i < keys.length; i++){
+    if(t.indexOf(norm(keys[i])) !== -1){
+      var u2 = SYNONYMES[keys[i]];
+      var e2 = dbByUn(u2);
+      var ax2 = AIRX[u2] || {};
+      return {un: u2, psn: e2 ? e2[1] : keys[i], cl: e2 ? e2[2] : "", sub: (ax2.sub)||"", pg: e2 ? e2[3] : "",
+        pi: ax2.pi || "", cao: !!ax2.cao, note: ax2.note || "", syn: keys[i]};
+    }
+  }
+  var low = DB_ONU.filter(function(e){ return norm(e[1]).indexOf(t) !== -1; }).slice(0, 1);
+  if(low.length){
+    var e3 = low[0], ax3 = AIRX[un4(e3[0])] || {};
+    return {un: e3[0], psn: e3[1], cl: e3[2], sub: e3[4] || "", pg: e3[3] || "", pi: ax3.pi || "", cao: !!ax3.cao, note: ""};
+  }
+  return null;
 }
 var cMat = document.getElementById("c-mat");
-var acBox = document.getElementById("c-ac");
+var cAc = document.getElementById("c-ac");
+var AC_SEL = -1;
 if(cMat){
   cMat.addEventListener("input", function(){
-    var v = cMat.value.trim();
-    if(!v){ acBox.style.display = "none"; return; }
-    var n = norm(v).replace(/^un[\s-]*/, "");
-    var hits = [];
-    if(/^[0-9]{1,4}$/.test(n)){
-      Object.keys(DBX).forEach(function(u){ if(u.indexOf(n) === 0 && hits.length < 12) hits.push(u); });
-    } else {
-      Object.keys(DBX).forEach(function(u){ if(hits.length >= 12) return; var d = DBX[u]; if(norm(d.psn).indexOf(n) !== -1) hits.push(u); });
+    var t = cMat.value.trim();
+    if(t.length < 2){ cAc.innerHTML = ""; cAc.style.display = "none"; return; }
+    var list = [];
+    var m = t.match(/\d{3,4}/);
+    if(m){
+      var e = dbByUn(m[0]);
+      if(e) list.push({un: e[0], psn: e[1], cl: e[2], sub: e[4]||"", pg: e[3]||""});
     }
-    if(!hits.length){ acBox.style.display = "none"; return; }
-    acBox.innerHTML = "";
-    hits.forEach(function(u){
-      var d = DBX[u];
-      var it = document.createElement("div");
-      it.className = "ac-item";
-      it.innerHTML = "UN " + u + " — " + esc(d.psn) + ' <span class="dim">Cl ' + esc(d.cl || "?") + (d.pg && d.pg !== "—" ? " · PG " + esc(d.pg) : "") + (d.sub ? " · Sub " + esc(d.sub) : "") + "</span>";
-      it.onmousedown = function(ev){ ev.preventDefault(); matPick(u); };
-      acBox.appendChild(it);
+    Object.keys(SYNONYMES).forEach(function(k){
+      if(norm(t).indexOf(norm(k)) !== -1 || norm(k).indexOf(norm(t)) !== -1){
+        var u = SYNONYMES[k], ee = dbByUn(u);
+        if(list.filter(function(x){return x.un===u;}).length===0)
+          list.push({un: u, psn: ee ? ee[1] : k, cl: ee ? ee[2] : "", sub: ee ? (ee[4]||"") : "", pg: ee ? ee[3] : "", syn: k});
+      }
     });
-    acBox.style.display = "block";
+    var low = norm(t);
+    DB_ONU.forEach(function(e){ if(list.length >= 9) return; if(norm(e[1]).indexOf(low) !== -1 && list.filter(function(x){return x.un===e[0];}).length===0) list.push({un: e[0], psn: e[1], cl: e[2], sub: e[4]||"", pg: e[3]||""}); });
+    AC_LIST = list;
+    if(!list.length){ cAc.innerHTML = ""; cAc.style.display = "none"; return; }
+    cAc.innerHTML = list.map(function(x, i){
+      return '<div class="ac-item" data-i="' + i + '"><b>UN ' + x.un + '</b> — ' + esc(x.psn) + (x.cl ? ' <span class="badge b-cl">Cl ' + x.cl + '</span>' : "") + (x.pg ? ' <span class="badge">PG ' + x.pg + '</span>' : "") + (x.syn ? ' <span class="dim">« ' + esc(x.syn) + ' »</span>' : "") + '</div>';
+    }).join("");
+    cAc.style.display = "";
+    cAc.querySelectorAll(".ac-item").forEach(function(el){
+      el.addEventListener("mousedown", function(ev){ ev.preventDefault(); acPick(parseInt(el.getAttribute("data-i"),10)); });
+    });
+    AC_SEL = -1;
   });
-  cMat.addEventListener("blur", function(){ setTimeout(function(){ acBox.style.display = "none"; }, 150); });
-  ["c-un","c-psn","c-cl","c-sub","c-pg","c-qty","c-nb","c-pkg","c-pi","c-cao","c-lq","c-notes"].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el){ el.addEventListener("input", cPreview); el.addEventListener("change", cPreview); }
+  cMat.addEventListener("blur", function(){ setTimeout(function(){ cAc.style.display = "none"; }, 150); });
+  cMat.addEventListener("keydown", function(ev){
+    if(!AC_LIST || !AC_LIST.length) return;
+    if(ev.key === "ArrowDown"){ AC_SEL = Math.min(AC_SEL+1, AC_LIST.length-1); ev.preventDefault(); acHi(); }
+    else if(ev.key === "ArrowUp"){ AC_SEL = Math.max(AC_SEL-1, 0); ev.preventDefault(); acHi(); }
+    else if(ev.key === "Enter" && AC_SEL >= 0){ acPick(AC_SEL); ev.preventDefault(); }
+    else if(ev.key === "Enter"){ var d = detectMatiere(cMat.value); if(d){ applyDetected(d); cAc.style.display="none"; } }
+  });
+  cMat.addEventListener("change", function(){
+    if(cAc.style.display !== "none") return;
+    var d = detectMatiere(cMat.value);
+    if(d) applyDetected(d);
   });
 }
-function readColisForm(){
+var AC_LIST = [];
+function acHi(){ cAc.querySelectorAll(".ac-item").forEach(function(el, i){ el.className = "ac-item" + (i===AC_SEL ? " on" : ""); }); var el = cAc.querySelectorAll(".ac-item")[AC_SEL]; if(el) el.scrollIntoView({block:"nearest"}); }
+function acPick(i){
+  var x = AC_LIST[i]; if(!x) return;
+  var airx = AIRX[un4(x.un)] || {};
+  cMat.value = "UN " + x.un + " — " + x.psn;
+  cAc.style.display = "none";
+  applyDetected({un: x.un, psn: x.psn, cl: x.cl, sub: x.sub, pg: x.pg, pi: airx.pi || "", cao: !!airx.cao, note: airx.note || ""});
+}
+// --- aperçu temps réel ---
+function colisRead(){
   return {
-    id: EDIT_ID || 0,
-    date: new Date().toISOString().slice(0, 10),
-    un: valOf("c-un"), psn: valOf("c-psn"), cl: valOf("c-cl"), sub: valOf("c-sub"),
-    pg: (valOf("c-pg") && valOf("c-pg") !== "—") ? valOf("c-pg") : "",
-    ship: valOf("c-ship"), cons: valOf("c-cons"), qty: valOf("c-qty"),
-    nb: parseInt(valOf("c-nb"), 10) || 1, pkg: valOf("c-pkg"), pi: valOf("c-pi"),
-    cao: valOf("c-cao") === "oui", lq: valOf("c-lq") === "oui", notes: valOf("c-notes")
+    id: EDIT_ID || Date.now(), date: new Date().toISOString().slice(0,10),
+    un: gv("c-un"), psn: gv("c-psn"), cl: gv("c-cl"), sub: gv("c-sub"), pg: gv("c-pg"),
+    pi: gv("c-pi"), ship: gv("c-ship"), cons: gv("c-cons"), qty: gv("c-qty"),
+    nb: parseInt(gv("c-nb"),10) || 1, pkg: gv("c-pkg"),
+    cao: gv("c-cao")==="oui", lq: gv("c-lq")==="oui", notes: gv("c-notes")
   };
 }
-function fillColisForm(c){
-  EDIT_ID = c.id || null;
-  setVal("c-un", c.un); setVal("c-psn", c.psn); setVal("c-cl", c.cl); setVal("c-sub", c.sub);
-  setVal("c-pg", c.pg && c.pg !== "—" ? c.pg : "");
-  setVal("c-ship", c.ship); setVal("c-cons", c.cons); setVal("c-qty", c.qty);
-  setVal("c-nb", c.nb || 1); setVal("c-pkg", c.pkg); setVal("c-pi", c.pi);
-  setVal("c-cao", c.cao ? "oui" : ""); setVal("c-lq", c.lq ? "oui" : "");
-  setVal("c-notes", c.notes || "");
-  var cm = document.getElementById("c-mat"); if(cm) cm.value = c.un ? "UN " + c.un + " — " + (c.psn || "") : "";
-  document.getElementById("c-title").textContent = EDIT_ID ? "✏️ Modifier le colis" : "➕ Nouveau colis";
-  document.getElementById("c-cancel").style.display = EDIT_ID ? "" : "none";
-  cPreview();
-}
-function cPreview(){
-  var el = document.getElementById("c-preview");
-  if(!el) return;
-  var c = readColisForm();
-  if(!c.un && !c.psn){ el.innerHTML = ""; return; }
-  var lbl = computeLabels(c);
-  var w = analyseColis(c);
-  var h = '<div class="lblset"><div class="row">' + (lbl.list.length ? colisLabelsHtml(c) : '<span class="dim">Pas d\'étiquette déterminée — vérifie la classe.</span>') + '</div>';
-  if(lbl.text) h += '<div class="dim" style="margin-top:4px">Étiquettes : ' + esc(lbl.text) + '</div>';
-  if(w.length) h += '<ul>' + w.map(function(x){ return '<li class="wrn">⚠️ ' + x + '</li>'; }).join("") + '</ul>';
-  else h += '<div class="chk" style="margin-top:4px">✅ Aucun défaut de conformité détecté sur ce colis.</div>';
+function colisPreview(){
+  var pv = document.getElementById("c-preview");
+  if(!pv) return;
+  var c = colisRead();
+  if(!c.un && !c.psn && !c.cl){ pv.innerHTML = ""; return; }
+  var a = analyseColis(c);
+  var h = '<div class="preview"><div class="sec-title">Aperçu — étiquettes requises</div><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">';
+  a.labels.forEach(function(k){ h += labelSvg(k); });
+  if(!a.labels.length) h += '<span class="dim">Aucune étiquette détectée</span>';
   h += '</div>';
-  el.innerHTML = h;
+  a.warns.forEach(function(w){ h += '<div class="warnline">' + w + '</div>'; });
+  a.infos.forEach(function(w){ h += '<div class="infoline">' + w + '</div>'; });
+  if(!a.warns.length && !a.infos.length) h += '<div class="infoline">✅ Rien à signaler sur les points contrôlés.</div>';
+  h += '</div>';
+  pv.innerHTML = h;
 }
+["c-un","c-psn","c-cl","c-sub","c-pg","c-pi","c-ship","c-cons","c-qty","c-nb","c-pkg","c-cao","c-lq","c-notes"].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el){ el.addEventListener("input", colisPreview); el.addEventListener("change", colisPreview); }
+});
+function gv(id){ var e = document.getElementById(id); return e ? String(e.value||"").trim() : ""; }
+// --- ajout / édition ---
 var cAdd = document.getElementById("c-add");
 if(cAdd) cAdd.addEventListener("click", function(){
-  var c = readColisForm();
-  if(!c.un && !c.psn){ alert("Renseigne la matière : tape un n° ONU ou un nom dans le champ Matière."); return; }
-  if(!c.ship || !c.cons){
-    if(!confirm("Expéditeur/destinataire manquants (marquage obligatoire sur le colis). Ajouter quand même ?")) return;
-  }
-  c.etiquettes = computeLabels(c).text;
+  var c = colisRead();
+  if(!c.un && !c.psn){ alert("Renseigne la matière (n° ONU ou autocomplétion)."); return; }
+  if(!c.ship || !c.cons){ alert("Expéditeur et destinataire obligatoires (exigence marquage colis)."); return; }
   if(EDIT_ID){
-    var ix = -1;
-    COLIS.forEach(function(x, i){ if(x.id === EDIT_ID) ix = i; });
-    if(ix >= 0) COLIS[ix] = c; else COLIS.push(c);
+    var i = COLIS.findIndex(function(x){return x.id===EDIT_ID;});
+    if(i !== -1) COLIS[i] = c; else COLIS.push(c);
+    EDIT_ID = null;
+    document.getElementById("c-title").textContent = "➕ Nouveau colis";
+    document.getElementById("c-cancel").style.display = "none";
+    cAdd.textContent = "➕ Ajouter le colis";
   } else {
     c.id = Date.now();
     COLIS.push(c);
   }
-  EDIT_ID = null;
-  document.getElementById("c-title").textContent = "➕ Nouveau colis";
-  document.getElementById("c-cancel").style.display = "none";
-  ["c-un","c-psn","c-cl","c-sub","c-pg","c-qty","c-nb","c-pkg","c-pi","c-notes","c-mat"].forEach(function(id){ setVal(id, ""); });
-  setVal("c-nb", "1"); setVal("c-cao", ""); setVal("c-lq", "");
-  colisSave(); colisRender(); cPreview();
+  colisSave(); colisRender(); colisReset();
 });
 var cCancel = document.getElementById("c-cancel");
-if(cCancel) cCancel.addEventListener("click", function(){
-  EDIT_ID = null;
-  ["c-un","c-psn","c-cl","c-sub","c-pg","c-qty","c-nb","c-pkg","c-pi","c-notes","c-mat"].forEach(function(id){ setVal(id, ""); });
-  setVal("c-nb", "1"); setVal("c-cao", ""); setVal("c-lq", "");
-  document.getElementById("c-title").textContent = "➕ Nouveau colis";
-  cCancel.style.display = "none";
-  cPreview();
-});
+if(cCancel) cCancel.addEventListener("click", function(){ colisReset(); EDIT_ID = null; document.getElementById("c-title").textContent = "➕ Nouveau colis"; cCancel.style.display = "none"; cAdd.textContent = "➕ Ajouter le colis"; });
+function colisReset(){
+  ["c-mat","c-un","c-psn","c-cl","c-sub","c-pg","c-ship","c-cons","c-qty","c-pkg","c-pi","c-notes"].forEach(function(id){ setVal(id, ""); });
+  setVal("c-cao",""); setVal("c-lq",""); setVal("c-nb","1");
+  colisPreview();
+}
+function colisStartEdit(c){
+  EDIT_ID = c.id;
+  setVal("c-un", c.un); setVal("c-psn", c.psn); setVal("c-cl", c.cl); setVal("c-sub", c.sub||"");
+  setVal("c-pg", c.pg||""); setVal("c-pi", c.pi||""); setVal("c-ship", c.ship); setVal("c-cons", c.cons);
+  setVal("c-qty", c.qty); setVal("c-nb", String(c.nb||1)); setVal("c-pkg", c.pkg||"");
+  setVal("c-cao", c.cao ? "oui" : ""); setVal("c-lq", c.lq ? "oui" : ""); setVal("c-notes", c.notes||"");
+  document.getElementById("c-mat").value = c.un ? ("UN " + c.un + " — " + c.psn) : c.psn;
+  document.getElementById("c-title").textContent = "✏️ Modifier le colis UN " + (c.un||"");
+  document.getElementById("c-cancel").style.display = "";
+  cAdd.textContent = "💾 Enregistrer les modifications";
+  colisPreview();
+  window.scrollTo(0,0);
+}
 function colisRender(){
   var list = document.getElementById("c-list");
   if(!list) return;
-  if(!COLIS.length){ list.innerHTML = '<p class="dim">Aucun colis enregistré. Ajoute ton premier colis ci-dessus — ou importe un état de colisage (Excel/CSV) : l\'analyse le convertit en propositions modifiables.</p>'; return; }
+  if(!COLIS.length){ list.innerHTML = '<p class="dim">Aucun colis enregistré. Ajoute ton premier colis ci-dessus, ou importe ton état de colisage Excel/CSV.</p>'; return; }
   list.innerHTML = "";
   COLIS.forEach(function(c){
+    var a = analyseColis(c);
     var d = document.createElement("div");
     d.className = "colis-item";
-    var w = analyseColis(c);
-    d.innerHTML = '<h4>UN ' + esc(c.un || "?") + ' — ' + esc(c.psn || "?") + ' <span class="badge b-cl">Cl ' + esc(c.cl || "?") + '</span>'
-      + (c.pg ? ' <span class="badge">PG ' + esc(c.pg) + '</span>' : '')
-      + (c.sub ? ' <span class="badge">Sub ' + esc(c.sub) + '</span>' : '')
+    d.innerHTML = '<h4>UN ' + esc(c.un) + ' — ' + esc(c.psn) + ' <span class="badge b-cl">Cl ' + esc(c.cl) + '</span>'
       + (c.cao ? ' <span class="badge b-err">CAO</span>' : '')
-      + (c.lq ? ' <span class="badge b-warn">LQ</span>' : '')
-      + '</h4>'
+      + (c.lq ? ' <span class="badge b-lq">LQ</span>' : '')
+      + (a.warns.length ? ' <span class="badge b-err">' + a.warns.length + ' ⚠️</span>' : ' <span class="badge b-ok">✅</span>') + '</h4>'
       + '<div class="kv"><b>Expéditeur</b><span>' + esc(c.ship) + '</span><b>Destinataire</b><span>' + esc(c.cons) + '</span><b>PI/section</b><span>' + esc(c.pi) + '</span><b>Qté</b><span>' + esc(c.qty) + ' · ' + c.nb + ' colis · ' + esc(c.pkg) + '</span><b>Notes</b><span>' + esc(c.notes) + '</span></div>'
-      + '<div style="margin-top:4px">' + colisLabelsHtml(c) + '</div>'
-      + (w.length ? '<ul>' + w.map(function(x){ return '<li class="wrn">⚠️ ' + x + '</li>'; }).join("") + '</ul>' : '<div class="chk">✅ Conformité : rien à signaler.</div>')
+      + '<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">' + colisLabelsHtml(c) + '</div>'
+      + a.warns.map(function(w){ return '<div class="warnline">' + w + '</div>'; }).join("")
       + '<div><button class="btn-mini" data-act="label" data-id="' + c.id + '">🖨️ Étiquette</button>'
-      + '<button class="btn-mini" data-act="edit" data-id="' + c.id + '">✏️ Modifier</button>'
       + '<button class="btn-mini" data-act="dgd" data-id="' + c.id + '">📄 DGD</button>'
+      + '<button class="btn-mini" data-act="edit" data-id="' + c.id + '">✏️ Modifier</button>'
       + '<button class="btn-mini warn" data-act="del" data-id="' + c.id + '">🗑️</button></div>';
     list.appendChild(d);
   });
-  list.querySelectorAll("button[data-act]").forEach(function(b){
+  list.querySelectorAll("button").forEach(function(b){
     b.addEventListener("click", function(){
-      var id = b.getAttribute("data-id");
-      var idn = isNaN(parseInt(id, 10)) ? id : parseFloat(id);
-      var c = null;
-      COLIS.forEach(function(x){ if(String(x.id) === String(id)) c = x; });
+      var id = parseInt(b.getAttribute("data-id"),10);
+      var c = COLIS.filter(function(x){return x.id===id;})[0];
       if(!c) return;
-      var act = b.getAttribute("data-act");
-      if(act === "del"){ COLIS = COLIS.filter(function(x){ return String(x.id) !== String(id); }); colisSave(); colisRender(); }
-      else if(act === "label"){ printLabel(c); }
-      else if(act === "edit"){ fillColisForm(c); try { window.scrollTo(0, 0); } catch(e){} }
-      else if(act === "dgd"){ dgdFromColis(c); }
+      if(b.getAttribute("data-act")==="del"){ COLIS = COLIS.filter(function(x){return x.id!==id;}); colisSave(); colisRender(); }
+      else if(b.getAttribute("data-act")==="label"){ printLabel(c); }
+      else if(b.getAttribute("data-act")==="dgd"){ dgdAddFromColis(c); }
+      else if(b.getAttribute("data-act")==="edit"){ colisStartEdit(c); }
     });
   });
 }
 function printLabel(c){
   var area = document.getElementById("print-label");
   if(!area) return;
+  var a = analyseColis(c);
+  var labelsBig = "";
+  a.labels.forEach(function(k){
+    if(k === "cao") labelsBig += '<svg viewBox="0 0 120 100" style="width:110px;height:92px">' + labelSvg(k).replace(/^<svg[^>]*>/,"").replace(/<\/svg>$/,"").replace(/style="[^"]*"/g,"") + '</svg>';
+    else labelsBig += '<svg viewBox="0 0 100 100" style="width:80px;height:80px">' + labelSvg(k).replace(/^<svg[^>]*>/,"").replace(/<\/svg>$/,"").replace(/style="[^"]*"/g,"") + '</svg>';
+  });
   area.innerHTML = '<div class="lbl">'
     + '<div class="exp"><b>Expéditeur :</b> ' + esc(c.ship) + '</div>'
     + '<div class="exp"><b>Destinataire :</b> ' + esc(c.cons) + '</div>'
     + '<div class="unu">UN ' + esc(c.un) + '</div>'
-    + '<div class="psnn">' + esc(c.psn) + '</div>'
+    + '<div class="psnn">' + esc(c.psn).toUpperCase() + '</div>'
     + '<div class="pgl">' + (c.pg && c.pg !== "—" ? "Groupe d'emballage : " + esc(c.pg) : "") + '</div>'
-    + '<div class="qtyl">Quantité nette : ' + esc(c.qty) + '<br>' + c.nb + ' colis — ' + esc(c.pkg) + (c.lq ? ' — LIMITED QUANTITY' : '') + '</div>'
-    + '<div class="marks">' + colisLabelsHtml(c) + '</div>'
+    + '<div class="qtyl">Quantité nette : ' + esc(c.qty) + '<br>' + c.nb + ' colis — ' + esc(c.pkg) + '</div>'
+    + '<div class="marks">' + labelsBig + '</div>'
+    + (a.warns.length ? '<div class="lbl-warn">⚠️ ' + a.warns.length + ' point(s) à corriger — voir l\'app</div>' : '')
     + '</div>';
   try { window.print(); } catch(e){}
 }
-function exportFile(name, data, mime){
-  try {
-    var blob = data instanceof Blob ? data : new Blob([data], { type: mime });
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = name;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
-  } catch(e){ alert("Export impossible : " + e.message); }
-}
-
-// ====================== ANALYSE : IMPORT EXCEL/CSV + DÉTECTION ======================
-var TD = new TextDecoder("utf-8");
-function xmlDecode(s){
-  return String(s).replace(/&#x([0-9a-fA-F]+);/g, function(m, h){ return String.fromCharCode(parseInt(h, 16)); })
-    .replace(/&#(\d+);/g, function(m, d){ return String.fromCharCode(parseInt(d, 10)); })
-    .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
-}
-function parseCsvRows(txt){
-  var t = String(txt).replace(/^\uFEFF/, "");
-  var first = (t.split(/\r?\n/)[0] || "");
-  var sep = [";", "\t", ","].map(function(s){ return { s: s, n: first.split(s).length }; }).sort(function(a, b){ return b.n - a.n; })[0].s;
-  var rows = [], cur = [], cell = "", q = false;
-  for(var i = 0; i < t.length; i++){
-    var ch = t[i];
-    if(q){ if(ch === '"'){ if(t[i + 1] === '"'){ cell += '"'; i++; } else q = false; } else cell += ch; }
-    else { if(ch === '"') q = true; else if(ch === sep){ cur.push(cell); cell = ""; } else if(ch === "\n"){ cur.push(cell); rows.push(cur); cur = []; cell = ""; } else if(ch !== "\r") cell += ch; }
+function setVal(id, v){ var e = document.getElementById(id); if(e) e.value = v || ""; }
+// ====================== IMPORT EXCEL / CSV : ANALYSE DE COLISAGE ======================
+var IMP_ROWS = [];
+function u16at(u8, o){ return u8[o] | (u8[o+1] << 8); }
+function u32at(u8, o){ return (u8[o] | (u8[o+1] << 8) | (u8[o+2] << 16) | (u8[o+3] << 24)) >>> 0; }
+async function zipExtract(u8){
+  var files = {}, o = 0;
+  while(o + 30 <= u8.length && u8[o] === 0x50 && u8[o+1] === 0x4b && u8[o+2] === 0x03 && u8[o+3] === 0x04){
+    var method = u16at(u8, o+8), csize = u32at(u8, o+18);
+    var nlen = u16at(u8, o+26), elen = u16at(u8, o+28);
+    var name = new TextDecoder().decode(u8.subarray(o+30, o+30+nlen));
+    var dstart = o + 30 + nlen + elen;
+    var data = u8.subarray(dstart, dstart + csize);
+    if(method === 8 && typeof DecompressionStream !== "undefined"){
+      try {
+        var ds = new DecompressionStream("deflate-raw");
+        var stream = new Blob([data]).stream().pipeThrough(ds);
+        var ab = await new Response(stream).arrayBuffer();
+        data = new Uint8Array(ab);
+      } catch(e){ /* fichier laissé tel quel */ }
+    }
+    files[name] = data;
+    o = dstart + csize;
   }
-  if(cell !== "" || cur.length){ cur.push(cell); rows.push(cur); }
-  return rows.filter(function(r){ return r.some(function(cc){ return String(cc).trim() !== ""; }); });
+  return files;
 }
-function zipEntries(u8){
-  var out = [], i = 0;
-  while(i + 30 <= u8.length){
-    if(u8[i] === 0x50 && u8[i + 1] === 0x4b && u8[i + 2] === 0x03 && u8[i + 3] === 0x04){
-      var method = u8[i + 8] | (u8[i + 9] << 8);
-      var csize = u8[i + 18] | (u8[i + 19] << 8) | (u8[i + 20] << 16) | (u8[i + 21] << 24);
-      var nlen = u8[i + 26] | (u8[i + 27] << 8);
-      var elen = u8[i + 28] | (u8[i + 29] << 8);
-      var name = TD.decode(u8.subarray(i + 30, i + 30 + nlen));
-      var ds = i + 30 + nlen + elen;
-      out.push({ name: name, method: method, data: u8.subarray(ds, ds + csize) });
-      i = ds + csize;
-    } else i++;
-  }
+function xmlText(x){
+  return String(x||"").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,"&");
+}
+function xlsxShared(xml){
+  var out = [], re = /<si>([\s\S]*?)<\/si>/g, m;
+  while((m = re.exec(xml))){ out.push(xmlText((m[1].match(/<t[^>]*>([\s\S]*?)<\/t>/g)||[]).map(function(t){return t.replace(/<[^>]*>/g,"");}).join(""))); }
   return out;
 }
-async function inflateRawU8(u8){
-  var ds = new DecompressionStream("deflate-raw");
-  var stream = new Blob([u8]).stream().pipeThrough(ds);
-  var buf = await new Response(stream).arrayBuffer();
-  return new Uint8Array(buf);
+function colIndex(ref){
+  var m = String(ref||"").match(/^([A-Z]+)/);
+  if(!m) return -1;
+  var n = 0;
+  for(var i = 0; i < m[1].length; i++) n = n * 26 + (m[1].charCodeAt(i) - 64);
+  return n - 1;
 }
-async function zipRead(e){
-  if(e.method === 8) return TD.decode(await inflateRawU8(e.data));
-  return TD.decode(e.data);
-}
-async function parseXlsxRows(ab){
-  var u8 = new Uint8Array(ab);
-  var entries = zipEntries(u8);
-  var shared = [];
-  var ss = null;
-  for(var i = 0; i < entries.length; i++){ if(entries[i].name === "xl/sharedStrings.xml"){ ss = entries[i]; break; } }
-  if(ss){
-    var ssXml = await zipRead(ss);
-    (ssXml.match(/<si[\s\S]*?<\/si>/g) || []).forEach(function(si){
-      var parts = si.match(/<t[^>]*>([\s\S]*?)<\/t>/g) || [];
-      shared.push(xmlDecode(parts.map(function(p){ return p.replace(/<[^>]*>/g, ""); }).join("")));
-    });
+function xlsxRows(xml, shared){
+  var rows = [], re = /<row[^>]*>([\s\S]*?)<\/row>/g, m;
+  while((m = re.exec(xml))){
+    var row = [], cre = /<c([^>]*)(?:\/>|>([\s\S]*?)<\/c>)/g, cm;
+    while((cm = cre.exec(m[1]))){
+      var attrs = cm[1], body = cm[2] || "";
+      var rref = (attrs.match(/r="([A-Z]+\d+)"/)||[])[1];
+      var ci = colIndex(rref);
+      if(ci === -1){ ci = row.length; }
+      var t = (attrs.match(/t="(\w+)"/)||[])[1] || "";
+      var val = "";
+      if(t === "s"){ var vi = parseInt((body.match(/<v>([\s\S]*?)<\/v>/)||[])[1], 10); val = isNaN(vi) ? "" : (shared[vi]||""); }
+      else if(t === "inlineStr"){ val = (body.match(/<t[^>]*>([\s\S]*?)<\/t>/)||[])[1] || ""; }
+      else if(t === "str" || t === ""){ val = (body.match(/<v>([\s\S]*?)<\/v>/)||[])[1] || ""; }
+      row[ci] = xmlText(String(val).trim());
+    }
+    for(var k = 0; k < row.length; k++) if(row[k] === undefined) row[k] = "";
+    rows.push(row);
   }
-  var sheet = null;
-  for(var j = 0; j < entries.length; j++){
-    if(/^xl\/worksheets\/sheet\d*\.xml$/.test(entries[j].name) || (/^xl\/worksheets\//.test(entries[j].name) && /\.xml$/.test(entries[j].name))){ sheet = entries[j]; break; }
-  }
-  if(!sheet) throw new Error("feuille introuvable (fichier xlsx invalide ?)");
-  var shXml = await zipRead(sheet);
-  var rows = [];
-  (shXml.match(/<row[^>]*>[\s\S]*?<\/row>/g) || []).forEach(function(rl){
-    var cells = [];
-    (rl.match(/<c\b[^>]*\/>|<c\b[^>]*>[\s\S]*?<\/c>/g) || []).forEach(function(cm){
-      var attrs = (cm.match(/^<c\b[^>]*>/) || [""])[0];
-      var t = (attrs.match(/\bt="([^"]+)"/) || [])[1] || "";
-      if(t === "inlineStr" || /<is[\s>]/.test(cm)){
-        var ism = cm.match(/<is[^>]*>([\s\S]*?)<\/is>/);
-        var src = ism ? ism[1] : cm;
-        var ts = src.match(/<t[^>]*>([\s\S]*?)<\/t>/g) || [];
-        cells.push(xmlDecode(ts.map(function(x){ return x.replace(/<[^>]*>/g, ""); }).join("")));
-      } else {
-        var vm = cm.match(/<v>([\s\S]*?)<\/v>/);
-        if(vm){
-          var val = xmlDecode(vm[1]);
-          if(t === "s"){ var ix = parseInt(val, 10); cells.push(shared[ix] !== undefined ? shared[ix] : ""); }
-          else cells.push(val);
-        } else cells.push("");
-      }
-    });
-    rows.push(cells);
-  });
   return rows;
 }
-// Détection par mots-clés (les n° ONU correspondants sont ensuite relus dans la
-// base publique ; toute proposition par mots-clés est marquée « à confirmer »)
-var DETECT = [
-  [/lithium[\s-]*m[eé]tal|li[\s-]*m[eé]tal/i, "3090"],
-  [/batterie|pile.*lithium|lithium[\s-]*ion|li[\s-]*ion|lithium.*polym|powerbank|power[\s-]*bank|accu.*lithium/i, "3480"],
-  [/sodium[\s-]*ion|na[\s-]*ion/i, "3551"],
-  [/glace carbonique|dry[\s-]*ice|dioxyde de carbone.*solide/i, "1845"],
-  [/groupe[\s]*[eé]lectrog[eè]ne|g[ée]n[ée]ratrice|moteur.*essence|tondeuse|tron[cç]onneuse|d[ée]broussailleuse|motopompe|motoculteur|scarificateur|souffleur|motoscorphe/i, "3528"],
-  [/trottinette.*[eé]lectrique|v[ée]lo.*[eé]lectrique|hoverboard|gyropode|monowheel|skateboard.*[eé]lectrique|roxor/i, "3171"],
-  [/oxyg[eè]ne/i, "1072"],
-  [/azote/i, "1066"],
-  [/[eé]xtincteur/i, "1044"],
-  [/gilet|brassi[eè]re.*sauvetage|brassière.*sauvetage/i, "2990"],
-  [/a[ée]rosol|bombe.*spray|d[ée]odorant|laque|mousse.*rasage|spray/i, "1950"],
-  [/campingaz|cartouche.*gaz|gaz.*camping|r[ée]chaud.*gaz/i, "2037"],
-  [/butane/i, "1011"],
-  [/propane/i, "1978"],
-  [/[eé]ssence|sans[\s-]*plomb|super.*95|super.*98|petrol|motor[\s-]*spirit/i, "1203"],
-  [/gasoil|gazole|diesel|fioul|\bfuel\b/i, "1202"],
-  [/k[ée]ros[eè]ne|jet[\s-]*fuel/i, "1223"],
-  [/e85|[ée]thanol.*essence|essence.*[ée]thanol|edb|carburant oxyg[ée]n[ée]/i, "3475"],
-  [/parfum|eau de toilette|cologne|after[\s-]*shave/i, "1266"],
-  [/[ée]thanol|alcool.*[aà].*br[uû]ler|alcool.*m[ée]dical|spiritueux|whisky|rhum|vodka|eau[\s-]*de[\s-]*vie|liqueur/i, "1170"],
-  [/ac[ée]tone/i, "1090"],
-  [/colle|adh[ée]sif|n[ée]opr[èe]ne/i, "1133"],
-  [/solvant|white[\s-]*spirit|trichlor[ée]|diluant/i, "1268"],
-  [/peinture|vernis|lasure|encre.*imprimerie/i, "1263"],
-  [/soude|hydroxyde de sodium|hydroxyde de potassium/i, "1824"],
-  [/acide chlorhydrique/i, "1789"],
-  [/acide sulfurique/i, "2796"],
-  [/eau oxyg[ée]n[ée]e|peroxyde d'hydrog[eè]ne/i, "2014"],
-  [/m[ée]thanol|alcool [aà] br[uû]ler.*m[ée]thyl/i, "1230"],
-  [/isopropanol|isopropyl|alcool isopropylique/i, "1219"],
-  [/chlore/i, "1017"],
-  [/ammoniac/i, "1005"],
-  [/briquet/i, "1057"],
-  [/allumette/i, "1944"],
-  [/pile.*plomb|batterie.*plomb|accumulateur.*plomb|batterie de d[ée]marrage/i, "2794"],
-  [/mercure|\bmercury\b/i, "2809"],
-  [/pesticide|insecticide|herbicide|fongicide|raticide/i, "2902"],
-  [/acide ac[ée]tique/i, "2790"]
-];
-function headerish(cells){
-  var t = cells.map(function(cc){ return String(cc === null || cc === undefined ? "" : cc).trim().toLowerCase(); });
-  var h = t.filter(function(cc){ return /^(article|d[eé]signation|description|libell[eé]|produit|mati[eè]re|nom|item)\b/.test(cc); }).length;
-  var q = t.filter(function(cc){ return /^(qt[ée]|quantit[ée]|nombre|nb\b|colis\b|n[o°]|num|pi|classe|onu|un\b)/.test(cc); }).length;
-  return h > 0 && (h + q) >= 2;
-}
-function analyseRows(rows){
-  var props = [];
-  rows.forEach(function(cells, ri){
-    var txt = cells.map(function(cc){ return String(cc === null || cc === undefined ? "" : cc).trim(); }).join(" ").replace(/\s+/g, " ").trim();
-    if(!txt) return;
-    if(ri === 0 && headerish(cells)) return; // ligne d'en-tête ignorée
-    var un = null, how = "";
-    var m = txt.match(/\bun[\s-]?(\d{3,4})/i);
-    if(m){
-      if(DBX[m[1]]){ un = m[1]; how = "n° ONU"; }
-      else if(DBX[String(parseInt(m[1], 10))]){ un = String(parseInt(m[1], 10)); how = "n° ONU"; }
-      else { un = m[1]; how = "n° ONU (hors base)"; }
-    }
-    if(!un){
-      for(var i = 0; i < DETECT.length; i++){
-        if(DETECT[i][0].test(txt)){ un = DETECT[i][1]; how = "mot-clé"; break; }
-      }
-    }
-    if(un){ props.push(makeProposal(un, txt, how, ri)); }
-    else { props.push({ none: true, txt: txt, ri: ri }); }
-  });
-  return props;
-}
-function makeProposal(un, txt, how, ri){
-  var db = DBX[un] || {}, ax = AIRX[un] || {}, f = ficheByUn(un);
-  var pi = fichePi(un);
-  var li = ax.li || (un === "3480" || un === "3481" ? "ion" : (un === "3090" || un === "3091" ? "metal" : (un === "3551" || un === "3552" ? "na" : null)));
-  var cao = !!ax.cao || un === "3480" || un === "3090" || un === "3551";
-  var lq = !!ax.lq;
-  var pack = [];
-  if(li){
-    pack.push("Régime batteries : section selon Wh (ion/Na) ou grammage Li (métal) — voir l'onglet Piles.");
-    if(un === "3480" || un === "3551") pack.push("SoC ≤ 30 % documenté + protection courts-circuits + test UN 38.3.");
-  }
-  if(String(db.cl || "").indexOf("3") === 0){
-    pack.push("Emballage ONU agréé (PI 355/366 selon PG " + (db.pg || "?") + ") — vérifier table 4.2 du DGR.");
-    pack.push("Étiquettes d'orientation sur 2 faces opposées.");
-  }
-  if(String(db.cl || "").indexOf("2") === 0) pack.push("Récipients à pression conformes (PI selon gaz) — vérifier table 4.2 du DGR.");
-  if(String(db.cl || "").indexOf("8") === 0) pack.push("Emballage ONU corrosif (PI 856-858 selon PG) — vérifier table 4.2 du DGR.");
-  if(un === "1845") pack.push("Emballage non hermétique (évacuation du CO₂) ; mention LTA obligatoire.");
-  if(un === "3528") pack.push("Réservoir vidé/purgé exigé par la plupart des compagnies ; bouchons sécurisés.");
-  if(un === "2990") pack.push("Dispositif protégé contre le déclenchement accidentel ; accord compagnie.");
-  if(!pack.length) pack.push("Emballage selon la PI applicable — voir DGR (table 4.2).");
-  var docs = [];
-  if(lq) docs.push("Régime LQ : pas de DGD — marque Y (losange à bandes noires).");
-  else if(un === "1845") docs.push("Mention LTA obligatoire ; DGD seulement si la glace refroidit d'autres MDD.");
-  else if(ax.noDgd) docs.push("Pas de DGD (régime particulier) : " + (ax.note || "vérifier DGR") + ".");
-  else if(un === "3481" || un === "3091" || un === "3552") docs.push("Section II possible : pas de DGD ; au-delà (Section I) : DGD obligatoire.");
-  else docs.push("DGD obligatoire (sauf régime particulier — vérifier).");
-  var autor = [];
-  if(cao) autor.push("CARGO AIRCRAFT ONLY — interdit avion passagers.");
-  if(f) autor.push("Avion pax : " + f.pax + " · Cargo : " + f.cargo + ".");
-  autor.push("Vérifier les variations compagnie (CASS) avant expédition.");
-  if(how === "mot-clé") autor.push("⚠️ Détection par mots-clés : confirme le n° ONU proposé avant d'expédier.");
-  var pseudo = { un: un, psn: db.psn || (f ? f.psn : "") || "", cl: db.cl || (f ? f.cl : "") || "", sub: db.sub || "", cao: cao, lq: lq, qty: "", notes: "" };
-  return {
-    ri: ri, un: un, psn: pseudo.psn || ("UN " + un), cl: pseudo.cl, sub: db.sub || "", pg: (db.pg && db.pg !== "—") ? db.pg : ((f && f.pg !== "—") ? f.pg : ""),
-    pi: pi ? "PI " + pi : "", cao: cao, lq: lq, how: how, txt: txt,
-    pack: pack, docs: docs, autor: autor,
-    labels: computeLabels(pseudo).text
-  };
-}
-function renderAnalyse(){
-  var out = document.getElementById("a-out");
-  if(!out) return;
-  if(!PROPS.length){ out.innerHTML = '<p class="dim">Fichier lu, mais aucune ligne exploitable — vérifie qu\'il contient bien des articles (une ligne par article).</p>'; return; }
-  var n = PROPS.filter(function(p){ return !p.none; }).length;
-  var h = '<div class="warnbox">🧠 ' + n + ' matière(s) dangereuse(s) détectée(s) sur ' + PROPS.length + ' ligne(s). Chaque proposition est <b>vérifiable et modifiable</b> avant enregistrement dans tes colis.</div>';
-  if(n) h += '<div class="toolbar"><button class="btn acc" id="a-addall">➕ Tout ajouter aux colis</button></div>';
-  PROPS.forEach(function(p, i){
-    if(p.none){
-      h += '<div class="card"><h3>➖ Ligne ' + (p.ri + 1) + ' : non réglementée / non identifiée</h3><p class="dim">« ' + esc(p.txt.slice(0, 120)) + ' »</p></div>';
-      return;
-    }
-    h += '<div class="card rescard"><h3>UN ' + p.un + ' — ' + esc(p.psn) + ' <span class="badge b-cl">Cl ' + esc(p.cl || "?") + '</span>'
-      + (p.pg ? ' <span class="badge">PG ' + esc(p.pg) + '</span>' : '')
-      + (p.sub ? ' <span class="badge">Sub ' + esc(p.sub) + '</span>' : '')
-      + (p.cao ? ' <span class="badge b-err">CAO</span>' : '')
-      + (p.lq ? ' <span class="badge b-warn">LQ</span>' : '')
-      + '</h3>'
-      + '<p class="dim">' + (p.how === "n° ONU" ? "N° ONU trouvé dans la ligne" : (p.how === "n° ONU (hors base)" ? "N° ONU trouvé mais absent de la base publique — vérifier" : "Détecté par mots-clés (à confirmer)"))
-      + ' — ligne ' + (p.ri + 1) + ' : « ' + esc(p.txt.slice(0, 100)) + ' »</p>'
-      + '<div class="kv"><b>Étiquettes</b><span>' + esc(p.labels || "—") + '</span>' + (p.pi ? '<b>PI vérifiée</b><span>' + esc(p.pi) + '</span>' : '<b>PI</b><span>voir DGR (table 4.2)</span>') + '</div>'
-      + '<div class="sec-title">📦 Colisage proposé</div><ul>' + p.pack.map(function(x){ return '<li>' + x + '</li>'; }).join("") + '</ul>'
-      + '<div class="sec-title">📄 Documents</div><ul>' + p.docs.map(function(x){ return '<li>' + x + '</li>'; }).join("") + '</ul>'
-      + '<div class="sec-title">⚠️ Autorisations / particularités</div><ul>' + p.autor.map(function(x){ return '<li>' + x + '</li>'; }).join("") + '</ul>'
-      + '<div class="toolbar"><button class="btn-mini acc" data-addp="' + i + '">✏️ Pré-remplir le formulaire (modifiable)</button>'
-      + '<button class="btn-mini" data-addq="' + i + '">➕ Ajouter tel quel</button></div>'
-      + '</div>';
-  });
-  out.innerHTML = h;
-  var addall = document.getElementById("a-addall");
-  if(addall) addall.addEventListener("click", function(){
-    PROPS.forEach(function(p){ if(!p.none) addProposal(p); });
-    colisSave(); colisRender(); switchTab("colis");
-  });
-  out.querySelectorAll("button[data-addp]").forEach(function(b){
-    b.addEventListener("click", function(){ prefillProposal(PROPS[parseInt(b.getAttribute("data-addp"), 10)]); });
-  });
-  out.querySelectorAll("button[data-addq]").forEach(function(b){
-    b.addEventListener("click", function(){ addProposal(PROPS[parseInt(b.getAttribute("data-addq"), 10)]); colisSave(); colisRender(); });
-  });
-}
-function addProposal(p){
-  var c = {
-    id: Date.now() + Math.floor(Math.random() * 1000),
-    date: new Date().toISOString().slice(0, 10),
-    un: p.un, psn: p.psn, cl: p.cl, sub: p.sub, pg: p.pg, pi: p.pi,
-    etiquettes: p.labels || "",
-    ship: valOf("c-ship") || "", cons: valOf("c-cons") || "",
-    qty: "", nb: 1, pkg: "",
-    cao: !!p.cao, lq: !!p.lq,
-    notes: (p.how === "mot-clé" ? "⚠️ à confirmer. " : "") + p.txt.slice(0, 120)
-  };
-  COLIS.push(c);
-  return c;
-}
-function prefillProposal(p){
-  matPick(p.un);
-  if(!DBX[p.un]){
-    setVal("c-un", p.un); setVal("c-psn", p.psn); setVal("c-cl", p.cl); setVal("c-sub", p.sub); setVal("c-pg", p.pg);
-  }
-  setVal("c-pi", p.pi); setVal("c-cao", p.cao ? "oui" : ""); setVal("c-lq", p.lq ? "oui" : "");
-  setVal("c-notes", (p.how === "mot-clé" ? "⚠️ à confirmer. " : "") + p.txt.slice(0, 120));
-  switchTab("colis");
-  try { window.scrollTo(0, 0); } catch(e){}
-  cPreview();
-}
-var aBtn = document.getElementById("a-btn"), aFile = document.getElementById("a-file");
-if(aBtn){
-  aBtn.addEventListener("click", function(){ aFile.click(); });
-  aFile.addEventListener("change", function(){
-    var f = aFile.files && aFile.files[0];
-    if(!f) return;
-    var nm = String(f.name || "").toLowerCase();
-    var out = document.getElementById("a-out");
-    out.innerHTML = '<p class="dim">⏳ Analyse en cours…</p>';
-    var rd = new FileReader();
-    if(/\.xlsx$/.test(nm) || /zip|sheet|excel|officedocument/.test(String(f.type || ""))){
-      rd.onload = function(){
-        parseXlsxRows(rd.result).then(function(rows){
-          PROPS = analyseRows(rows);
-          renderAnalyse();
-        }).catch(function(e){
-          out.innerHTML = '<p class="wrn">❌ Lecture du fichier xlsx impossible : ' + esc(e.message) + '</p>';
-        });
-      };
-      rd.readAsArrayBuffer(f);
-    } else {
-      rd.onload = function(){
-        PROPS = analyseRows(parseCsvRows(rd.result));
-        renderAnalyse();
-      };
-      rd.readAsText(f, "utf-8");
-    }
-    aFile.value = "";
-  });
-}
-
-// ====================== DGD v2 : générateur multi-lignes ======================
-var DGD_LINES = [{ un:"", psn:"", cl:"", sub:"", pg:"", qty:"", pkg:"", pi:"", auth:"", type:"" }];
-function gv(id, def){ var e = document.getElementById(id); return e && e.value ? e.value : (def || "—"); }
-function lineField(ix, key, label, isSelect){
-  var L = DGD_LINES[ix];
-  if(isSelect) return '<div class="field"><label>' + label + '</label><select data-ix="' + ix + '" data-k="type">'
-    + '<option value="">—</option><option value="pax"' + (L.type === "pax" ? " selected" : "") + '>Passenger &amp; Cargo</option>'
-    + '<option value="cao"' + (L.type === "cao" ? " selected" : "") + '>CARGO AIRCRAFT ONLY</option></select></div>';
-  return '<div class="field"><label>' + label + '</label><input type="text" data-ix="' + ix + '" data-k="' + key + '" value="' + esc(L[key] || "").replace(/"/g, "&quot;") + '"></div>';
-}
-function renderDgdLines(){
-  var box = document.getElementById("d-lines");
-  if(!box) return;
-  box.innerHTML = "";
-  DGD_LINES.forEach(function(L, ix){
-    var d = document.createElement("div");
-    d.className = "dgline";
-    d.innerHTML = '<div class="g">'
-      + lineField(ix, "un", "N° ONU") + lineField(ix, "psn", "PSN") + lineField(ix, "cl", "Classe")
-      + lineField(ix, "sub", "Subsidiaire") + lineField(ix, "pg", "PG") + lineField(ix, "qty", "Qté nette")
-      + lineField(ix, "pkg", "Type d'emballage") + lineField(ix, "pi", "PI") + lineField(ix, "auth", "Autorisation/mention")
-      + lineField(ix, "type", "Aéronef", true)
-      + '</div><button class="btn-mini warn" data-del="' + ix + '"' + (DGD_LINES.length === 1 ? " disabled" : "") + '>🗑️ Supprimer</button>';
-    box.appendChild(d);
-  });
-  box.querySelectorAll("input,select").forEach(function(el){
-    function upd(){ DGD_LINES[parseInt(el.getAttribute("data-ix"), 10)][el.getAttribute("data-k")] = el.value; renderDgd(); }
-    el.addEventListener("input", upd);
-    el.addEventListener("change", upd);
-  });
-  box.querySelectorAll("button[data-del]").forEach(function(b){
-    b.addEventListener("click", function(){
-      if(DGD_LINES.length <= 1) return;
-      DGD_LINES.splice(parseInt(b.getAttribute("data-del"), 10), 1);
-      renderDgdLines(); renderDgd();
-    });
-  });
-}
-function renderDgd(){
-  var d = document.getElementById("dgd-preview");
-  if(!d) return;
-  var lines = DGD_LINES.filter(function(L){ return L.un || L.psn; });
-  var anyCao = DGD_LINES.some(function(L){ return L.type === "cao"; }) || gv("d-atype") === "cao";
-  var h = '<div class="hatch"></div>';
-  h += '<h4>Shipper&rsquo;s Declaration for Dangerous Goods</h4>';
-  h += '<div class="row"><div class="box"><div class="lb">Shipper (expéditeur) — nom, adresse complète, tél. 24h/24</div><div class="vl">' + esc(gv("d-ship")) + '</div></div><div class="box"><div class="lb">Consignee (destinataire) — nom, adresse complète</div><div class="vl">' + esc(gv("d-cons")) + '</div></div></div>';
-  h += '<div class="row"><div class="box"><div class="lb">Air Waybill No. (LTA)</div><div class="vl">' + esc(gv("d-awb")) + '</div></div><div class="box"><div class="lb">Page 1 of 1 — Shipper&rsquo;s reference</div><div class="vl">' + esc(gv("d-ref")) + '</div></div></div>';
-  h += '<div class="row"><div class="box"><div class="lb">Airport of Departure (aéroport de départ)</div><div class="vl">' + esc(gv("d-dep")) + '</div></div><div class="box"><div class="lb">Airport of Destination (destination)</div><div class="vl">' + esc(gv("d-arr")) + '</div></div></div>';
-  h += '<div class="row"><div class="box"><div class="lb">Transporteur (compagnie aérienne)</div><div class="vl">' + esc(gv("d-cie")) + '</div></div><div class="box"><div class="lb">N° de vol / date de départ</div><div class="vl">' + esc(gv("d-flight")) + '</div></div></div>';
-  h += '<div class="row"><div class="box"><div class="lb">Shipment type</div><div class="vl">☒ NON-RADIOACTIVE &nbsp; ☐ RADIOACTIVE</div></div><div class="box"><div class="lb">Excepted quantities (quantités exceptées)</div><div class="vl">☒ No (non)</div></div></div>';
-  h += '<div class="row"><div class="box"><div class="lb">Aircraft type (type d\'aéronef applicable)</div><div class="vl">'
-    + (anyCao ? "☒ CARGO AIRCRAFT ONLY &nbsp; ☐ Passenger and Cargo Aircraft" : "☐ CARGO AIRCRAFT ONLY &nbsp; ☒ Passenger and Cargo Aircraft")
-    + '</div></div><div class="box"><div class="lb">Emergency contact (contact 24h/24)</div><div class="vl">' + esc(gv("d-ec")) + '</div></div></div>';
-  h += '<table><tr><th>UN No.</th><th>Proper Shipping Name</th><th>Class or Div. (Subsidiary Risk)</th><th>PG</th><th>Quantity and Type of Packing</th><th>Packing Inst.</th><th>Authorization</th></tr>';
-  if(!lines.length) h += '<tr><td colspan="7">Aucune matière — ajoute une ligne ou importe tes colis enregistrés.</td></tr>';
-  lines.forEach(function(L){
-    h += '<tr><td>' + esc(L.un) + '</td><td>' + esc(String(L.psn || "").toUpperCase()) + '</td><td>' + esc(L.cl || "") + (L.sub ? " (" + esc(L.sub) + ")" : "") + '</td><td>' + esc(L.pg) + '</td><td>' + esc(L.qty || "") + (L.pkg ? " — " + esc(L.pkg) : "") + '</td><td>' + esc(L.pi) + '</td><td>' + esc(L.auth || "") + (L.type === "cao" ? " — CARGO AIRCRAFT ONLY" : "") + '</td></tr>';
-  });
-  h += '</table>';
-  h += '<div class="box"><div class="lb">Additional Handling Information (informations de manipulation complémentaires)</div><div class="vl">' + esc(gv("d-hi")) + '</div></div>';
-  h += '<div class="decl">I hereby declare that the contents of this consignment are fully and accurately described above by the proper shipping name, and are classified, packaged, marked and labelled/placarded, and are in all respects in proper condition for transport according to applicable international and national governmental regulations.<br><b>Déclaration :</b> je déclare que le contenu de cette expédition est pleinement et exactement décrit ci-dessus par la désignation officielle de transport, qu\'il est classé, emballé, marqué, étiqueté et en état de transport conformément aux réglementations internationales et nationales applicables.</div>';
-  h += '<div class="sign"><div class="box"><div class="lb">Name/Title of Signatory (nom, fonction du signataire)</div><div class="vl">&nbsp;</div></div><div class="box"><div class="lb">Place and Date (lieu et date)</div><div class="vl">&nbsp;</div></div><div class="box"><div class="lb">Signature</div><div class="vl">&nbsp;</div></div></div>';
-  d.innerHTML = h;
-  var line = document.getElementById("dgd-line");
-  if(line) line.textContent = dgdLineText();
-}
-function dgdLineText(){
-  var out = "Shipper : " + gv("d-ship") + " | Consignee : " + gv("d-cons") + " | LTA : " + gv("d-awb") + " | " + gv("d-dep") + " → " + gv("d-arr") + " (" + gv("d-cie") + ")";
-  DGD_LINES.forEach(function(L){
-    if(L.un || L.psn){
-      out += "\nUN " + L.un + ", " + String(L.psn || "").toUpperCase() + ", classe " + L.cl + (L.sub ? " (" + L.sub + ")" : "") + (L.pg ? ", PG " + L.pg : "")
-        + (L.pi ? ", PI " + L.pi : "") + " — " + (L.qty || "") + (L.pkg ? " — " + L.pkg : "") + (L.type === "cao" ? " — CARGO AIRCRAFT ONLY" : "");
-    }
-  });
-  if(gv("d-ec") !== "—") out += "\nContact 24h/24 : " + gv("d-ec");
-  if(gv("d-hi") !== "—") out += " | Manipulation : " + gv("d-hi");
-  return out;
-}
-["d-ship","d-cons","d-cie","d-awb","d-ref","d-dep","d-arr","d-flight","d-atype","d-ec","d-hi"].forEach(function(id){
-  var el = document.getElementById(id);
-  if(el){ el.addEventListener("input", renderDgd); el.addEventListener("change", renderDgd); }
-});
-function dgdAddLine(){
-  DGD_LINES.push({ un:"", psn:"", cl:"", sub:"", pg:"", qty:"", pkg:"", pi:"", auth:"", type:"" });
-  renderDgdLines(); renderDgd();
-}
-var dAdd = document.getElementById("d-addline");
-if(dAdd) dAdd.addEventListener("click", dgdAddLine);
-function dgdFromColis(c, keepHeader){
-  if(!keepHeader){ setVal("d-ship", c.ship || valOf("d-ship")); setVal("d-cons", c.cons || valOf("d-cons")); }
-  DGD_LINES.push({
-    un: c.un || "", psn: String(c.psn || "").toUpperCase(), cl: c.cl || "", sub: c.sub || "",
-    pg: (c.pg && c.pg !== "—") ? c.pg : "", qty: c.qty || "",
-    pkg: c.nb + " × " + (c.pkg || "emballage"),
-    pi: c.pi || "", auth: c.lq ? "Limited Quantity" : "", type: c.cao ? "cao" : ""
-  });
-  renderDgdLines(); renderDgd();
-  switchTab("dgd");
-}
-function dgdFromColisAll(){
-  if(!COLIS.length){ alert("Aucun colis enregistré."); return; }
-  if(!valOf("d-ship") && COLIS[0].ship) setVal("d-ship", COLIS[0].ship);
-  if(!valOf("d-cons") && COLIS[0].cons) setVal("d-cons", COLIS[0].cons);
-  COLIS.forEach(function(c){ dgdFromColis(c, true); });
-  switchTab("dgd");
-}
-var dFromC = document.getElementById("d-from-colis");
-if(dFromC) dFromC.addEventListener("click", dgdFromColisAll);
-var dgdPrint = document.getElementById("dgd-print");
-if(dgdPrint) dgdPrint.addEventListener("click", function(){
-  var area = document.getElementById("print-dgd");
-  if(area){
-    area.innerHTML = '<div class="dgd">' + document.getElementById("dgd-preview").innerHTML + '</div>';
-  }
-  try { window.print(); } catch(e){}
-});
-var dgdCopy = document.getElementById("dgd-copy");
-if(dgdCopy) dgdCopy.addEventListener("click", function(){
-  var t = dgdLineText();
-  try { if(navigator.clipboard) navigator.clipboard.writeText(t).catch(function(){}); } catch(e){}
-});
-
-// ====================== EXPORTS CSV / XLSX / JSON ======================
-function csvBuild(){
-  var H = ["Date","ONU","PSN","Classe","Subsidiaire","PG","PI/Section","Etiquettes","LQ","Expediteur","Destinataire","Quantite","Nb colis","Emballage","CAO","Notes"];
-  var rows = [H].concat(COLIS.map(function(c){
-    return [c.date, c.un, c.psn, c.cl, c.sub, c.pg, c.pi, c.etiquettes, c.lq ? "oui" : "", c.ship, c.cons, c.qty, c.nb, c.pkg, c.cao ? "oui" : "", c.notes];
-  }));
-  return "\uFEFF" + rows.map(function(r){
-    return r.map(function(vv){
-      var s = String(vv === null || vv === undefined ? "" : vv);
-      return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-    }).join(";");
-  }).join("\r\n");
-}
-function csvImport(txt){
-  var lines = String(txt).replace(/^\uFEFF/, "").split(/\r?\n/).filter(function(l){ return l.trim(); });
-  if(lines.length < 2){ alert("CSV vide ou illisible."); return 0; }
+function csvRows(txt){
+  var lines = String(txt||"").replace(/^\uFEFF/,"").split(/\r?\n/).filter(function(l){return l.trim();});
   var sep = lines[0].indexOf(";") !== -1 ? ";" : ",";
   function parseLine(line){
     var out = [], cur = "", q = false;
     for(var i = 0; i < line.length; i++){
       var ch = line[i];
-      if(q){ if(ch === '"' && line[i + 1] === '"'){ cur += '"'; i++; } else if(ch === '"'){ q = false; } else cur += ch; }
+      if(q){ if(ch === '"' && line[i+1] === '"'){ cur += '"'; i++; } else if(ch === '"'){ q = false; } else cur += ch; }
       else { if(ch === '"') q = true; else if(ch === sep){ out.push(cur); cur = ""; } else cur += ch; }
     }
     out.push(cur);
     return out;
   }
-  var head = parseLine(lines[0]).map(function(h){ return h.toLowerCase().trim(); });
-  function idx(Names){ for(var k = 0; k < Names.length; k++){ var j = head.indexOf(Names[k].toLowerCase()); if(j !== -1) return j; } return -1; }
-  var iUn = idx(["ONU", "UN", "N° ONU"]), iPsn = idx(["PSN", "Designation", "Matiere"]),
-      iCl = idx(["Classe"]), iSub = idx(["Subsidiaire", "Sub", "Subsidiaires"]), iPg = idx(["PG", "Groupe"]),
-      iPi = idx(["PI/Section", "PI", "Section"]), iLbl = idx(["Etiquettes"]),
-      iLq = idx(["LQ", "Limited"]), iShip = idx(["Expediteur"]), iCons = idx(["Destinataire"]),
-      iQty = idx(["Quantite", "Qte"]), iNb = idx(["Nb colis", "Nb"]), iPkg = idx(["Emballage"]),
-      iCao = idx(["CAO"]), iNotes = idx(["Notes", "Remarques"]), iDate = idx(["Date"]);
-  var added = 0;
-  for(var r = 1; r < lines.length; r++){
-    var v = parseLine(lines[r]);
-    if(iUn !== -1 && !v[iUn]) continue;
-    var c = {
-      id: Date.now() + r,
-      date: iDate !== -1 && v[iDate] ? v[iDate] : new Date().toISOString().slice(0, 10),
-      un: iUn !== -1 ? v[iUn] : "", psn: iPsn !== -1 ? v[iPsn] : "",
-      cl: iCl !== -1 ? v[iCl] : "", sub: iSub !== -1 ? v[iSub] : "",
-      pg: iPg !== -1 ? v[iPg] : "",
-      pi: iPi !== -1 ? v[iPi] : "", etiquettes: iLbl !== -1 ? v[iLbl] : "",
-      ship: iShip !== -1 ? v[iShip] : "", cons: iCons !== -1 ? v[iCons] : "",
-      qty: iQty !== -1 ? v[iQty] : "", nb: iNb !== -1 ? (parseInt(v[iNb], 10) || 1) : 1,
-      pkg: iPkg !== -1 ? v[iPkg] : "",
-      cao: iCao !== -1 && /oui|yes|true/i.test(v[iCao] || ""),
-      lq: iLq !== -1 && /oui|yes|true|lq/i.test(v[iLq] || ""),
-      notes: iNotes !== -1 ? v[iNotes] : ""
-    };
-    if(!c.etiquettes) c.etiquettes = computeLabels(c).text;
-    COLIS.push(c);
-    added++;
+  return lines.map(parseLine);
+}
+function impFindCol(head, names){
+  for(var k = 0; k < names.length; k++){
+    for(var j = 0; j < head.length; j++){
+      if(norm(head[j]) === norm(names[k])) return j;
+    }
   }
+  for(var k2 = 0; k2 < names.length; k2++){
+    for(var j2 = 0; j2 < head.length; j2++){
+      if(head[j2] && norm(head[j2]).indexOf(norm(names[k2])) !== -1) return j2;
+    }
+  }
+  return -1;
+}
+function impAnalyse(rows){
+  if(!rows.length){ document.getElementById("imp-result").innerHTML = '<p class="dim">Fichier vide.</p>'; return; }
+  var head = rows[0].map(function(h){ return String(h||"").trim(); });
+  var map = {};
+  map.un = impFindCol(head, ["ONU","UN","N° ONU","Numero ONU","UN No","UNNO"]);
+  map.psn = impFindCol(head, ["PSN","Designation","Matiere","Matiere dangereuse","Description","Produit","Libelle","Article"]);
+  map.cl = impFindCol(head, ["Classe","Class","Division"]);
+  map.sub = impFindCol(head, ["Risques subsidiaires","Subsidiaire","Sub"]);
+  map.pg = impFindCol(head, ["PG","Groupe d'emballage","Groupe","Packing group"]);
+  map.pi = impFindCol(head, ["PI","Packing instruction","Instruction","Section"]);
+  map.qty = impFindCol(head, ["Quantite nette","Quantite","Qte","Quantity","Masse","Poids","Volume"]);
+  map.nb = impFindCol(head, ["Nb colis","Nombre de colis","Colis","Nombre","Packages"]);
+  map.pkg = impFindCol(head, ["Emballage","Type d'emballage","Packing"]);
+  map.ship = impFindCol(head, ["Expediteur","Shipper"]);
+  map.cons = impFindCol(head, ["Destinataire","Consignee"]);
+  map.cao = impFindCol(head, ["CAO","Cargo aircraft"]);
+  map.lq = impFindCol(head, ["LQ","Limited","Limited quantity"]);
+  map.notes = impFindCol(head, ["Notes","Remarques","Particularites","Commentaires"]);
+  map.date = impFindCol(head, ["Date"]);
+  // heuristique si aucune colonne ONU reconnue : chercher la colonne la plus remplie en n° ONU
+  if(map.un === -1 && map.psn === -1){
+    var best = -1, bestScore = 0;
+    var colCount = Math.max.apply(null, rows.map(function(r){ return r.length; }));
+    for(var c = 0; c < colCount; c++){
+      var sc = 0;
+      for(var rr = 1; rr < rows.length; rr++){ if(/^\s*(un\s*)?\d{4}\s*$/i.test(rows[rr][c]||"")) sc++; }
+      if(sc > bestScore){ bestScore = sc; best = c; }
+    }
+    if(best !== -1 && bestScore >= Math.max(1, rows.length - 2)) map.un = best;
+    else if(best !== -1) { map.un = best; }
+  }
+  var startRow = 1;
+  if(map.un !== -1 && /^\s*(un\s*)?\d{4}\s*$/i.test(head[map.un]||"")) startRow = 0;
+  IMP_ROWS = [];
+  for(var r2 = startRow; r2 < rows.length; r2++){
+    var v = rows[r2];
+    if(!v || !v.join("").trim()) continue;
+    var un = map.un !== -1 ? un4(v[map.un]) : "";
+    var psn = map.psn !== -1 ? String(v[map.psn]||"").trim() : "";
+    var det = null;
+    if(un){ det = {un: un, psn: psn, cl: map.cl !== -1 ? String(v[map.cl]||"").trim() : "", sub: map.sub !== -1 ? String(v[map.sub]||"").trim() : "", pg: map.pg !== -1 ? String(v[map.pg]||"").trim() : "", pi: map.pi !== -1 ? String(v[map.pi]||"").trim() : "", cao: map.cao !== -1 && /oui|yes|true|x/i.test(v[map.cao]||""), lq: map.lq !== -1 && /oui|yes|true|x/i.test(v[map.lq]||""), notes: map.notes !== -1 ? String(v[map.notes]||"").trim() : "", ship: map.ship !== -1 ? String(v[map.ship]||"").trim() : "", cons: map.cons !== -1 ? String(v[map.cons]||"").trim() : ""};
+      var dbu = dbByUn(un), ax = AIRX[un] || {};
+      if(!det.psn && dbu) det.psn = dbu[1];
+      if(!det.cl && dbu) det.cl = dbu[2];
+      if(!det.sub && dbu && dbu[4]) det.sub = dbu[4];
+      if(!det.pg && dbu && dbu[3]) det.pg = dbu[3];
+      if(!det.pi && ax.pi) det.pi = ax.pi;
+      if(ax.cao) det.cao = true;
+    } else {
+      det = detectMatiere(psn);
+      if(det){
+        det.psn = psn || det.psn;
+        det.ship = map.ship !== -1 ? String(v[map.ship]||"").trim() : "";
+        det.cons = map.cons !== -1 ? String(v[map.cons]||"").trim() : "";
+        det.qty = map.qty !== -1 ? String(v[map.qty]||"").trim() : "";
+        det.nb = map.nb !== -1 ? (parseInt(v[map.nb],10) || 1) : 1;
+        det.pkg = map.pkg !== -1 ? String(v[map.pkg]||"").trim() : "";
+        det.lq = map.lq !== -1 && /oui|yes|true|x/i.test(v[map.lq]||"");
+        det.notes = map.notes !== -1 ? String(v[map.notes]||"").trim() : "";
+        det.date = map.date !== -1 ? String(v[map.date]||"").trim() : "";
+        det.found = true;
+        IMP_ROWS.push(det);
+        continue;
+      }
+      det = {un: "", psn: psn, cl: map.cl !== -1 ? String(v[map.cl]||"").trim() : "", sub: "", pg: map.pg !== -1 ? String(v[map.pg]||"").trim() : "", pi: "", cao: false, lq: false, notes: map.notes !== -1 ? String(v[map.notes]||"").trim() : "", ship: map.ship !== -1 ? String(v[map.ship]||"").trim() : "", cons: map.cons !== -1 ? String(v[map.cons]||"").trim() : "", found: false};
+    }
+    det.qty = map.qty !== -1 ? String(v[map.qty]||"").trim() : "";
+    det.nb = map.nb !== -1 ? (parseInt(v[map.nb],10) || 1) : 1;
+    det.pkg = map.pkg !== -1 ? String(v[map.pkg]||"").trim() : "";
+    det.lq = map.lq !== -1 && /oui|yes|true|x/i.test(v[map.lq]||"");
+    det.notes = det.notes || (map.notes !== -1 ? String(v[map.notes]||"").trim() : "");
+    det.date = map.date !== -1 ? String(v[map.date]||"").trim() : "";
+    det.found = !!det.un;
+    IMP_ROWS.push(det);
+  }
+  impRender();
+}
+function impRender(){
+  var box = document.getElementById("imp-result");
+  var act = document.getElementById("imp-actions");
+  if(!box) return;
+  if(!IMP_ROWS.length){ box.innerHTML = '<p class="dim">Aucune ligne exploitable détectée. Vérifie que le fichier contient un n° ONU ou un nom de matière.</p>'; act.style.display = "none"; return; }
+  var h = '<div class="sec-title">Résultat de l\'analyse — ' + IMP_ROWS.length + ' ligne(s)</div>';
+  IMP_ROWS.forEach(function(r, i){
+    var a = analyseColis(r);
+    var warnHtml = a.warns.concat(a.infos).map(function(w){ return '<div class="warnline">' + w + '</div>'; }).join("");
+    h += '<div class="imp-line"><label class="imp-check"><input type="checkbox" data-i="' + i + '"' + (r.found ? " checked" : "") + '></label>'
+      + '<div class="imp-body">'
+      + (r.found ? '<b>UN ' + esc(r.un) + ' — ' + esc(r.psn) + '</b>' : '<b>❓ ' + esc(r.psn||"ligne sans matière identifiée") + '</b>')
+      + ' <span class="badge b-cl">Cl ' + esc(r.cl||"?") + '</span>' + (r.pg ? ' <span class="badge">PG ' + esc(r.pg) + '</span>' : "")
+      + (r.pi ? ' <span class="badge">PI ' + esc(r.pi) + '</span>' : "")
+      + (r.cao ? ' <span class="badge b-err">CAO</span>' : "") + (r.lq ? ' <span class="badge b-lq">LQ</span>' : "")
+      + '<div class="dim">' + esc(r.qty||"—") + ' · ' + (r.nb||1) + ' colis · ' + esc(r.pkg||"emballage ?") + '</div>'
+      + '<div style="display:flex;gap:5px;flex-wrap:wrap">' + colisLabelsHtml(r) + '</div>'
+      + warnHtml
+      + '</div></div>';
+  });
+  box.innerHTML = h;
+  act.style.display = "";
+  box.querySelectorAll("input[type=checkbox]").forEach(function(cb){
+    cb.addEventListener("change", function(){ IMP_ROWS[parseInt(cb.getAttribute("data-i"),10)]._chk = cb.checked; });
+  });
+  IMP_ROWS.forEach(function(r, i){ r._chk = !!r.found; });
+}
+var impAddBtn = document.getElementById("imp-add");
+if(impAddBtn) impAddBtn.addEventListener("click", function(){
+  var added = 0;
+  IMP_ROWS.forEach(function(r){
+    if(!r._chk) return;
+    COLIS.push({
+      id: Date.now() + Math.floor(Math.random()*1000),
+      date: r.date || new Date().toISOString().slice(0,10),
+      un: r.un||"", psn: r.psn||"", cl: r.cl||"", sub: r.sub||"", pg: r.pg||"", pi: r.pi||"",
+      ship: r.ship||"", cons: r.cons||"", qty: r.qty||"", nb: r.nb||1, pkg: r.pkg||"",
+      cao: !!r.cao, lq: !!r.lq, notes: r.notes||""
+    });
+    added++;
+  });
   colisSave(); colisRender();
-  alert(added + " colis importés.");
-  return added;
+  IMP_ROWS = [];
+  document.getElementById("imp-result").innerHTML = '<p class="okline">✅ ' + added + ' colis ajoutés à ta liste — tu peux les modifier (✏️), imprimer leurs étiquettes ou générer la DGD complète.</p>';
+  document.getElementById("imp-actions").style.display = "none";
+});
+var impFile = document.getElementById("imp-file");
+if(impFile) impFile.addEventListener("change", function(){
+  var f = impFile.files && impFile.files[0];
+  if(!f) return;
+  var name = (f.name||"").toLowerCase();
+  if(/\.xlsx$/.test(name)){
+    var rd = new FileReader();
+    rd.onload = async function(){
+      try {
+        var u8 = new Uint8Array(rd.result);
+        var files = await zipExtract(u8);
+        var sheet = null;
+        Object.keys(files).forEach(function(n){
+          if(!sheet && /xl\/worksheets\/sheet1?\.xml$/.test(n)) sheet = new TextDecoder().decode(files[n]);
+        });
+        if(!sheet){
+          Object.keys(files).forEach(function(n){ if(!sheet && /worksheets\/.*\.xml$/.test(n) && n.indexOf("_rels")===-1) sheet = new TextDecoder().decode(files[n]); });
+        }
+        if(!sheet){ document.getElementById("imp-result").innerHTML = '<p class="warnline">❌ Feuille introuvable dans le fichier xlsx.</p>'; return; }
+        var shared = [];
+        if(files["xl/sharedStrings.xml"]) shared = xlsxShared(new TextDecoder().decode(files["xl/sharedStrings.xml"]));
+        impAnalyse(xlsxRows(sheet, shared));
+      } catch(err){ document.getElementById("imp-result").innerHTML = '<p class="warnline">❌ Lecture impossible : ' + esc(err.message) + '</p>'; }
+      impFile.value = "";
+    };
+    rd.readAsArrayBuffer(f);
+  } else {
+    var rd2 = new FileReader();
+    rd2.onload = function(){ try { impAnalyse(csvRows(rd2.result)); } catch(err){ document.getElementById("imp-result").innerHTML = '<p class="warnline">❌ ' + esc(err.message) + '</p>'; } impFile.value = ""; };
+    rd2.readAsText(f, "utf-8");
+  }
+});
+// ====================== DGD v4 : multi-lignes, format officiel ======================
+var DGD_LINES = [];
+function dgdRenderLines(){
+  var box = document.getElementById("d-lines");
+  if(!box) return;
+  if(!DGD_LINES.length){ box.innerHTML = '<p class="dim">Aucune matière. Ajoute des lignes (bouton ci-dessus) ou importe depuis tes colis.</p>'; renderDgd(); return; }
+  box.innerHTML = "";
+  DGD_LINES.forEach(function(L, i){
+    var d = document.createElement("div");
+    d.className = "dgline";
+    d.innerHTML = '<div class="dgline-head"><b>' + (L.un ? "UN " + esc(L.un) : "Nouvelle ligne " + (i+1)) + '</b><button class="btn-mini warn" data-del="' + i + '">🗑️</button></div>'
+      + '<div class="g">'
+      + '<div class="field"><label>N° ONU</label><input data-k="un" data-i="' + i + '" value="' + esc(L.un) + '"></div>'
+      + '<div class="field"><label>PSN (désignation officielle)</label><input data-k="psn" data-i="' + i + '" value="' + esc(L.psn) + '"></div>'
+      + '<div class="field"><label>Classe / division</label><input data-k="cl" data-i="' + i + '" value="' + esc(L.cl) + '"></div>'
+      + '<div class="field"><label>Risque subsidiaire</label><input data-k="sub" data-i="' + i + '" value="' + esc(L.sub||"") + '"></div>'
+      + '<div class="field"><label>PG</label><input data-k="pg" data-i="' + i + '" value="' + esc(L.pg||"") + '"></div>'
+      + '<div class="field"><label>Quantité nette</label><input data-k="qty" data-i="' + i + '" value="' + esc(L.qty||"") + '"></div>'
+      + '<div class="field"><label>Nb colis × emballage</label><input data-k="pkgq" data-i="' + i + '" value="' + esc((L.nb||1) + " × " + (L.pkg||"")) + '"></div>'
+      + '<div class="field"><label>PI / section</label><input data-k="pi" data-i="' + i + '" value="' + esc(L.pi||"") + '"></div>'
+      + '<div class="field"><label>Autorisation (A## / SC)</label><input data-k="auth" data-i="' + i + '" value="' + esc(L.auth||"") + '"></div>'
+      + '<div class="field"><label>CAO ?</label><select data-k="cao" data-i="' + i + '"><option value=""' + (L.cao?"":" selected") + '>Non</option><option value="oui"' + (L.cao?" selected":"") + '>CARGO AIRCRAFT ONLY</option></select></div>'
+      + '</div>';
+    box.appendChild(d);
+  });
+  box.querySelectorAll("input,select").forEach(function(inp){
+    inp.addEventListener("input", function(){
+      var i = parseInt(inp.getAttribute("data-i"),10), k = inp.getAttribute("data-k");
+      if(k === "pkgq"){ var m = String(inp.value).split(/\s*[×x]\s*/); DGD_LINES[i].nb = parseInt(m[0],10) || 1; DGD_LINES[i].pkg = (m[1]||"").trim(); }
+      else if(k === "cao"){ DGD_LINES[i].cao = inp.value === "oui"; }
+      else DGD_LINES[i][k] = inp.value;
+      renderDgd();
+    });
+    inp.addEventListener("change", function(){ var ev = new Event("input"); inp.dispatchEvent(ev); });
+  });
+  box.querySelectorAll("button[data-del]").forEach(function(b){
+    b.addEventListener("click", function(){ DGD_LINES.splice(parseInt(b.getAttribute("data-del"),10),1); dgdRenderLines(); });
+  });
+  renderDgd();
+}
+function dgdAddLine(L){ DGD_LINES.push(L || {un:"",psn:"",cl:"",sub:"",pg:"",qty:"",nb:1,pkg:"",pi:"",auth:"",cao:false}); dgdRenderLines(); }
+function dgdAddFromColis(c){
+  DGD_LINES.push({un: c.un, psn: (c.psn||"").toUpperCase(), cl: c.cl, sub: c.sub||"", pg: (c.pg||"") === "—" ? "" : c.pg, qty: c.qty, nb: c.nb, pkg: c.pkg, pi: c.pi, auth: "", cao: !!c.cao});
+  dgdRenderLines();
+  goTab("dgd");
+}
+function goTab(id){
+  var i = TABS.findIndex(function(t){ return t.id === id; });
+  if(i !== -1) nav.querySelectorAll("button")[i].click();
+}
+function renderDgd(){
+  var d = document.getElementById("dgd-preview");
+  if(!d) return;
+  var ship = gv("d-ship"), cons = gv("d-cons");
+  var anyCao = DGD_LINES.some(function(L){ return L.cao; });
+  var h = '<div class="hatch"></div>';
+  h += '<h4>Shipper&rsquo;s Declaration for Dangerous Goods</h4>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Shipper — nom, adresse, tél. 24h/24</div><div class="vl">' + esc(ship) + '</div></div>';
+  h += '<div class="box"><div class="lb">Consignee — destinataire</div><div class="vl">' + esc(cons) + '</div></div>';
+  h += '</div>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Air Waybill No (LTA)</div><div class="vl">' + esc(gv("d-awb")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Shipper&rsquo;s reference</div><div class="vl">' + esc(gv("d-ref")) + '</div></div>';
+  h += '</div>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Airport of departure</div><div class="vl">' + esc(gv("d-dep")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Airport of destination</div><div class="vl">' + esc(gv("d-arr")) + '</div></div>';
+  h += '</div>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Transporteur</div><div class="vl">' + esc(gv("d-cie")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Vol / date</div><div class="vl">' + esc(gv("d-flight")) + '</div></div>';
+  h += '</div>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Shipment type</div><div class="vl">☑ Non-radioactive &nbsp;&nbsp; ☐ Radioactive</div></div>';
+  h += '<div class="box"><div class="lb">Aircraft limitation</div><div class="vl">' + (anyCao ? "CARGO AIRCRAFT ONLY" : "Passenger and Cargo Aircraft") + '</div></div>';
+  h += '</div>';
+  h += '<table><tr><th>Nature and Quantity of Dangerous Goods</th></tr>'
+    + '<tr><td><table class="inner">'
+    + '<tr><th>UN/ID No</th><th>Proper Shipping Name</th><th>Class<br>(Sub)</th><th>PG</th><th>Quantity &amp; Type of Packing</th><th>Packing Inst.</th><th>Auth.</th></tr>';
+  DGD_LINES.forEach(function(L){
+    h += '<tr><td>' + (L.un ? "UN " + esc(L.un) : "") + '</td><td>' + esc(L.psn) + '</td><td>' + esc(L.cl) + (L.sub ? " (" + esc(L.sub) + ")" : "") + '</td><td>' + esc(L.pg||"") + '</td><td>' + esc(L.qty||"") + " — " + (L.nb||1) + " × " + esc(L.pkg||"") + '</td><td>' + esc(L.pi||"") + '</td><td>' + esc(L.auth||"") + '</td></tr>';
+  });
+  h += '</table></td></tr></table>';
+  if(DGD_LINES.some(function(L){ return L.cao; })) h += '<div class="box"><div class="lb">Mention</div><div class="vl">CARGO AIRCRAFT ONLY — certaines matières de cette expédition</div></div>';
+  h += '<div class="box"><div class="lb">Handling information</div><div class="vl">' + esc(gv("d-hi")) + '</div></div>';
+  h += '<div class="decl"><b>Declaration :</b> Je déclare que le contenu de cette expédition est pleinement et exactement décrit ci-dessus par la désignation officielle de transport (et est classé, emballé, marqué, étiqueté et en état de transport conformément aux normes nationales et internationales applicables), y compris la déclaration de l\'état de charge (SoC ≤ 30 %) pour les piles au lithium UN 3480/3481 le cas échéant.<br><i>I declare that the contents of this consignment are fully and accurately described above by the proper shipping name, and are classified, packaged, marked and labelled/placarded, and are in all respects in proper condition for transport according to applicable international and national governmental regulations.</i></div>';
+  h += '<div class="sign">';
+  h += '<div class="box"><div class="lb">Name/Title of Signatory</div><div class="vl">' + esc(gv("d-sign")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Place and date</div><div class="vl">' + esc(gv("d-place")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Signature (manuscrite, obligatoire)</div><div class="vl">&nbsp;</div></div>';
+  h += '</div>';
+  d.innerHTML = h;
+  var pd = document.getElementById("print-dgd");
+  if(pd) pd.innerHTML = '<div class="dgd">' + h + '</div>';
+  var line = document.getElementById("dgd-line");
+  if(line){
+    line.textContent = DGD_LINES.map(function(L){
+      var t = (L.un ? "UN " + L.un + ", " : "") + (L.psn||"—") + (L.cl ? ", classe " + L.cl : "") + (L.sub ? " (" + L.sub + ")" : "")
+        + (L.pg ? ", PG " + L.pg : "") + (L.pi ? ", PI " + L.pi : "") + (L.qty ? ", " + L.qty : "") + (L.pkg ? ", " + (L.nb||1) + " × " + L.pkg : "");
+      if(L.cao) t += " — CARGO AIRCRAFT ONLY";
+      return t + ".";
+    }).join("\n");
+  }
+}
+["d-ship","d-cons","d-cie","d-awb","d-ref","d-dep","d-arr","d-flight","d-hi","d-sign","d-place"].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el){ el.addEventListener("input", renderDgd); el.addEventListener("change", renderDgd); }
+});
+var dAdd = document.getElementById("d-addline");
+if(dAdd) dAdd.addEventListener("click", function(){ dgdAddLine(); });
+var dFrom = document.getElementById("d-fromcolis");
+if(dFrom) dFrom.addEventListener("click", function(){
+  if(!COLIS.length){ alert("Aucun colis enregistré — ajoute des colis dans l'onglet 📦 Colis."); return; }
+  COLIS.forEach(dgdAddFromColisQuiet);
+  dgdRenderLines();
+  alert(COLIS.length + " colis importés dans la DGD.");
+});
+function dgdAddFromColisQuiet(c){ DGD_LINES.push({un: c.un, psn: (c.psn||"").toUpperCase(), cl: c.cl, sub: c.sub||"", pg: (c.pg||"") === "—" ? "" : c.pg, qty: c.qty, nb: c.nb, pkg: c.pkg, pi: c.pi, auth: "", cao: !!c.cao}); }
+var dClear = document.getElementById("d-cleardlines");
+if(dClear) dClear.addEventListener("click", function(){ DGD_LINES = []; dgdRenderLines(); });
+var dPrint = document.getElementById("d-print");
+if(dPrint) dPrint.addEventListener("click", function(){ renderDgd(); try { window.print(); } catch(e){} });
+var dCopy = document.getElementById("d-copy");
+if(dCopy) dCopy.addEventListener("click", function(){
+  var t = document.getElementById("dgd-line").textContent;
+  if(navigator.clipboard) navigator.clipboard.writeText(t).catch(function(){});
+});
+var cDgdAll = document.getElementById("c-dgd-all");
+if(cDgdAll) cDgdAll.addEventListener("click", function(){
+  if(!COLIS.length){ alert("Aucun colis enregistré."); return; }
+  COLIS.forEach(dgdAddFromColisQuiet);
+  dgdRenderLines();
+  goTab("dgd");
+});
+// ====================== EXPORTS (CSV / XLSX / JSON) ======================
+var COLIS_HEAD = ["Date","ONU","PSN","Classe","Subsidiaire","PG","PI/Section","Expéditeur","Destinataire","Quantité","Nb colis","Emballage","CAO","LQ","Notes"];
+function colisRow(c){ return [c.date, c.un, c.psn, c.cl, c.sub||"", c.pg||"", c.pi||"", c.ship, c.cons, c.qty, c.nb, c.pkg, c.cao?"oui":"", c.lq?"oui":"", c.notes||""]; }
+function csvBuild(){
+  var rows = [COLIS_HEAD].concat(COLIS.map(colisRow));
+  return "\uFEFF" + rows.map(function(r){
+    return r.map(function(v){
+      var s = String(v === null || v === undefined ? "" : v);
+      return /[";\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+    }).join(";");
+  }).join("\r\n");
 }
 function xlsxBuild(){
-  function xe(s){ return String(s === null || s === undefined ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;"); }
-  var H = ["Date","ONU","PSN","Classe","Subsidiaire","PG","PI/Section","Etiquettes","LQ","Expéditeur","Destinataire","Quantité","Nb colis","Emballage","CAO","Notes"];
-  var rows = [H].concat(COLIS.map(function(c){
-    return [c.date, c.un, c.psn, c.cl, c.sub, c.pg, c.pi, c.etiquettes, c.lq ? "oui" : "", c.ship, c.cons, c.qty, c.nb, c.pkg, c.cao ? "oui" : "", c.notes];
-  }));
+  function xe(s){ return String(s === null || s === undefined ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;"); }
+  var rows = [COLIS_HEAD].concat(COLIS.map(colisRow));
   var sheet = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
     + '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>';
-  var colWidths = [10, 8, 34, 8, 10, 6, 14, 24, 5, 26, 26, 10, 8, 20, 5, 30];
+  var colWidths = [12,8,34,10,12,6,16,26,26,12,8,22,6,6,30];
   rows.forEach(function(row, ri){
-    sheet += '<row r="' + (ri + 1) + '">';
+    sheet += '<row r="' + (ri+1) + '">';
     row.forEach(function(val, ci){
-      var ref = String.fromCharCode(65 + (ci % 26)) + (ri + 1);
+      var ref = String.fromCharCode(65 + (ci % 26)) + (ri+1);
       if(typeof val === "number") sheet += '<c r="' + ref + '"><v>' + val + '</v></c>';
       else sheet += '<c r="' + ref + '" t="inlineStr"><is><t xml:space="preserve">' + xe(val) + '</t></is></c>';
     });
     sheet += '</row>';
   });
   sheet += '</sheetData><cols>';
-  colWidths.forEach(function(w, i){ sheet += '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w + '" customWidth="1"/>'; });
+  colWidths.forEach(function(w, i){ sheet += '<col min="' + (i+1) + '" max="' + (i+1) + '" width="' + w + '" customWidth="1"/>'; });
   sheet += '</cols></worksheet>';
   var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
     + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
@@ -2057,7 +1931,7 @@ function xlsxBuild(){
 function zipStore(files){
   var enc = new TextEncoder();
   var CRCT = [];
-  for(var n = 0; n < 256; n++){ var cc = n; for(var k = 0; k < 8; k++) cc = (cc & 1) ? (0xedb88320 ^ (cc >>> 1)) : (cc >>> 1); CRCT[n] = cc >>> 0; }
+  for(var n = 0; n < 256; n++){ var c = n; for(var k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1); CRCT[n] = c >>> 0; }
   function crc32(u8){ var c = 0xffffffff; for(var i = 0; i < u8.length; i++) c = CRCT[(c ^ u8[i]) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; }
   var u32 = function(v){ return [v & 255, (v >>> 8) & 255, (v >>> 16) & 255, (v >>> 24) & 255]; };
   var u16 = function(v){ return [v & 255, (v >>> 8) & 255]; };
@@ -2065,49 +1939,56 @@ function zipStore(files){
   files.forEach(function(f){
     var name = enc.encode(f.name), data = enc.encode(f.data);
     var crc = crc32(data);
-    var local = [].concat([0x50, 0x4b, 0x03, 0x04], u16(20), u16(0), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0));
+    var local = [].concat([0x50,0x4b,0x03,0x04], u16(20), u16(0), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0));
     parts.push(new Uint8Array(local), name, data);
-    var cen = [].concat([0x50, 0x4b, 0x01, 0x02], u16(20), u16(20), u16(0), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(offset));
+    var cen = [].concat([0x50,0x4b,0x01,0x02], u16(20), u16(20), u16(0), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(offset));
     central.push(new Uint8Array(cen), name);
     offset += local.length + name.length + data.length;
   });
   var cdSize = central.reduce(function(s, p){ return s + p.length; }, 0);
-  var eocd = [].concat([0x50, 0x4b, 0x05, 0x06], u16(0), u16(0), u16(files.length), u16(files.length), u32(cdSize), u32(offset), u16(0));
+  var eocd = [].concat([0x50,0x4b,0x05,0x06], u16(0), u16(0), u16(files.length), u16(files.length), u32(cdSize), u32(offset), u16(0));
   parts = parts.concat(central, [new Uint8Array(eocd)]);
   var total = parts.reduce(function(s, p){ return s + p.length; }, 0);
   var out = new Uint8Array(total), pos = 0;
   parts.forEach(function(p){ out.set(p, pos); pos += p.length; });
   return new Blob([out], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 }
-// --- boutons exports / import / effacer ---
-var cX = document.getElementById("c-xlsx"), cC = document.getElementById("c-csv"), cJ = document.getElementById("c-json");
-if(cX) cX.addEventListener("click", function(){ exportFile("colisage-iata.xlsx", xlsxBuild(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"); });
-if(cC) cC.addEventListener("click", function(){ exportFile("colisage-iata.csv", csvBuild(), "text/csv"); });
-if(cJ) cJ.addEventListener("click", function(){ exportFile("colisage-iata.json", JSON.stringify(COLIS, null, 2), "application/json"); });
-var cImp = document.getElementById("c-imp"), cFile = document.getElementById("c-file");
-if(cImp){
-  cImp.addEventListener("click", function(){ cFile.click(); });
-  cFile.addEventListener("change", function(){
-    var f = cFile.files && cFile.files[0];
-    if(!f) return;
-    var rd = new FileReader();
-    rd.onload = function(){ csvImport(rd.result); cFile.value = ""; };
-    rd.readAsText(f, "utf-8");
-  });
+function exportFile(name, data, mime){
+  try {
+    var blob = data instanceof Blob ? data : new Blob([data], {type: mime});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  } catch(e){ alert("Export impossible : " + e.message); }
 }
-var cDgdAll = document.getElementById("c-dgd-all");
-if(cDgdAll) cDgdAll.addEventListener("click", dgdFromColisAll);
-var cClear = document.getElementById("c-clear");
-if(cClear) cClear.addEventListener("click", function(){
-  if(confirm("Effacer TOUS les colis enregistrés ?")){ COLIS = []; colisSave(); colisRender(); }
+var cX = document.getElementById("c-xlsx");
+if(cX) cX.addEventListener("click", function(){ exportFile("colisage-iata.xlsx", xlsxBuild(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"); });
+var cC = document.getElementById("c-csv");
+if(cC) cC.addEventListener("click", function(){ exportFile("colisage-iata.csv", csvBuild(), "text/csv"); });
+var cJ = document.getElementById("c-json");
+if(cJ) cJ.addEventListener("click", function(){ exportFile("colisage-iata.json", JSON.stringify(COLIS, null, 2), "application/json"); });
+var cClr = document.getElementById("c-clear");
+if(cClr) cClr.addEventListener("click", function(){ if(confirm("Effacer TOUS les colis enregistrés ?")){ COLIS = []; colisSave(); colisRender(); } });
+// import CSV legacy → passe par le moteur d'analyse
+var cImp = document.getElementById("c-imp"), cFileInp = document.getElementById("c-file");
+if(cImp) cImp.addEventListener("click", function(){ cFileInp.click(); });
+if(cFileInp) cFileInp.addEventListener("change", function(){
+  var f = cFileInp.files && cFileInp.files[0];
+  if(!f) return;
+  var rd = new FileReader();
+  rd.onload = function(){ impAnalyse(csvRows(rd.result)); goTab("colis"); cFileInp.value = ""; };
+  rd.readAsText(f, "utf-8");
 });
-
-// ====================== INITIALISATION ======================
 colisLoad();
 colisRender();
-renderDgdLines();
+dgdRenderLines();
 renderDgd();
-try { if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function(){}); } catch(e){}
+if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function(){});
+
+// --- vérification de version (mise à jour) ---
 function checkVersion(){
   try {
     fetch("./version.json", { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(v){

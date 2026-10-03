@@ -1,5 +1,5 @@
 {
   "version": 4,
   "date": "2026-10-03",
-  "note": "v4 — base ONU 2349 n°, détection automatique Excel/CSV, propositions colisage modifiables, DGD multi-lignes, étiquettes calculées, corrections PI (2990/3528/1044), bug des champs effacés corrigé"
+  "note": "v4 — analyse d'état de colisage Excel/CSV (détection matières, 2349 n° ONU), assistant corrigé, colisage enrichi (CAO/LQ/orientations/lithium), DGD multi-lignes, étiquettes SVG officielles"
 }
