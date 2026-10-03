@@ -10,7 +10,7 @@
 <style>
   :root{--bg:#0b1220;--card:#121b2e;--card2:#0e1626;--txt:#e2e8f0;--mut:#8ea0bd;--acc:#38bdf8;--ok:#34d399;--warn:#fbbf24;--err:#fb7185;--bord:#22314f}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--txt);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:70px}
+  body{background:var(--bg);color:var(--txt);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:72px}
   header{position:sticky;top:0;z-index:5;background:rgba(11,18,32,.95);backdrop-filter:blur(8px);padding:12px 14px 8px;border-bottom:1px solid var(--bord)}
   h1{font-size:1.05rem;display:flex;align-items:center;gap:8px}
   h1 .v{font-size:.7rem;color:var(--mut);font-weight:400;margin-left:auto}
@@ -33,19 +33,14 @@
   .kv{display:grid;grid-template-columns:120px 1fr;gap:4px 10px;font-size:.92rem;margin:6px 0}
   .kv b{color:var(--mut);font-weight:600}
   .note{font-size:.8rem;color:var(--mut);margin-top:8px;border-top:1px dashed var(--bord);padding-top:6px}
-  details{background:var(--card2);border:1px solid var(--bord);border-radius:10px;margin:8px 0}
-  summary{cursor:pointer;padding:10px 12px;font-weight:600;font-size:.92rem}
-  details .inner{padding:0 12px 12px;font-size:.9rem}
-  nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(11,18,32,.97);border-top:1px solid var(--bord);padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:6}
-  nav button{flex:1;background:none;border:none;color:var(--mut);font-size:.68rem;padding:6px 2px;border-radius:8px}
-  nav button .ic{display:block;font-size:1.25rem;margin-bottom:2px}
+  nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(11,18,32,.97);border-top:1px solid var(--bord);padding:6px 2px calc(6px + env(safe-area-inset-bottom));z-index:6}
+  nav button{flex:1;background:none;border:none;color:var(--mut);font-size:.62rem;padding:6px 1px;border-radius:8px}
+  nav button .ic{display:block;font-size:1.2rem;margin-bottom:2px}
   nav button.on{color:var(--acc)}
   section{display:none}
   section.on{display:block}
-  .tabs2{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-  .tabs2 button{background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:999px;padding:6px 12px;font-size:.82rem}
-  .tabs2 button.on{border-color:var(--acc);color:var(--acc)}
-  input[type=number]{background:var(--card2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);padding:8px;width:110px;font-size:1rem}
+  input[type=number],input[type=text],select{background:var(--card2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);padding:8px;width:100%;font-size:1rem;margin-top:2px}
+  input:focus,select:focus{outline:none;border-color:var(--acc)}
   .res{font-size:1.05rem;color:var(--ok);margin-top:6px}
   .warnbox{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:10px;font-size:.85rem;margin-bottom:10px}
   .disclaimer{font-size:.75rem;color:var(--mut);text-align:center;padding:14px}
@@ -55,17 +50,55 @@
   .cl b{display:block;font-size:.95rem;margin-bottom:2px}
   .label-diamond{display:inline-block;width:46px;height:46px;transform:rotate(45deg);margin:6px 10px 10px 6px;border:2px solid;border-radius:4px;text-align:center;vertical-align:middle}
   .label-diamond span{display:inline-block;transform:rotate(-45deg);font-size:.62rem;font-weight:700;line-height:1.1;padding-top:10px}
+  .chip{display:inline-block;background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:12px;padding:10px 14px;font-size:.9rem;margin:4px 4px 4px 0;cursor:pointer}
+  .chip.on{border-color:var(--acc);color:var(--acc);background:rgba(56,189,248,.1)}
+  .wz-label{font-size:.8rem;color:var(--mut);margin:14px 0 4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .field{margin:8px 0;font-size:.85rem}
+  .field label{color:var(--mut)}
+  .btn{background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:.9rem;cursor:pointer}
+  .btn.acc{border-color:var(--acc);color:var(--acc)}
+  .sec-title{font-size:.78rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px;display:flex;align-items:center;gap:6px}
+  .rescard{border-left:3px solid var(--acc)}
+  .rescard.err{border-left-color:var(--err)}
+  .rescard.ok{border-left-color:var(--ok)}
+  .dgd-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .dgd{min-width:600px;background:#fff;color:#111;border:2px solid #d00;padding:10px;font-size:11px;font-family:Arial,Helvetica,sans-serif;position:relative}
+  .dgd .hatch{position:absolute;inset:0;border:6px solid transparent;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(200,0,0,.06) 4px,rgba(200,0,0,.06) 8px);pointer-events:none}
+  .dgd h4{text-align:center;font-size:12px;color:#d00;margin:2px 0 6px;text-transform:uppercase}
+  .dgd .row{display:flex;gap:6px;margin-bottom:6px}
+  .dgd .box{border:1px solid #666;padding:4px;flex:1}
+  .dgd .box .lb{font-size:8px;font-weight:700;color:#444;text-transform:uppercase}
+  .dgd .box .vl{font-size:11px;min-height:14px;color:#000}
+  .dgd table{width:100%;border-collapse:collapse;font-size:10px;margin:4px 0}
+  .dgd th,.dgd td{border:1px solid #666;padding:3px;font-size:10px;text-align:left;color:#111}
+  .dgd th{background:#eee;font-size:8px;text-transform:uppercase}
+  .dgd .decl{font-size:9px;border:1px solid #666;padding:5px;margin-top:4px;line-height:1.4}
+  .dgd .sign{display:flex;gap:6px;margin-top:6px}
+  .dgd .sign .box{min-height:40px}
+  .copybox{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:10px;font-size:.8rem;font-family:monospace;white-space:pre-wrap;word-break:break-word;margin-top:8px}
 </style>
 </head>
 <body>
 <header>
-  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v1</span></h1>
+  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v2</span></h1>
   <div class="search"><input id="q" type="search" placeholder="🔎 Rechercher : n° ONU, matière, PI, classe…" autocomplete="off"></div>
 </header>
 <main>
 
+<!-- ======================= DECISION ======================= -->
+<section id="tab-wiz" class="on">
+  <div class="warnbox">🧭 Dis ce que tu transportes → l'app calcule : n° ONU, PI, section, emballage, marquage, étiquetage, DGD, autorisations. Toujours vérifier l'édition du DGR en vigueur + variations compagnie (CASS).</div>
+  <div class="card">
+    <div class="wz-label">1 · Que transportes-tu ?</div>
+    <div id="wz-cat"></div>
+    <div id="wz-sub-wrap"><div class="wz-label" id="wz-sub-label">2 · Précision</div><div id="wz-sub"></div></div>
+    <div id="wz-params"></div>
+  </div>
+  <div id="wz-result"></div>
+</section>
+
 <!-- ======================= RECHERCHE ======================= -->
-<section id="tab-rech" class="on">
+<section id="tab-rech">
   <div class="warnbox">⚠️ Aide-mémoire de terrain — toujours vérifier l'édition du DGR IATA en vigueur et les variations compagnie (CASS) avant d'expédier.</div>
   <div id="results"></div>
 </section>
@@ -74,74 +107,60 @@
 <section id="tab-piles">
   <h2 style="font-size:1rem;margin-bottom:8px">🔋 Piles &amp; accus — vue d'ensemble</h2>
   <div class="card">
-    <h3>Seuils &amp; configurations</h3>
+    <h3>Configurations &amp; PI</h3>
     <table>
       <tr><th>Configuration</th><th>Lithium-ion</th><th>Lithium-métal</th></tr>
-      <tr><td>Seul (cellule)</td><td>UN 3480</td><td>UN 3090</td></tr>
-      <tr><td>Avec équipement</td><td>UN 3481</td><td>UN 3091</td></tr>
-      <tr><td>Dans l'équipement</td><td>UN 3481</td><td>UN 3091</td></tr>
-      <tr><td>PI applicables</td><td>965 / 966 / 967</td><td>968 / 969 / 970</td></tr>
+      <tr><td>Seul</td><td>UN 3480 · PI 965</td><td>UN 3090 · PI 968</td></tr>
+      <tr><td>Avec équipement</td><td>UN 3481 · PI 966</td><td>UN 3091 · PI 969</td></tr>
+      <tr><td>Dans l'équipement</td><td>UN 3481 · PI 967</td><td>UN 3091 · PI 970</td></tr>
     </table>
+    <p class="note">⚠️ Depuis l'édition 63 (01/01/2022), les PI 965 et 968 (piles <b>seules</b>) n'ont <b>plus de Section II</b> : uniquement IA et IB.</p>
   </div>
   <div class="card">
-    <h3>Sections IA / IB / II (règles générales)</h3>
-    <ul>
-      <li><b>Section I</b> : matière pleinement régulée — DGD obligatoire, étiquette Classe 9 lithium, CAO pour 3480/3090 seuls.</li>
-      <li><b>Section IB</b> : quantités intermédiaires (965/968) — DGD obligatoire, marquage lithium, étiquette Classe 9 + <b>CAO</b> pour 3480/3090.</li>
-      <li><b>Section II</b> : quantités limitées par colis — <b>pas de DGD</b>, marquage lithium obligatoire, mention sur la LTA (« en conformité avec la Section II de la PI XXX »).</li>
-    </ul>
+    <h3>Piles seules (PI 965 / 968) — sections IA / IB</h3>
     <table>
-      <tr><th>PI</th><th>Seuil de bascule (Section II → I)</th></tr>
-      <tr><td>965 (li-ion seuls)</td><td>Section II : max <b>2,7 Wh/cellule</b> ou pile ≤ 100 Wh. Interdits sur avion passagers.</td></tr>
-      <tr><td>966/967 (avec/dans équipement)</td><td>Section II : ≤ 100 Wh par pile, ≤ 2 piles + le nécessaire. Batteries &gt; 100 Wh → Section I.</td></tr>
-      <tr><td>968 (li-métal seuls)</td><td>Section II : ≤ 1 g de lithium par cellule, ≤ 2 g par pile. Interdits sur avion passagers.</td></tr>
-      <tr><td>969/970</td><td>Section II : ≤ 1 g/cellule, ≤ 2 g/pile, quantités par colis limitées.</td></tr>
+      <tr><th></th><th>Section IB</th><th>Section IA</th></tr>
+      <tr><td>li-ion (965)</td><td>Cellule ≤ 20 Wh et pile ≤ 100 Wh · ≤ 10 kg/colis</td><td>Au-delà · emballage ONU PG II</td></tr>
+      <tr><td>li-métal (968)</td><td>Cellule ≤ 1 g et pile ≤ 2 g · ≤ 2,5 kg/colis</td><td>Au-delà · emballage ONU PG II</td></tr>
     </table>
+    <ul>
+      <li>Les deux sections : <b>interdites sur avion passagers</b> → étiquette <b>Cargo Aircraft Only</b> obligatoire.</li>
+      <li>Section IB : <b>DGD obligatoire</b> (contrairement au § II avec équipement).</li>
+      <li>SoC ≤ 30 % pour l'ensemble des piles li-ion seules (UN 3480) et sodium (UN 3551).</li>
+    </ul>
   </div>
   <div class="card">
-    <h3>État de charge (SoC) <span class="badge b-warn">Évolution 2026</span></h3>
+    <h3>Avec / dans équipement (PI 966-967 / 969-970)</h3>
     <ul>
-      <li>UN 3480 (li-ion seuls) et sodium-ion UN 3551 : SoC <b>≤ 30 %</b> — obligation existante.</li>
-      <li><b>Au 1er janvier 2026</b>, l'exigence SoC ≤ 30 % (ou capacité indiquée ≤ 25 %) s'étend aux UN 3481 emballés avec l'équipement (cellules/piles &gt; 2,7 Wh).</li>
-      <li>UN 3480 et UN 3090 seuls : <b>interdits en soute d'avion passagers</b> — cargo uniquement (CAO).</li>
+      <li><b>Section II</b> : cellule ≤ 20 Wh, pile ≤ 100 Wh (li-ion) ou ≤ 1 g / ≤ 2 g (li-métal), ≤ <b>5 kg/colis</b> — pas de DGD, marquage lithium, mention sur la LTA.</li>
+      <li><b>Section I</b> : au-delà de 100 Wh — DGD obligatoire, emballage ONU PG II, étiquette Classe 9. Limites par colis : 5 kg (pax) / 35 kg (CAO).</li>
+      <li>Exception marquage : piles bouton dans l'équipement ou petites consignations (≤ 2 colis, ≤ 4 cellules / 2 piles par colis) → marquage lithium non requis.</li>
+      <li>SoC ≤ 30 % (capacité indiquée ≤ 25 %) depuis le <b>01/01/2026</b> pour les UN 3481 <b>emballées avec</b> l'équipement (cellules &gt; 2,7 Wh).</li>
+      <li>Test de chute 1,2 m pour les colis § II (966/969) et § IB (965/968).</li>
     </ul>
   </div>
   <div class="card">
     <h3>Exigences transversales</h3>
     <ul>
-      <li><b>UN 38.3</b> : résumé d'essais (test summary) à disposition — fabricant/distributeur.</li>
-      <li><b>Marquage lithium</b> sur le colis (dimensions min. 100×100 mm, réduites 100×70 mm autorisées), avec n° de téléphone pour renseignements.</li>
-      <li>Piles au <b>lithium-métal</b> : étiquette Classe 9 « lithium-métal » distincte de la li-ion (pictogramme pile de cellules).</li>
-      <li>Piles défectueuses/endommagées ou rappelées : <b>interdites</b> en transport aérien.</li>
-      <li>Test de chute <b>1,2 m</b> pour les emballages Section II de 965/966/968/969.</li>
+      <li><b>UN 38.3</b> : résumé d'essais du fabricant à disposition.</li>
+      <li>Marquage lithium : min 100×100 mm (100×70 pour petits colis), n° de téléphone de renseignement.</li>
+      <li>Étiquette Classe 9 « lithium-ion » ≠ « lithium-métal » (pictogrammes différents).</li>
+      <li>Piles défectueuses/endommagées/rappelées : <b>interdites</b> en transport aérien.</li>
     </ul>
   </div>
   <div class="card">
-    <h3>Autres chimies</h3>
-    <table>
-      <tr><th>Chimie</th><th>N° ONU</th><th>Notes</th></tr>
-      <tr><td>Plomb-acide (électrolyte liquide)</td><td>UN 2794 / 2795</td><td>2794 pile, 2795 batterie — classe 8, PI 872. Souvent interdites compagnie en soute.</td></tr>
-      <tr><td>Plomb, non déversable (VRLA)</td><td>UN 2800</td><td>Classe 8, exemptée si conditions PI 806 respectées (protégée contre court-circuit, borne vers le haut).</td></tr>
-      <tr><td>Supercondensateurs (double couche)</td><td>UN 3496</td><td>≤ 0,3 Wh/élément : non réglementés ; au-delà PI 973, accord compagnie.</td></tr>
-      <tr><td>Sodium-ion</td><td>UN 3551 / 3552</td><td>Régime analogue au lithium (SoC ≤ 30 %, interdites avion passagers seules).</td></tr>
-      <tr><td>Véhicule/banc d'essai à batterie</td><td>UN 3171</td><td>Véhicules électriques/hybrides — PI 952 ; règles SoC pour batteries li-ion.</td></tr>
-      <tr><td>Piles alcalines/nickel (non lithium)</td><td>Non réglementées</td><td>Non classées MDD si neuves/saines, mais recommandations d'emballage (protection courts-circuits).</td></tr>
-    </table>
-  </div>
-  <div class="card">
     <h3>🧮 Calculateur Wh</h3>
-    <p class="dim">Wh = Ah × V &nbsp;·&nbsp; Pour obtenir Ah : Wh ÷ V</p>
-    <p><input type="number" id="wh-ah" placeholder="Ah" step="0.01"> × <input type="number" id="wh-v" placeholder="V" step="0.01">
-    <button id="wh-go" style="background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:8px;padding:8px 12px">= Wh</button></p>
+    <p class="dim">Wh = Ah × V</p>
+    <p><input type="number" id="wh-ah" placeholder="Ah" step="0.01"> <input type="number" id="wh-v" placeholder="V" step="0.01">
+    <button id="wh-go" class="btn">= Wh</button></p>
     <div class="res" id="wh-out"></div>
     <div id="wh-class" class="dim"></div>
   </div>
   <div class="card">
-    <h3>Bagages passagers — piles (synthèse 2.3.A)</h3>
+    <h3>Bagages passagers (2.3.A)</h3>
     <ul>
-      <li>Piles de rechange (seules) : <b>cabine uniquement</b>, max 100 Wh par pile (2 piles de 100–160 Wh max avec accord compagnie). Interdites en soute.</li>
-      <li>Piles ≤ 100 Wh installées/dans un équipement : cabine ou soute.</li>
-      <li>Power banks, cigarettes électroniques : cabine uniquement, sur soi.</li>
+      <li>Rechange seule : cabine uniquement, ≤ 100 Wh (2 piles 100-160 Wh max avec accord compagnie). Interdite en soute.</li>
+      <li>Équipement ≤ 100 Wh : cabine ou soute. Power banks / e-cigarettes : sur soi, cabine uniquement.</li>
       <li>Piles endommagées/rappelées : interdites partout.</li>
     </ul>
   </div>
@@ -158,40 +177,35 @@
       <tr><td><b>2.2</b></td><td>Non inflammable, non toxique</td><td>Azote, air comprimé, CO₂</td></tr>
       <tr><td><b>2.3</b></td><td>Toxique</td><td>Chlore, ammoniac</td></tr>
     </table>
-    <p class="dim">L'oxygène comprimé (UN 1072) est 2.2 avec risque subsidiaire <b>5.1 (comburant)</b>.</p>
+    <p class="dim">L'oxygène comprimé (UN 1072) : 2.2 avec risque subsidiaire <b>5.1 (comburant)</b>.</p>
   </div>
   <div class="card">
     <h3>Oxygène comprimé (UN 1072) — PI 200</h3>
     <ul>
-      <li>Étiquette 2.2 + <b>étiquette 5.1</b> (comburant).</li>
-      <li>Récipients conformes PI 200 : pression de service ≤ 2/3 de la pression d'épreuve.</li>
-      <li>Bouteilles médicales personnelles passagers : accord compagnie obligatoire ; souvent max ~2 bouteilles (vérifier CASS).</li>
-      <li>Générateurs chimiques d'oxygène (UN 3356) : <b>interdits</b> en fret et bagages enregistrés.</li>
-      <li>Air comprimé (UN 1002) : 2.2, PI 200, sans étiquette 5.1.</li>
+      <li>Étiquettes 2.2 <b>+ 5.1</b>. Bouteilles : pression de service ≤ 2/3 de la pression d'épreuve.</li>
+      <li>Bouteilles médicales passagers : accord compagnie (souvent ≤ 2 bouteilles + concentrateurs selon CASS).</li>
+      <li>Générateurs chimiques d'oxygène (UN 3356) : <b>interdits</b> en fret et bagages.</li>
+      <li>Air comprimé (UN 1002) : 2.2, PI 200, sans 5.1.</li>
     </ul>
   </div>
   <div class="card">
     <h3>Aérosols (UN 1950) — PI 203 / Y203</h3>
     <ul>
-      <li>Classe 2.1 (le plus souvent) ; 2.2 si contenu non inflammable.</li>
-      <li>Limited Quantities PI Y203 : colis ≤ 30 kg net, flacons ≤ 1 L — étiquette « LQ », pas de DGD.</li>
-      <li>Parfums/aérosols hygiène : quota bagages (2.3) — vérifier limites compagnie.</li>
+      <li>2.1 le plus souvent (2.2 si contenu non inflammable).</li>
+      <li>LQ PI Y203 : colis ≤ 30 kg, flacons ≤ 1 L — étiquette « LIMITED QUANTITY », pas de DGD.</li>
     </ul>
   </div>
   <div class="card">
-    <h3>Extincteurs (UN 1044) — PI 200/219 selon contenu</h3>
-    <ul>
-      <li>Installés, non amorcés : selon gaz contenu (2.2 en général pour azote/CO₂).</li>
-      <li>Vérifier la liste ONU du DGR et la CASS — beaucoup de compagnies les refusent.</li>
-    </ul>
+    <h3>Extincteurs (UN 1044)</h3>
+    <ul><li>Selon gaz contenu (CO₂/azote → 2.2), PI 200/219 — beaucoup de compagnies les refusent. Vérifier CASS.</li></ul>
   </div>
   <div class="card">
     <h3>Brassières / gilets de sauvetage</h3>
     <ul>
-      <li>Gonflants avec cartouches CO₂ : UN 2990 (articles sous pression pneumatique) — fret : accord compagnie ; bagages : autorisés jusqu'à 2 avec cartouches.</li>
-      <li>Avec fusées de détresse : UN 0191 / 0323 (classe 1.4G) — accord compagnie obligatoire, souvent refusés.</li>
-      <li>Avec pile/batterie lithium : régime UN 3481 (voir onglet Piles) — souvent § II de la PI 970/967.</li>
-      <li>Mousse (sans dispositif de gonflage) : pas de restriction MDD.</li>
+      <li>Gonflants CO₂ : UN 2990 (2.2) — accord compagnie ; en bagages : généralement ≤ 2 gilets avec cartouches.</li>
+      <li>Avec fusées : UN 0191 / 0323 (1.4G) — accord obligatoire, souvent refusés.</li>
+      <li>Avec pile lithium : régime UN 3481 (§ II de PI 967/970 en général).</li>
+      <li>Mousse : pas de restriction MDD.</li>
     </ul>
   </div>
   <div class="card">
@@ -202,9 +216,8 @@
       <tr><td>Propane</td><td>UN 1978</td><td>2.1</td><td>200</td></tr>
       <tr><td>Gaz de pétrole liquéfié</td><td>UN 1965</td><td>2.1</td><td>200</td></tr>
       <tr><td>Hydrogène comprimé</td><td>UN 1049</td><td>2.1</td><td>200</td></tr>
-      <tr><td>Récipients à pression rechargeables (camping)</td><td>UN 2037</td><td>2.1</td><td>200</td></tr>
+      <tr><td>Récipients rechargeables (camping)</td><td>UN 2037</td><td>2.1</td><td>200</td></tr>
     </table>
-    <p class="note">Gaz inflammables toxiques (2.3) et la plupart des 2.1 en bouteilles : interdits sur avion passagers — CAO et accord compagnie.</p>
   </div>
 </section>
 
@@ -212,40 +225,43 @@
 <section id="tab-essence">
   <h2 style="font-size:1rem;margin-bottom:8px">⛽ Essence &amp; liquides inflammables — classe 3</h2>
   <div class="card">
-    <h3>Essence / motor spirit / petrol — UN 1203</h3>
+    <h3>Essence — UN 1203</h3>
     <ul>
-      <li>Classe 3, <b>groupe d'emballage II</b>, étiquette liquide inflammable (3).</li>
-      <li>PI <b>358</b> (fret) — emballages agréés UN (fûts, jerricans, combinaisons).</li>
-      <li>Limited Quantity : PI <b>Y341</b> (vérifier la limite par emballage intérieur de l'édition en vigueur).</li>
-      <li><b>Interdite en bagages</b> (bidons d'essence, essence dans du matériel : vérifier purge complète).</li>
-      <li>Essence-éthanol (EDBE) : UN 3475.</li>
+      <li>Classe 3, <b>PG II</b>, étiquette 3. PI <b>358</b> (emballages ONU : fûts, jerricans, combinaisons).</li>
+      <li>LQ : PI <b>Y341</b> — emballages intérieurs limités, colis ≤ 30 kg (vérifier la table de l'édition en vigueur).</li>
+      <li><b>Interdite en bagages</b>. Essence-éthanol : UN 3475.</li>
     </ul>
   </div>
   <div class="card">
-    <h3>Carburants &amp; produits apparentés</h3>
+    <h3>Carburants &amp; apparentés</h3>
     <table>
       <tr><th>Matière</th><th>ONU</th><th>Cl.</th><th>PG</th><th>PI</th></tr>
-      <tr><td>Gasoil / carburant diesel</td><td>UN 1202</td><td>3</td><td>III</td><td>366 / Y344</td></tr>
-      <tr><td>Kérosène (pétrole)</td><td>UN 1223</td><td>3</td><td>II/III</td><td>366 / Y344</td></tr>
-      <tr><td>Fioul / huile de chauffe légère</td><td>UN 1863</td><td>3</td><td>III</td><td>366</td></tr>
-      <tr><td>Alcool à brûler / éthanol</td><td>UN 1170</td><td>3</td><td>II/III</td><td>355/366</td></tr>
-      <tr><td>Peintures, vernis</td><td>UN 1263</td><td>3</td><td>II/III</td><td>355/366 · Y344</td></tr>
+      <tr><td>Gasoil / diesel</td><td>UN 1202</td><td>3</td><td>III</td><td>366 / Y344</td></tr>
+      <tr><td>Kérosène</td><td>UN 1223</td><td>3</td><td>II/III</td><td>366 / Y344</td></tr>
+      <tr><td>Fioul léger</td><td>UN 1863</td><td>3</td><td>III</td><td>366</td></tr>
+      <tr><td>Éthanol / alcool à brûler</td><td>UN 1170</td><td>3</td><td>II/III</td><td>355/366</td></tr>
+      <tr><td>Peintures, vernis</td><td>UN 1263</td><td>3</td><td>II/III</td><td>355/366 · Y343/Y344</td></tr>
     </table>
-    <p class="note">Le groupe d'emballage dépend du point éclair et de la viscosité : PG II si point éclair &lt; −18…+23 °C, PG III si +23…60,5 °C.</p>
+    <p class="note">PG selon point éclair : II si &lt; +23 °C, III si +23 à 60,5 °C.</p>
   </div>
   <div class="card">
-    <h3>Moteurs, machines, équipements contenant du carburant</h3>
+    <h3>Moteurs &amp; machines</h3>
+    <table>
+      <tr><th>ONU</th><th>Désignation</th><th>Classe</th></tr>
+      <tr><td>UN 3528</td><td>Moteur/machine à combustion, carburant <b>liquide</b> inflammable</td><td><b>3</b> (PG III) · PI 970</td></tr>
+      <tr><td>UN 3529</td><td>Moteur/machine à combustion, carburant <b>gaz</b> inflammable</td><td>2.1 · selon liste ONU</td></tr>
+      <tr><td>UN 3530</td><td>Moteur/machine, carburant <b>polluant marin</b> uniquement</td><td>9 · selon liste ONU</td></tr>
+    </table>
     <ul>
-      <li>UN 3528 (moteur à combustion interne) / UN 3529 (fluide inflammable) / UN 3530 (fluide combustible).</li>
-      <li>Générateurs, tronçonneuses, tondeuses : <b>UN 3528</b> le plus fréquent — réservoir vide, étiquette 9 ou 3 selon cas, accord compagnie.</li>
-      <li>La plupart des compagnies exigent réservoir <b>vidé et purgé</b>, bouchons sécurisés.</li>
+      <li>Générateurs, tronçonneuses, tondeuses (essence) : <b>UN 3528</b> — la plupart des compagnies exigent réservoir <b>vidé et purgé</b>, bouchons sécurisés.</li>
+      <li>Étiquette 3 + DGD ; accord compagnie fréquent.</li>
     </ul>
   </div>
   <div class="card">
     <h3>Allumettes &amp; briquets</h3>
     <ul>
-      <li>Allumettes sûres : UN 1944 (4.1) ; frotter partout : UN 1945 ; fumigènes : UN 1947 — fret uniquement, accord compagnie.</li>
-      <li>Briquets essence : <b>interdits</b> en bagages. Briquets gaz (UN 1057) : 1 sur soi en cabine, jamais en soute.</li>
+      <li>Allumettes sûres UN 1944 (4.1) / frottantes UN 1945 / fumigènes UN 1947 — fret uniquement, accord.</li>
+      <li>Briquets gaz (UN 1057) : 1 sur soi en cabine, jamais en soute. Briquets essence : interdits partout.</li>
     </ul>
   </div>
 </section>
@@ -268,7 +284,7 @@
       <div class="label-diamond" style="border-color:#3b82f6;background:#3b82f6"><span style="color:#fff">8</span></div>
       <div class="label-diamond" style="border-color:#334155;background:#334155"><span style="color:#fff">9<br>MDD DIV.</span></div>
     </div>
-    <p class="note">Étiquettes de 100×100 mm minimum (100×70 autorisées pour petits colis). Couleurs et pictogrammes exacts : voir DGR en vigueur.</p>
+    <p class="note">Étiquettes min 100×100 mm (100×70 petits colis). Couleurs/pictogrammes exacts : DGR en vigueur.</p>
   </div>
 </section>
 
@@ -279,28 +295,28 @@
     <h3>Marquage (inscriptions)</h3>
     <ul>
       <li>☐ Expéditeur et destinataire (nom et adresse complets)</li>
-      <li>☐ <b>N° ONU + PSN</b> (« UN 1203, ESSENCE ») — PSN en majuscules, qualificateurs techniques autorisés</li>
+      <li>☐ <b>N° ONU + PSN</b> (« UN 1203, ESSENCE ») — PSN en majuscules</li>
       <li>☐ Groupe d'emballage si applicable (PG II/III)</li>
       <li>☐ Quantité nette par colis (et par emballage intérieur pour LQ)</li>
-      <li>☐ Mention « LIMITED QUANTITY » ou étiquette LQ (losange noir en pointe vers le haut)</li>
-      <li>☐ Quantités exceptées : mention « Quantity » + code EQ</li>
-      <li>☐ Marquage lithium le cas échéant (avec téléphone de renseignement)</li>
-      <li>☐ Dimensions marquages : caractères ≥ 12 mm (6 mm pour colis ≤ 30 L/30 kg)</li>
+      <li>☐ « LIMITED QUANTITY » ou étiquette LQ (losange noir pointe en haut)</li>
+      <li>☐ Quantités exceptées : « Quantity » + code EQ</li>
+      <li>☐ Marquage lithium le cas échéant (avec n° de téléphone)</li>
+      <li>☐ Caractères ≥ 12 mm (6 mm si colis ≤ 30 L/30 kg)</li>
     </ul>
   </div>
   <div class="card">
     <h3>Étiquetage</h3>
     <ul>
-      <li>☐ Étiquette(s) de risque principal + subsidiaires, même face que le marquage, visibles, non recouvertes</li>
-      <li>☐ Étiquette <b>« CARGO AIRCRAFT ONLY »</b> si applicable (3480/3090, certains PG interdits pax)</li>
-      <li>☐ Étiquettes d'orientation (2 opposées) pour liquides en emballages uniques</li>
-      <li>☐ Un seul jeu d'étiquettes par colis ; sur chapeau d'overpack = reproduire marques/étiquettes du contenu</li>
+      <li>☐ Risque principal + subsidiaires, même face que le marquage, visibles, non recouverts</li>
+      <li>☐ <b>« CARGO AIRCRAFT ONLY »</b> si applicable (3480/3090 seuls, PG interdits pax…)</li>
+      <li>☐ Étiquettes d'orientation (2 opposées) pour liquides</li>
+      <li>☐ Un seul jeu par colis ; overpack → reproduire marques/étiquettes du contenu</li>
     </ul>
   </div>
   <div class="card">
     <h3>Overpack</h3>
     <ul>
-      <li>Reproduire tous les marquages et étiquettes du contenu (sauf s'ils restent visibles).</li>
+      <li>Reproduire marquages et étiquettes du contenu (sauf si visibles).</li>
       <li>Mention « OVERPACK » à côté du marquage ONU.</li>
       <li>L'overpack ne remplace pas l'emballage agréé.</li>
     </ul>
@@ -309,24 +325,35 @@
 
 <!-- ======================= DGD ======================= -->
 <section id="tab-dgd">
-  <h2 style="font-size:1rem;margin-bottom:8px">📄 DGD — Déclaration de marchandises dangereuses</h2>
+  <h2 style="font-size:1rem;margin-bottom:8px">📄 DGD — générateur + modèle</h2>
   <div class="card">
-    <h3>Champs obligatoires</h3>
-    <ul>
-      <li>☐ Nature et type d'emballage</li>
-      <li>☐ Expéditeur (nom, adresse, n° de tél. 24h/24)</li>
-      <li>☐ Transporteur (compagnie)</li>
-      <li>☐ N° de la LTA (air waybill) associée</li>
-      <li>☐ Page X de Y pages, nom et lieu de l'aéroport de départ/destination</li>
-      <li>☐ <b>N° ONU</b>, PSN, <b>classe ou division</b> (+ risque subsidiaire), <b>groupe d'emballage</b> quand applicable</li>
-      <li>☐ Quantité et type d'emballage, nombre de colis</li>
-      <li>☐ Instructions d'emballage (PI)</li>
-      <li>☐ Autorisations / dérogations (accord préalable)</li>
-      <li>☐ Mention <b>Cargo Aircraft Only</b> le cas échéant</li>
-      <li>☐ Signature (expéditeur ou agent) et date, nom et fonction du signataire</li>
-      <li>☐ Déclaration de conformité (« Je déclare que le contenu de cette expédition est pleinement décrit… »)</li>
-    </ul>
-    <p class="note">La mention « non réglementées » (ex. piles § II de la PI 967) n'apparaît pas sur la DGD mais sur la LTA.</p>
+    <h3>Remplis, le modèle se dessine en direct</h3>
+    <div class="field"><label>Expéditeur (nom, adresse, tél. 24h/24)</label><input type="text" id="d-ship" placeholder="MMPM — Détachement… 06 XX XX XX XX"></div>
+    <div class="field"><label>Destinataire</label><input type="text" id="d-cons" placeholder="Nom, adresse complète"></div>
+    <div class="field"><label>Compagnie aérienne</label><input type="text" id="d-cie" placeholder=" ex. Qatar Airways"></div>
+    <div class="field"><label>N° LTA (air waybill)</label><input type="text" id="d-awb" placeholder="157-12345675"></div>
+    <div class="field"><label>Aéroport de départ</label><input type="text" id="d-dep" placeholder="Marseille (MRS)"></div>
+    <div class="field"><label>Aéroport de destination</label><input type="text" id="d-arr" placeholder="Doha (DOH)"></div>
+    <div class="field"><label>N° ONU</label><input type="text" id="d-un" placeholder="3480"></div>
+    <div class="field"><label>PSN (majuscules)</label><input type="text" id="d-psn" placeholder="PILES AU LITHIUM-ION"></div>
+    <div class="field"><label>Classe / division (+ subsidiaire)</label><input type="text" id="d-cl" placeholder="9"></div>
+    <div class="field"><label>Groupe d'emballage (II / III / —)</label><input type="text" id="d-pg" placeholder="II"></div>
+    <div class="field"><label>PI + section</label><input type="text" id="d-pi" placeholder="965 IB"></div>
+    <div class="field"><label>Quantité nette</label><input type="text" id="d-qty" placeholder="12 kg"></div>
+    <div class="field"><label>Type et nombre d'emballages</label><input type="text" id="d-pkg" placeholder="1 fût ONU 4G/Y…"></div>
+    <div class="field"><label>⚠️ Cargo Aircraft Only ?</label><select id="d-cao"><option value="">Non</option><option value="oui">Oui — CARGO AIRCRAFT ONLY</option></select></div>
+    <div class="field"><label>Informations de manipulation (facultatif)</label><input type="text" id="d-hi" placeholder="…"></div>
+    <div class="field"><label>Nom, fonction, lieu, date</label><input type="text" id="d-sign" placeholder="J. FONTAINE — Expéditeur — Marseille — 03/10/2026"></div>
+  </div>
+  <div class="card">
+    <h3>🖼️ Modèle DGD (ce que tu dois mettre, et où)</h3>
+    <div class="dgd-wrap"><div class="dgd" id="dgd-preview"></div></div>
+    <p class="note">Le vrai document doit suivre le format IATA (format paysage, bordure hachurée rouge « à 45° »). Ce modèle montre la place de chaque information. Cases optionnelles : marquer « N/A » si non applicable.</p>
+  </div>
+  <div class="card">
+    <h3>📋 Ligne à recopier / copier</h3>
+    <div class="copybox" id="dgd-line"></div>
+    <button class="btn acc" id="dgd-copy" style="margin-top:8px">📄 Copier le texte</button>
   </div>
 </section>
 
@@ -335,54 +362,54 @@
 <div class="disclaimer">🛫 Assistant de terrain — source : DGR IATA (édition en vigueur). Vérifier systématiquement les variations compagnie (CASS) et l'édition du DGR avant toute expédition.</div>
 <script>
 var FICHES = [
-  { un:"3480", psn:"Piles au lithium-ion", cl:"9", pi:"965", pg:"—", lbl:"9 (lithium-ion)", pax:"INTERDIT avion passagers", cargo:"SoC ≤ 30 % · étiquette 9 + CAO · DGD si § IA/IB",
-    notes:"Seules (ni avec, ni dans l'équipement). Marquage lithium + téléphone. UN 38.3 test summary. § II : ≤ 2,7 Wh/cellule ou pile ≤ 100 Wh, pas de DGD, mention LTA." },
-  { un:"3481", psn:"Piles au lithium-ion emballées avec un équipement / contenues dans un équipement", cl:"9", pi:"966 / 967", pg:"—", lbl:"9 (lithium-ion)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
-    notes:"§ II : piles ≤ 100 Wh, marquage lithium. Depuis 01/01/2026 : SoC ≤ 30 % (ou capacité indiquée ≤ 25 %) pour piles emballées avec équipement > 2,7 Wh. Accord compagnie au-delà des limites." },
-  { un:"3090", psn:"Piles au lithium-métal", cl:"9", pi:"968", pg:"—", lbl:"9 (lithium-métal)", pax:"INTERDIT avion passagers", cargo:"CAO · DGD si § IA/IB",
-    notes:"§ II : ≤ 1 g Li/cellule, ≤ 2 g/pile, pas de DGD, mention LTA. Étiquette Classe 9 lithium-métal spécifique." },
+  { un:"3480", psn:"Piles au lithium-ion", cl:"9", pi:"965 (IA/IB)", pg:"—", lbl:"9 (lithium-ion) + CAO", pax:"INTERDIT avion passagers", cargo:"SoC ≤ 30 % · DGD obligatoire (IA et IB)",
+    notes:"Seules. Section II supprimée depuis 2022. IB : cellule ≤ 20 Wh, pile ≤ 100 Wh, ≤ 10 kg/colis. IA au-delà (emballage ONU PG II). Marquage lithium + téléphone. UN 38.3 test summary." },
+  { un:"3481", psn:"Piles au lithium-ion emballées avec / contenues dans un équipement", cl:"9", pi:"966 / 967", pg:"—", lbl:"9 (lithium-ion)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
+    notes:"§ II : cellule ≤ 20 Wh, pile ≤ 100 Wh, ≤ 5 kg/colis — pas de DGD, mention LTA. § I au-delà de 100 Wh : DGD + emballage ONU PG II. SoC ≤ 30 % depuis 01/01/2026 pour piles emballées avec équipement (> 2,7 Wh). Exception marquage : piles bouton / petites consignations." },
+  { un:"3090", psn:"Piles au lithium-métal", cl:"9", pi:"968 (IA/IB)", pg:"—", lbl:"9 (lithium-métal) + CAO", pax:"INTERDIT avion passagers", cargo:"DGD obligatoire (IA et IB)",
+    notes:"Section II supprimée depuis 2022. IB : cellule ≤ 1 g, pile ≤ 2 g, ≤ 2,5 kg/colis. IA au-delà. Étiquette 9 lithium-métal spécifique." },
   { un:"3091", psn:"Piles au lithium-métal avec/dans équipement", cl:"9", pi:"969 / 970", pg:"—", lbl:"9 (lithium-métal)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
-    notes:"§ II : ≤ 1 g Li/cellule, ≤ 2 g/pile. Marquage lithium. Test summary UN 38.3." },
-  { un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"977/978 (selon configuration)", pg:"—", lbl:"9", pax:"INTERDIT seules (avion passagers)", cargo:"SoC ≤ 30 %",
-    notes:"Régime analogue au lithium-ion (depuis éditions récentes). Vérifier l'édition en vigueur." },
-  { un:"2794", psn:"Piles, électriques, au plomb, acide (électrolyte liquide)", cl:"8", pi:"872", pg:"—", lbl:"8", pax:"Selon compagnie", cargo:"Selon compagnie",
+    notes:"§ II : ≤ 1 g/cellule, ≤ 2 g/pile. Pas de DGD, marquage lithium, mention LTA. Test summary UN 38.3." },
+  { un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"977 (IA/IB)", pg:"—", lbl:"9", pax:"INTERDIT seules (avion passagers)", cargo:"SoC ≤ 30 %",
+    notes:"Régime analogue au lithium-ion. Vérifier l'édition en vigueur." },
+  { un:"2794", psn:"Piles au plomb, acide (électrolyte liquide)", cl:"8", pi:"872", pg:"—", lbl:"8", pax:"Selon compagnie", cargo:"Selon compagnie",
     notes:"Souvent refusées en soute passagers. Étanchéité, protection courts-circuits, bornes vers le haut." },
   { un:"2795", psn:"Accumulateurs au plomb (électrolyte liquide)", cl:"8", pi:"872", pg:"—", lbl:"8", pax:"Selon compagnie", cargo:"Selon compagnie", notes:"Idem UN 2794." },
-  { un:"2800", psn:"Accumulateurs au plomb, non déversables, étanches (VRLA)", cl:"8", pi:"806", pg:"—", lbl:"Exempt possible (A67)", pax:"Exempt si conditions", cargo:"Exempt si conditions",
-    notes:"Exemptés si protégés contre court-circuit, borne vers le haut, marquage « non-spillable ». Vérifier la liste des matières exceptées du DGR en vigueur." },
-  { un:"3171", psn:"Véhicule électrique à batterie / équipé d'un banc d'essai à batterie", cl:"9", pi:"952", pg:"—", lbl:"9 (ou MIXTE selon batteries)", pax:"Selon compagnie", cargo:"Autorisé",
+  { un:"2800", psn:"Accumulateurs au plomb, non déversables (VRLA)", cl:"8", pi:"806", pg:"—", lbl:"Exempt possible", pax:"Exempt si conditions", cargo:"Exempt si conditions",
+    notes:"Exemptées si protégées contre court-circuit, borne vers le haut, marquage « non-spillable » (vérifier liste des exceptées du DGR)." },
+  { un:"3171", psn:"Véhicule électrique à batterie / banc d'essai à batterie", cl:"9", pi:"952", pg:"—", lbl:"9 (selon batteries)", pax:"Selon compagnie", cargo:"Autorisé",
     notes:"Batteries li-ion : régime UN 3480/3481 applicable (SoC, protection). Accord compagnie courant." },
-  { un:"3496", psn:"Condensateurs, électriques, à double couche (supercondensateurs)", cl:"9", pi:"973", pg:"—", lbl:"9 si > seuil", pax:"Autorisé si ≤ 0,3 Wh", cargo:"Autorisé",
-    notes:"≤ 0,3 Wh par élément : non réglementés. Au-delà : UN 3496, accord compagnie." },
+  { un:"3496", psn:"Condensateurs électriques à double couche (supercondensateurs)", cl:"9", pi:"973", pg:"—", lbl:"9 si > 0,3 Wh", pax:"Autorisé si ≤ 0,3 Wh", cargo:"Autorisé",
+    notes:"≤ 0,3 Wh/élément : non réglementés. Au-delà : UN 3496, accord compagnie." },
   { un:"1072", psn:"Oxygène, comprimé", cl:"2.2 (5.1)", pi:"200", pg:"—", lbl:"2.2 + 5.1", pax:"Selon compagnie / accord", cargo:"Autorisé (PI 200)",
-    notes:"Étiquette 5.1 OBLIGATOIRE (comburant). Récipients conformes, pression service ≤ 2/3 pression d'épreuve. Bouteilles médicales passagers : accord compagnie." },
+    notes:"Étiquette 5.1 OBLIGATOIRE (comburant). Pression service ≤ 2/3 pression d'épreuve. Bouteilles médicales : accord compagnie." },
   { un:"1002", psn:"Air, comprimé", cl:"2.2", pi:"200", pg:"—", lbl:"2.2", pax:"Selon compagnie", cargo:"Autorisé", notes:"Sans étiquette 5.1 (contrairement à l'O₂)." },
   { un:"1950", psn:"Aérosols", cl:"2.1 (ou 2.2)", pi:"203 / Y203 (LQ)", pg:"—", lbl:"2.1", pax:"Quota bagages limité", cargo:"Autorisé (LQ possible)",
     notes:"LQ PI Y203 : colis ≤ 30 kg net, contenants ≤ 1 L. DGD non requise en LQ." },
   { un:"1044", psn:"Extincteurs, chargés", cl:"2.2", pi:"200/219 selon contenu", pg:"—", lbl:"2.2 (selon gaz)", pax:"Souvent refusé", cargo:"Selon compagnie",
-    notes:"Contenu CO₂/azote : 2.2. Vérifier CASS. Installé/approuvé, non amorcé." },
-  { un:"2990", psn:"Articles, sous pression pneumatique (gilets gonflants CO₂)", cl:"2.2", pi:"— (accord compagnie)", pg:"—", lbl:"2.2", pax:"Bagages : accord, ≤ 2 gilets", cargo:"Accord compagnie",
-    notes:"Gilets auto-gonflants avec cartouche CO₂. En bagage : 1 gilet sur soi + 1 selon compagnie." },
+    notes:"CO₂/azote : 2.2. Vérifier CASS. Installé, non amorcé." },
+  { un:"2990", psn:"Articles sous pression pneumatique (gilets gonflants CO₂)", cl:"2.2", pi:"— (accord compagnie)", pg:"—", lbl:"2.2", pax:"Bagages : accord, ≤ 2 gilets", cargo:"Accord compagnie",
+    notes:"Gilets auto-gonflants avec cartouche CO₂. 1 sur soi + 1 en bagage selon compagnie." },
   { un:"0191", psn:"Fusées, détresse (gilets de sauvetage)", cl:"1.4G", pi:"135", pg:"—", lbl:"1.4G", pax:"Refusé en général", cargo:"Accord obligatoire",
-    notes:"Gilets avec fusées de détresse : accord compagnie préalable systématique." },
+    notes:"Accord compagnie préalable systématique. Souvent refusées." },
   { un:"0323", psn:"Cartouches, dispositifs de signalisation", cl:"1.4G", pi:"135", pg:"—", lbl:"1.4G", pax:"Refusé en général", cargo:"Accord obligatoire", notes:"Idem UN 0191." },
   { un:"1011", psn:"Butane", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"INTERDIT", cargo:"CAO selon compagnie", notes:"Réchauds/bouteilles camping : souvent refusés même vides (résidus)." },
-  { un:"1978", psn:"Propane", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"INTERDIT", cargo:"CAO selon compagnie", notes:"Cartouches camping gaz : quota bagages limité selon CASS." },
-  { un:"2037", psn:"Récipients, à pression, rechargeables (camping)", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"Selon CASS", cargo:"Selon compagnie", notes:"Cartouches rechargeables type Campingaz." },
+  { un:"1978", psn:"Propane", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"INTERDIT", cargo:"CAO selon compagnie", notes:"Cartouches camping gaz : quota bagages selon CASS." },
+  { un:"2037", psn:"Récipients à pression rechargeables (camping)", cl:"2.1", pi:"200", pg:"—", lbl:"2.1", pax:"Selon CASS", cargo:"Selon compagnie", notes:"Cartouches rechargeables type Campingaz." },
   { un:"1203", psn:"Essence / motor spirit / petrol", cl:"3", pi:"358 · Y341 (LQ)", pg:"II", lbl:"3", pax:"INTERDIT bagages", cargo:"Autorisé fret",
-    notes:"PG II. Mélange éthanol : UN 3475. Bidons : interdits bagages ; moteur à essence : UN 3528 réservoir purgé." },
-  { un:"1202", psn:"Gasoil / carburant diesel", cl:"3", pi:"366 · Y344 (LQ)", pg:"III", lbl:"3", pax:"INTERDIT bagages", cargo:"Autorisé fret", notes:"PG III (point éclair > 60,5 °C : non réglementé possible)." },
-  { un:"1223", psn:"Kérosène (pétrole)", cl:"3", pi:"366", pg:"II/III selon PE", lbl:"3", pax:"INTERDIT", cargo:"Autorisé fret", notes:"Point éclair détermine le PG." },
-  { un:"3475", psn:"Essence-éthanol / moteur à combustion avec carburant EDBE", cl:"3", pi:"358/366 selon PE", pg:"II/III", lbl:"3", pax:"INTERDIT", cargo:"Autorisé", notes:"Carburants oxygénés (EDBE/E85)." },
-  { un:"3528", psn:"Moteur, à combustion interne (contenant du carburant)", cl:"9", pi:"970 (A67)", pg:"III", lbl:"9 (ou 3)", pax:"Selon compagnie", cargo:"Autorisé accord",
-    notes:"Générateurs, tronçonneuses, tondeuses. Réservoir vidé/purgé exigé par la plupart des compagnies." },
-  { un:"1170", psn:"Alcool éthylique / solution alcool à brûler", cl:"3", pi:"355/366", pg:"II ou III selon PE", lbl:"3", pax:"Quota bagages (alcools forts)", cargo:"Autorisé fret",
+    notes:"PG II. LQ Y341 : colis ≤ 30 kg. Mélange éthanol : UN 3475. Moteur à essence : UN 3528 réservoir purgé." },
+  { un:"1202", psn:"Gasoil / carburant diesel", cl:"3", pi:"366 · Y344 (LQ)", pg:"III", lbl:"3", pax:"INTERDIT bagages", cargo:"Autorisé fret", notes:"PG III (PE > 60,5 °C : non réglementé possible)." },
+  { un:"1223", psn:"Kérosène (pétrole)", cl:"3", pi:"366", pg:"II/III selon PE", lbl:"3", pax:"INTERDIT", cargo:"Autorisé fret", notes:"Le point éclair détermine le PG." },
+  { un:"3475", psn:"Essence-éthanol / moteur avec carburant EDBE", cl:"3", pi:"358/366 selon PE", pg:"II/III", lbl:"3", pax:"INTERDIT", cargo:"Autorisé", notes:"Carburants oxygénés (EDBE/E85)." },
+  { un:"3528", psn:"Moteur/machine à combustion, carburant liquide inflammable", cl:"3", pi:"970", pg:"III", lbl:"3", pax:"Selon compagnie", cargo:"Autorisé accord",
+    notes:"Générateurs, tronçonneuses, tondeuses. Réservoir vidé/purgé exigé par la plupart des compagnies. NB : 3529 = carburant gaz (2.1), 3530 = polluant marin (9)." },
+  { un:"1170", psn:"Alcool éthylique / solution alcool à brûler", cl:"3", pi:"355/366", pg:"II/III selon PE", lbl:"3", pax:"Quota bagages (alcools forts)", cargo:"Autorisé fret",
     notes:"Boissons ≤ 24 % : pas de limite ; 24-70 % : ≤ 5 L par personne en bagage ; > 70 % : interdites." },
   { un:"1263", psn:"Peinture / matière peinture apparentée", cl:"3", pi:"355/366 · Y343/Y344", pg:"II/III", lbl:"3", pax:"INTERDIT", cargo:"Autorisé fret", notes:"Base eau non inflammable : non réglementée." },
-  { un:"3356", psn:"Générateur d'oxygène, chimique", cl:"5.1", pi:"—", pg:"—", lbl:"5.1", pax:"INTERDIT", cargo:"INTERDIT", notes:"Interdits en fret ET bagages enregistrés (A002)." },
+  { un:"3356", psn:"Générateur d'oxygène, chimique", cl:"5.1", pi:"—", pg:"—", lbl:"5.1", pax:"INTERDIT", cargo:"INTERDIT", notes:"Interdits en fret ET bagages enregistrés." },
   { un:"1944", psn:"Allumettes, sûres (boîte)", cl:"4.1", pi:"—", pg:"—", lbl:"4.1", pax:"Interdites en soute (cabine selon CASS)", cargo:"Accord compagnie", notes:"Sur soi en cabine souvent toléré ; jamais en soute." },
   { un:"1057", psn:"Briquets, gaz (pétrole liquéfié)", cl:"2.1", pi:"—", pg:"—", lbl:"2.1", pax:"1 briquet sur soi (jamais en soute)", cargo:"Interdit bagages",
-    notes:"Jamais dans bagage enregistré. Briquets essence (Zippo) : interdits partout en avion." }
+    notes:"Briquets essence (Zippo) : interdits partout en avion." }
 ];
 
 var CLASSES = [
@@ -397,8 +424,9 @@ var CLASSES = [
   {n:9,t:"Divers",d:"Lithium, CO₂ solide, moteurs, véhicules…"}
 ];
 
-// Nav
+// ---------- NAV ----------
 var TABS = [
+  {id:"wiz", ic:"🧭", t:"Décision"},
   {id:"rech", ic:"🔎", t:"Recherche"},
   {id:"piles", ic:"🔋", t:"Piles"},
   {id:"gaz", ic:"💨", t:"Gaz"},
@@ -422,7 +450,6 @@ TABS.forEach(function(t, i){
   nav.appendChild(b);
 });
 
-// Classes grid
 var cg = document.getElementById("cl-grid");
 CLASSES.forEach(function(c){
   var d = document.createElement("div");
@@ -431,7 +458,7 @@ CLASSES.forEach(function(c){
   cg.appendChild(d);
 });
 
-// Recherche
+// ---------- RECHERCHE ----------
 var res = document.getElementById("results");
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function render(list, q){
@@ -461,7 +488,7 @@ function search(){
 document.getElementById("q").addEventListener("input", search);
 render(FICHES, "");
 
-// Calculateur Wh
+// ---------- CALCULATEUR Wh ----------
 function wh(){
   var ah = parseFloat(document.getElementById("wh-ah").value);
   var v = parseFloat(document.getElementById("wh-v").value);
@@ -469,11 +496,511 @@ function wh(){
   if(!ah || !v || ah<=0 || v<=0){ out.textContent=""; cls.textContent=""; return; }
   var w = Math.round(ah*v*100)/100;
   out.textContent = "= " + w + " Wh";
-  if(w<=100) cls.textContent = "≤ 100 Wh : régime standard (§ II possible si configuration le permet).";
-  else if(w<=160) cls.textContent = "100–160 Wh : restrictions (accord compagnie, souvent max 2 en cabine passager).";
+  if(w<=100) cls.textContent = "≤ 100 Wh : régime standard (§ II possible si avec/dans équipement, § IB si seule).";
+  else if(w<=160) cls.textContent = "100–160 Wh : restrictions passagers (accord compagnie, max 2 en cabine). § I en fret.";
   else cls.textContent = "> 160 Wh : pleinement réglementée (Section I, DGD, restrictions fortes).";
 }
 document.getElementById("wh-go").addEventListener("click", wh);
+
+// ---------- ASSISTANT DE DÉCISION ----------
+var WZ = {
+  cat: null, sub: null, params: {}
+};
+var CATS = [
+  {v:"piles", t:"🔋 Piles & accus"},
+  {v:"gaz", t:"💨 Gaz & bouteilles"},
+  {v:"carb", t:"⛽ Essence / carburants"},
+  {v:"gilet", t:"🦺 Gilets de sauvetage"}
+];
+var SUBS = {
+  piles: { label:"2 · Quelle chimie ?", opts:[
+    {v:"liion", t:"Lithium-ion (li-ion, Li-polymer)"},
+    {v:"limetal", t:"Lithium-métal (jetable)"},
+    {v:"plomb", t:"Plomb-acide (électrolyte liquide)"},
+    {v:"vrla", t:"Plomb étanche VRLA (non déversable)"},
+    {v:"nimh", t:"Alcalines / NiMH"},
+    {v:"sodium", t:"Sodium-ion"},
+    {v:"vehicule", t:"Véhicule / appareil à batterie (vélo, trottinette…)"}
+  ]},
+  gaz: { label:"2 · Quel gaz ?", opts:[
+    {v:"o2", t:"Oxygène comprimé (bouteille O₂)"},
+    {v:"air", t:"Air comprimé"},
+    {v:"aerosol", t:"Aérosols / bombes spray"},
+    {v:"extincteur", t:"Extincteur"},
+    {v:"camping", t:"Cartouche gaz (camping, réchaud)"}
+  ]},
+  carb: { label:"2 · Quel carburant / produit ?", opts:[
+    {v:"essence", t:"Essence (bidon, jerrican)"},
+    {v:"moteur", t:"Moteur / machine contenant du carburant"},
+    {v:"gasoil", t:"Gasoil / diesel"},
+    {v:"alcool", t:"Alcool, alcool à brûler, parfum"},
+    {v:"peinture", t:"Peinture / vernis (solvant)"}
+  ]},
+  gilet: { label:"2 · Quel type de gilet ?", opts:[
+    {v:"mousse", t:"Mousse (sans gonflage)"},
+    {v:"co2", t:"Gonflable à cartouche CO₂"},
+    {v:"fusees", t:"Avec fusées de détresse"},
+    {v:"pile", t:"Avec pile / batterie lithium (balise…)"}
+  ]}
+};
+function paramsHtml(cat, sub){
+  if(cat==="piles" && (sub==="liion"||sub==="sodium")){
+    return '<div class="wz-label">3 · Configuration</div>'
+    + '<div><div class="field"><select id="wz-config"><option value="">— Choisir —</option><option value="seul">Piles seules (en vrac)</option><option value="avec">Emballées AVEC l\'équipement</option><option value="dans">Installées DANS l\'équipement</option></select></div>'
+    + '<div class="field"><label>Wh par pile (si inconnu : Ah × V, ou calcule dans l\'onglet Piles)</label><input type="number" id="wz-wh" step="0.01" placeholder="ex. 98"></div>'
+    + '<div class="field"><label>Wh par cellule (si connu)</label><input type="number" id="wz-whc" step="0.01" placeholder="ex. 18"></div>'
+    + '<div class="field"><label>État</label><select id="wz-etat"><option value="neuf">Neuve / saine</option><option value="def">Endommagée, défectueuse ou rappelée</option></select></div></div>';
+  }
+  if(cat==="piles" && sub==="limetal"){
+    return '<div class="wz-label">3 · Configuration</div>'
+    + '<div><div class="field"><select id="wz-config"><option value="">— Choisir —</option><option value="seul">Piles seules (en vrac)</option><option value="avec">Emballées AVEC l\'équipement</option><option value="dans">Installées DANS l\'équipement</option></select></div>'
+    + '<div class="field"><label>Lithium par cellule (g)</label><input type="number" id="wz-g" step="0.01" placeholder="ex. 0.8"></div>'
+    + '<div class="field"><label>Lithium total par pile (g)</label><input type="number" id="wz-gt" step="0.01" placeholder="ex. 1.6"></div>'
+    + '<div class="field"><label>État</label><select id="wz-etat"><option value="neuf">Neuve / saine</option><option value="def">Endommagée, défectueuse ou rappelée</option></select></div></div>';
+  }
+  if(cat==="piles" && sub==="plomb") return '<p class="dim">Piles/accumulateurs au plomb à électrolyte liquide — résultat direct :</p>';
+  if(cat==="piles" && sub==="vrla") return '<p class="dim">Accumulateurs plomb étanches (VRLA, « non déversable ») — résultat direct :</p>';
+  if(cat==="piles" && sub==="nimh") return '<p class="dim">Piles alcalines / NiMH neuves — résultat direct :</p>';
+  if(cat==="piles" && sub==="vehicule"){
+    return '<div class="field"><label>Type de batterie</label><select id="wz-veh"><option value="li">Lithium-ion</option><option value="autre">Autre (plomb, etc.)</option></select></div>';
+  }
+  if(cat==="gaz" && sub==="o2") return '<div class="field"><label>Usage</label><select id="wz-o2use"><option value="fret">Fret / expédition</option><option value="med">Bouteille médicale personnelle (passager)</option></select></div>';
+  if(cat==="gaz" && sub==="aerosol") return '<div class="field"><label>Volume par flacon (L)</label><input type="number" id="wz-vol" step="0.01" placeholder="ex. 0.5"></div>';
+  if(cat==="carb" && sub==="essence") return '<div class="field"><label>Mode</label><select id="wz-mode"><option value="fret">Fret / expédition</option><option value="bag">Bagage</option></select></div>';
+  return '';
+}
+function readParams(){
+  var p = {};
+  var ids = ["wz-config","wz-wh","wz-whc","wz-etat","wz-g","wz-gt","wz-veh","wz-o2use","wz-vol","wz-mode"];
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) p[id] = el.value;
+  });
+  return p;
+}
+// Rendu des chips
+function chips(containerId, opts, current, onPick){
+  var c = document.getElementById(containerId);
+  c.innerHTML = "";
+  opts.forEach(function(o){
+    var s = document.createElement("button");
+    s.className = "chip" + (current===o.v ? " on":"");
+    s.textContent = o.t;
+    s.onclick = function(){ onPick(o.v); };
+    c.appendChild(s);
+  });
+}
+function resultCard(r){
+  if(!r) return "";
+  var cls = r.tone || "";
+  var h = '<div class="card rescard ' + cls + '">';
+  h += '<h3>' + r.title + '</h3>';
+  if(r.un) h += '<div class="kv"><b>ONU / PSN</b><span>UN ' + r.un + ' — ' + esc(r.psn) + '</span><b>Classe / PG</b><span>' + esc(r.cl) + '</span><b>PI / section</b><span>' + esc(r.pi) + '</span></div>';
+  if(r.soc) h += '<div class="sec-title">⚡ Particularités</div><ul>' + r.soc.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.emballage) h += '<div class="sec-title">📦 Emballage & colisage</div><ul>' + r.emballage.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.marquage) h += '<div class="sec-title">🖊️ Marquage (inscriptions)</div><ul>' + r.marquage.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.etiquette) h += '<div class="sec-title">🏷️ Étiquetage</div><ul>' + r.etiquette.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.docs) h += '<div class="sec-title">📄 Documents</div><ul>' + r.docs.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.autor) h += '<div class="sec-title">⚠️ Autorisations / interdictions</div><ul>' + r.autor.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  if(r.verif) h += '<div class="sec-title">✅ Vérifie avant expédition</div><ul>' + r.verif.map(function(x){return '<li>'+x+'</li>';}).join("") + '</ul>';
+  h += '<div class="note">Valeurs indicatives — toujours confirmer dans l\'édition du DGR en vigueur + variations compagnie (CASS).</div></div>';
+  return h;
+}
+function compute(cat, sub, p){
+  if(cat==="piles") return computePiles(sub, p);
+  if(cat==="gaz") return computeGaz(sub, p);
+  if(cat==="carb") return computeCarb(sub, p);
+  if(cat==="gilet") return computeGilet(sub, p);
+  return null;
+}
+function li(x){return "• " + x}
+function computePiles(sub, p){
+  if(sub==="liion" || sub==="sodium"){
+    var isNa = sub==="sodium";
+    var ion = isNa ? "sodium-ion" : "lithium-ion";
+    var unSeul = isNa ? "3551" : "3480";
+    var unEq = isNa ? "3552" : "3481";
+    if(p["wz-etat"]==="def") return {tone:"err", title:"⛔ INTERDIT — pile endommagée / défectueuse / rappelée", autor:["Transport aérien interdit (fret ET bagages), quelle que soit la configuration."], soc:["Faire recycler au sol selon la filière locale."]};
+    var cfg = p["wz-config"];
+    if(!cfg) return {tone:"", title:"ℹ️ Choisis la configuration (seule / avec / dans l'équipement) pour obtenir la recommandation.", autor:[]};
+    var wh = parseFloat(p["wz-wh"]);
+    var whc = parseFloat(p["wz-whc"]);
+    if(cfg==="seul"){
+      var sec, pack;
+      if(wh && wh<=100 && (!whc || whc<=20)) sec = "IB";
+      else sec = "IA";
+      if(isNa) sec = wh && wh<=100 ? "IB (à confirmer dans l'édition)" : "IA";
+      return {
+        title: "🛫 Piles " + ion + " seules — UN " + unSeul,
+        un: unSeul, psn: "Piles au " + ion, cl: "9", pi: (isNa?"977":"965") + " — Section " + sec,
+        soc: ["<b>SoC ≤ 30 %</b> de la capacité nominale (contrôle documenté).", "UN 38.3 : résumé d'essais du fabricant à disposition.", "Protection contre les courts-circuits (bornes isolées)."],
+        emballage: sec==="IB" ? ["Emballage extérieur solide (pas d'emballage ONU exigé en IB, mais résistance 1,2 m).", "Quantité max : <b>10 kg nets par colis</b> (vérifier Table 965-IB)."] : ["Emballage <b>ONU agréé PG II</b> obligatoire.", "Quantités selon PI (Table 965-IA)."],
+        marquage: ["Marquage lithium (min 100×100 mm) + <b>n° de téléphone</b> de renseignement.", "En § IB, le n° ONU/PSN n'est pas requis sur le colis ; en Section IA : UN " + unSeul + " + PSN sur chaque colis."],
+        etiquette: ["Étiquette Classe 9 « " + ion + " ».", "<b>Étiquette CARGO AIRCRAFT ONLY</b> — toujours."],
+        docs: ["<b>DGD obligatoire</b> (Sections IA ET IB).", "LTA : mention MDD (dangerous goods as per attached DGD)."],
+        autor: ["<b>Interdit sur avion passagers</b> — fret cargo uniquement.", "Accord préalable compagnie souvent exigé (vérifier CASS)."],
+        verif: ["SoC ≤ 30 % documenté.", "Test summary UN 38.3 disponible.", "Étiquette CAO + Classe 9 apposées.", "DGD signée."]
+      };
+    } else {
+      var avec = cfg==="avec";
+      var sec2 = "II";
+      var over = wh && wh>100;
+      if(over) sec2 = "I";
+      var piEq = isNa ? (avec?"978":"978") : (avec ? "966" : "967");
+      var r = {
+        title: "🛫 Piles " + ion + " " + (avec?"emballées avec":"installées dans") + " l'équipement — UN " + unEq,
+        un: unEq, psn: "Piles au " + ion + (avec?" emballées avec un équipement":" contenues dans un équipement"), cl: "9",
+        pi: piEq + " — Section " + sec2,
+        soc: (avec && sec2==="II") ? ["<b>SoC ≤ 30 %</b> (ou capacité indiquée ≤ 25 %) depuis le <b>01/01/2026</b> si cellules > 2,7 Wh.", "Protection contre l'activation accidentelle de l'équipement.", "UN 38.3 : résumé d'essais."] : ["UN 38.3 : résumé d'essais.", "Protection contre l'activation accidentelle de l'équipement."],
+        emballage: sec2==="II" ? ["Emballage extérieur solide (résistance 1,2 m).", "<b>≤ 5 kg nets de piles par colis</b>."] : ["Emballage <b>ONU agréé PG II</b>.", "≤ 5 kg/colis (avion pax) / ≤ 35 kg (CAO)."],
+        marquage: sec2==="II" ? ["Marquage lithium + téléphone — sauf exception (piles bouton dans l'équipement, ou ≤ 2 colis avec ≤ 4 cellules / 2 piles)."] : ["N° ONU + PSN sur le colis.", "Marquage lithium + téléphone."],
+        etiquette: sec2==="II" ? ["Pas d'étiquette de risque en Section II."] : ["Étiquette Classe 9 « " + ion + " »."],
+        docs: sec2==="II" ? ["<b>Pas de DGD.</b>", "Mention sur la LTA : « Piles au " + ion + " en conformité avec la Section II de la PI " + piEq + " »."] : ["<b>DGD obligatoire</b>."],
+        autor: ["Autorisé sur avion passagers dans les limites indiquées.", "Batteries > 100 Wh : accord compagnie pour l'expédition (et bagages passagers limités)."],
+        verif: ["Section déterminée selon Wh réels.", "Marquage/mention LTA conforme.", "Test summary UN 38.3."]
+      };
+      return r;
+    }
+  }
+  if(sub==="limetal"){
+    if(p["wz-etat"]==="def") return {tone:"err", title:"⛔ INTERDIT — pile endommagée / défectueuse / rappelée", autor:["Transport aérien interdit (fret ET bagages)."]};
+    var cfgm = p["wz-config"];
+    if(!cfgm) return {tone:"", title:"ℹ️ Choisis la configuration pour obtenir la recommandation.", autor:[]};
+    var g = parseFloat(p["wz-g"]);
+    var gt = parseFloat(p["wz-gt"]);
+    if(cfgm==="seul"){
+      var secm = (g && g<=1 && (!gt || gt<=2)) ? "IB" : "IA";
+      return {
+        title:"🛫 Piles lithium-métal seules — UN 3090",
+        un:"3090", psn:"Piles au lithium-métal", cl:"9", pi:"968 — Section " + secm,
+        soc:["UN 38.3 : résumé d'essais.", "Protection courts-circuits."],
+        emballage: secm==="IB" ? ["Emballage extérieur solide (1,2 m).","≤ 2,5 kg nets par colis."] : ["Emballage ONU agréé PG II.","Quantités selon Table 968-IA."],
+        marquage:["Marquage lithium + téléphone.","N° ONU/PSN requis en Section IA."],
+        etiquette:["Étiquette Classe 9 « lithium-métal » (pictogramme spécifique).","<b>CARGO AIRCRAFT ONLY</b> — toujours."],
+        docs:["<b>DGD obligatoire</b> (IA et IB)."],
+        autor:["<b>Interdit sur avion passagers</b> — cargo uniquement.","Accord compagnie fréquent."],
+        verif:["Grammage lithium vérifié.","Étiquettes apposées.","DGD signée."]
+      };
+    }
+    var small = g && g<=1 && (!gt || gt<=2);
+    var secEq = small ? "II" : "I";
+    return {
+      title:"🛫 Piles lithium-métal " + (cfgm==="avec"?"avec":"dans") + " l'équipement — UN 3091",
+      un:"3091", psn:"Piles au lithium-métal " + (cfgm==="avec"?"emballées avec un équipement":"contenues dans un équipement"), cl:"9",
+      pi:(cfgm==="avec"?"969":"970") + " — Section " + secEq,
+      soc:["UN 38.3 : résumé d'essais.","Protection contre l'activation."],
+      emballage: small ? ["Emballage extérieur solide (1,2 m).","Limites Table " + (cfgm==="avec"?"969":"970") + "-II (≤ 5 kg/colis)."] : ["Emballage ONU agréé PG II.","≤ 5 kg (pax) / 35 kg (CAO)."],
+      marquage: small ? ["Marquage lithium (sauf exception piles bouton)."] : ["N° ONU + PSN.","Marquage lithium + téléphone."],
+      etiquette: small ? ["Pas d'étiquette de risque en § II."] : ["Étiquette Classe 9 « lithium-métal »."],
+      docs: small ? ["Pas de DGD.","Mention LTA : « Piles au lithium-métal en conformité avec la Section II de la PI " + (cfgm==="avec"?"969":"970") + " »."] : ["DGD obligatoire."],
+      autor:["Autorisé pax dans les limites.","Au-delà : accord compagnie."],
+      verif:["Grammage vérifié.","Section confirmée."]
+    };
+  }
+  if(sub==="plomb") return {
+    title:"🔋 Piles au plomb-acide (électrolyte liquide)",
+    un:"2794 (piles) / 2795 (batteries)", psn:"Piles, électriques, au plomb, acide", cl:"8", pi:"872",
+    soc:["Bornes vers le haut, jamais à plat.","Fixation anti-déplacement.","Protection courts-circuits."],
+    emballage:["Emballage selon PI 872 (électrolyte corrosif)."],
+    marquage:["N° ONU + PSN sur chaque colis."],
+    etiquette:["Étiquette Classe 8 (corrosif).","Étiquettes d'orientation si électrolyte libre."],
+    docs:["<b>DGD obligatoire</b>."],
+    autor:["<b>Beaucoup de compagnies les refusent</b> — accord préalable quasi systématique (CASS)."],
+    verif:["Étanchéité parfaite.","Position debout garantie.","Accord compagnie écrit."]
+  };
+  if(sub==="vrla") return {
+    title:"🔋 Accumulateurs plomb VRLA (non déversables)",
+    un:"2800", psn:"Accumulateurs au plomb, non déversables", cl:"8 (exceptée possible)", pi:"806",
+    soc:["Bornes protégées contre les courts-circuits.","Position : bornes vers le haut.","Marquage « non-spillable »."],
+    emballage:["Emballage selon PI 806 si expédiées comme MDD.","Peuvent être <b>exceptées</b> (A67) si toutes les conditions respectées."],
+    marquage:["Vérifier la liste des exceptées du DGR en vigueur."],
+    etiquette:["Aucune si exceptées.","Sinon étiquette 8."],
+    docs:["Exceptées : pas de DGD.","Sinon DGD obligatoire."],
+    autor:["Souvent refusées en soute passagers quand même.","Accord compagnie recommandé."],
+    verif:["Statut « non-spillable » documenté.","Conditions de l'exception toutes respectées."]
+  };
+  if(sub==="nimh") return {
+    title:"🔋 Piles alcalines / NiMH",
+    soc:["Non classées marchandises dangereuses si neuves et saines."],
+    emballage:["Emballage protecteur, séparation pour éviter les courts-circuits.","Pas d'exigence ONU."],
+    marquage:["Aucun marquage MDD requis.","Recommandé : « batteries, non réglementées » sur le bon de livraison."],
+    etiquette:["Aucune étiquette MDD."],
+    docs:["Pas de DGD."],
+    autor:["Piles endommagées/fuites : les retirer et traiter à part."],
+    verif:["Piles saines, bornes protégées (scotch ou blister)."]
+  };
+  if(sub==="vehicule"){
+    var liV = p["wz-veh"]==="li";
+    return {
+      title:"🛫 " + (liV?"Véhicule / appareil à batterie lithium-ion":"Véhicule / appareil à batterie (autre chimie)"),
+      un:"3171", psn:"Véhicule électrique à batterie", cl:"9", pi:"952",
+      soc: liV ? ["Batterie protégée contre les courts-circuits et l'endommagement.","<b>SoC</b> : suivre les règles UN 3480/3481 — ≤ 30 % recommandé/vérifier CASS.","Véhicule sécurisé (contact coupé, alarmes désactivées)."] : ["Batterie fixée, protégée, bornes isolées."],
+      emballage:["Pas d'emballage : le véhicule est l'unité de transport (rendu selon PI 952)."],
+      marquage:["Marquage selon PI 952 (n° ONU 3171 si batterie au lithium)."],
+      etiquette: liV ? ["Étiquette Classe 9 lithium (si batterie li-ion)."] : ["Étiquette selon chimie (ex. 8 pour plomb)."],
+      docs:["<b>DGD obligatoire</b>.","UN 38.3 test summary si batterie lithium."],
+      autor:["<b>Accord compagnie obligatoire</b> dans la plupart des cas.","Vélos/trottinettes à batterie : souvent refusés ou exigences fortes (CASS)."],
+      verif:["Batterie attachée et protégée.","Accord écrit de la compagnie.","DGD complète."]
+    };
+  }
+  return null;
+}
+function computeGaz(sub, p){
+  if(sub==="o2"){
+    var med = p["wz-o2use"]==="med";
+    return med ? {
+      title:"💨 Oxygène comprimé — bouteille médicale personnelle (passager)",
+      un:"1072", psn:"Oxygène, comprimé", cl:"2.2 (5.1)", pi:"200",
+      soc:["Bouteille conforme transport (pas de bouteille défectueuse)."],
+      emballage:["Capuchon de robinet, protection de robineterie."],
+      marquage:["Fret : UN 1072, OXYGÈNE, COMPRIMÉ."],
+      etiquette:["2.2 + 5.1 (comburant) en fret."],
+      docs:["Fret : DGD obligatoire.","Passager : accord compagnie à demander AVANT le vol."],
+      autor:["<b>Accord compagnie obligatoire</b> (souvent ≤ 2 bouteilles + vérification CASS).","Concentrateurs d'O₂ portables : généralement autorisés cabine (batteries selon 2.3)."],
+      verif:["Demande faite à la compagnie par écrit.","Débit prescrit ≤ capacité offerte."]
+    } : {
+      title:"💨 Oxygène comprimé (fret) — UN 1072",
+      un:"1072", psn:"Oxygène, comprimé", cl:"2.2 (5.1)", pi:"200",
+      soc:["Pression de service ≤ 2/3 de la pression d'épreuve.","Récipients avec contrôle périodique en cours de validité."],
+      emballage:["Bouteilles selon PI 200 (récipients agréés).","Capuchons de protection, calage anti-choc."],
+      marquage:["UN 1072, OXYGÈNE, COMPRIMÉ.","Expéditeur + destinataire."],
+      etiquette:["<b>Étiquette 2.2 + étiquette 5.1 (comburant)</b> — les deux obligatoires."],
+      docs:["<b>DGD obligatoire</b>."],
+      autor:["Autorisé fret (pax et cargo selon CASS).","Générateurs chimiques d'oxygène (UN 3356) : INTERDITS partout."],
+      verif:["Validité rééprouve bouteilles.","Deux étiquettes (2.2 + 5.1).","DGD complète."]
+    };
+  }
+  if(sub==="air") return {
+    title:"💨 Air comprimé — UN 1002",
+    un:"1002", psn:"Air, comprimé", cl:"2.2", pi:"200",
+    soc:["Même PI 200 que l'O₂, mais <b>sans risque subsidiaire 5.1</b>."],
+    emballage:["Récipients conformes PI 200.","Capuchons, calage."],
+    marquage:["UN 1002, AIR, COMPRIMÉ + expéditeur/destinataire."],
+    etiquette:["Étiquette 2.2 uniquement (pas de 5.1)."],
+    docs:["DGD obligatoire."],
+    autor:["Autorisé fret selon CASS.","Ne pas confondre avec les extincteurs à poudre sous azote (vérifier contenu)."],
+    verif:["Étiquette 2.2 seule.","DGD conforme."]
+  };
+  if(sub==="aerosol"){
+    var vol = parseFloat(p["wz-vol"]);
+    var lq = vol && vol<=1;
+    return {
+      title:"💨 Aérosols — UN 1950" + (lq ? " (régime Limited Quantity possible)" : ""),
+      un:"1950", psn:"Aérosols", cl:"2.1 (ou 2.2 selon contenu)", pi: lq ? "Y203 (LQ)" : "203",
+      soc:["Contenant ≤ 1 L par flacon → régime LQ possible."],
+      emballage: lq ? ["Colis ≤ 30 kg nets.","Emballage solide (1,2 m, empilage 24 h)."] : ["Emballages selon PI 203 (ONU selon quantités)."],
+      marquage: lq ? ["<b>Étiquette « LIMITED QUANTITY »</b> (losange noir).","Pas de n° ONU requis en LQ (suivant édition — vérifier)."] : ["UN 1950, AÉROSOLS.","Quantité nette."],
+      etiquette: lq ? ["Pas d'étiquette de risque en LQ."] : ["Étiquette 2.1 (ou 2.2 si contenu non inflammable)."],
+      docs: lq ? ["<b>Pas de DGD en LQ.</b>"] : ["DGD obligatoire."],
+      autor:["Fret selon CASS.","Bagages : quota hygiène limité (2.3)."],
+      verif:["Volume flacon ≤ 1 L.","Colis ≤ 30 kg.","Marquage LQ si régime LQ."]
+    };
+  }
+  if(sub==="extincteur") return {
+    title:"🧯 Extincteur chargé — UN 1044",
+    un:"1044", psn:"Extincteurs, chargés", cl:"2.2 (selon gaz)", pi:"200 / 219 selon contenu",
+    soc:["Installé et <b>non amorcé</b> (goupille/sceau).","Gaz propulseur typique : azote/CO₂ → 2.2."],
+    emballage:["Selon PI 200/219 (vérifier gaz contenu exact)."],
+    marquage:["UN 1044, EXTINCTEURS, CHARGÉS."],
+    etiquette:["Étiquette 2.2 (ou selon gaz)."],
+    docs:["DGD obligatoire."],
+    autor:["<b>Beaucoup de compagnies refusent les extincteurs</b> — accord préalable indispensable (CASS)."],
+    verif:["Accord compagnie écrit.","Contenu gaz exact identifié."]
+  };
+  if(sub==="camping") return {
+    title:"🔥 Cartouche de gaz (camping/réchaud)",
+    un:"1950 / 2037", psn:"Aérosols / récipients à pression rechargeables", cl:"2.1", pi:"203 / 200",
+    soc:["Cartouches percables non rechargeables : souvent UN 2037 selon édition.","Cartouches à valve : selon liste ONU."],
+    emballage:["Selon PI — colis résistant (poinçonnement par injecteur interdit)."],
+    marquage:["N° ONU + PSN selon type exact."],
+    etiquette:["Étiquette 2.1."],
+    docs:["DGD obligatoire en fret."],
+    autor:["<b>Souvent refusées</b>, même entamées/vidées (résidus) — accord compagnie systématique.","Bagages : selon CASS (généralement refusé en soute)."],
+    verif:["Type de cartouche identifié.","Accord compagnie."]
+  };
+  return null;
+}
+function computeCarb(sub, p){
+  if(sub==="essence"){
+    if(p["wz-mode"]==="bag") return {tone:"err", title:"⛔ INTERDIT — essence en bagages", autor:["Bidons d'essence, essence dans un réservoir non purgé : interdits en bagages cabine ET soute.","Seule option : expédition fret UN 1203 (DGD) ou moteur UN 3528 réservoir purgé (accord)."]};
+    return {
+      title:"⛽ Essence — UN 1203",
+      un:"1203", psn:"ESSENCE (MOTOR SPIRIT / PETROL)", cl:"3 · PG II", pi:"358 (LQ : Y341)",
+      soc:["Point éclair ≤ −18 °C environ → PG II.","Vapours : colis étanches, pas de fuite."],
+      emballage:["Emballages <b>ONU agréés</b> (fûts, jerricans, combinaisons) selon PI 358.","LQ possible : PI Y341, colis ≤ 30 kg (limites intérieures selon édition)."],
+      marquage:["UN 1203, ESSENCE.","Expéditeur/destinataire.","Quantité nette.","« LIMITED QUANTITY » si LQ."],
+      etiquette:["Étiquette 3 (liquide inflammable).","Étiquettes d'orientation (2 opposées)."],
+      docs:["<b>DGD obligatoire</b> (hors LQ).","LQ : pas de DGD mais marquage LQ."],
+      autor:["<b>Interdit en bagages</b>.","Fret pax et cargo selon CASS (souvent CAO uniquement)."],
+      verif:["Emballage ONU (marquage 3A/Y…).","Étiquette 3 + orientations.","DGD complète.","Jamais en bagage."]
+    };
+  }
+  if(sub==="moteur") return {
+    title:"⚙️ Moteur/machine à combustion (carburant liquide) — UN 3528",
+    un:"3528", psn:"Moteur, à combustion interne", cl:"3 · PG III", pi:"970",
+    soc:["La plupart des compagnies exigent réservoir <b>vidé et purgé</b> (dégazé).","Bouchon sécurisé, conduites bouchées."],
+    emballage:["Pas d'emballage ONU (A199/A67) mais protection des points sensibles.","Caleté, fixé si palette."],
+    marquage:["UN 3528, MOTEUR, À COMBUSTION INTERNE.","Accord/mention selon CASS."],
+    etiquette:["Étiquette 3."],
+    docs:["DGD obligatoire (selon accord).","Parfois simple mention sur LTA selon compagnie — vérifier CASS."],
+    autor:["<b>Accord compagnie quasi systématique</b> (générateurs, tronçonneuses, tondeuses…).","Gasoil (PE > 60,5 °C) : peut être non réglementé après purge complète."],
+    verif:["Réservoir vidé + purgé.","Étiquette 3 apposée.","Accord écrit."]
+  };
+  if(sub==="gasoil") return {
+    title:"⛽ Gasoil / diesel — UN 1202",
+    un:"1202", psn:"GAZOLE / CARBURANT DIESEL", cl:"3 · PG III", pi:"366 (LQ : Y344)",
+    soc:["Point éclair > 60,5 °C possible → alors non réglementé (vérifier fiche du produit)."],
+    emballage:["ONU agréé selon PI 366.","LQ Y344 possible (colis ≤ 30 kg)."],
+    marquage:["UN 1202 + PSN + quantité nette (si réglementé)."],
+    etiquette:["Étiquette 3 + orientations (si réglementé)."],
+    docs:["DGD obligatoire (si réglementé)."],
+    autor:["Interdit en bagages (bidons).","Fret selon CASS."],
+    verif:["Point éclair documenté.","Régime LQ ou complet choisi."]
+  };
+  if(sub==="alcool") return {
+    title:"🥃 Alcool / alcool à brûler — UN 1170",
+    un:"1170", psn:"ALCOOL ÉTHYLIQUE (SOLUTION)", cl:"3 · PG II/III selon PE", pi:"355 / 366",
+    soc:["≤ 24 % vol : pas de restriction bagages.","24–70 % : ≤ 5 L par personne, emballage de détail, bagage enregistré.","&gt; 70 % : interdit en bagages."],
+    emballage:["ONU agréé selon PI 355/366.","LQ possible selon PG (Y343/Y344)."],
+    marquage:["UN 1170 + PSN + PG + quantité."],
+    etiquette:["Étiquette 3 + orientations."],
+    docs:["DGD obligatoire en fret."],
+    autor:["Fret selon CASS.","Parfums : idem (alcool > 24 %)."],
+    verif:["Degré alcoolique connu.","PG correctement déterminé."]
+  };
+  if(sub==="peinture") return {
+    title:"🎨 Peinture / vernis — UN 1263",
+    un:"1263", psn:"PEINTURE", cl:"3 · PG II/III selon PE", pi:"355 / 366 (LQ : Y343/Y344)",
+    soc:["Base eau non inflammable : non réglementée."],
+    emballage:["ONU selon PI 355/366.","LQ possible ≤ 30 kg/colis."],
+    marquage:["UN 1263, PEINTURE + PG + quantité."],
+    etiquette:["Étiquette 3 + orientations."],
+    docs:["DGD obligatoire en fret."],
+    autor:["Interdit en bagages.","Fret selon CASS."],
+    verif:["Solvant identifié (à l'eau = non réglementé).","PG documenté."]
+  };
+  return null;
+}
+function computeGilet(sub){
+  if(sub==="mousse") return {tone:"ok", title:"✅ Gilet en mousse — pas de restriction MDD", autor:["Pas de réglementation marchandises dangereuses (sans dispositif de gonflage ni pyrotechnie)."], verif:["Vérifier qu'il n'y a ni cartouche ni fusée intégrée."]};
+  if(sub==="co2") return {
+    title:"🦺 Gilet gonflable à cartouche CO₂ — UN 2990",
+    un:"2990", psn:"Articles, sous pression pneumatique", cl:"2.2", pi:"— (accord compagnie)",
+    soc:["Cartouche CO₂ sécurisée, dispositif protégé contre le déclenchement accidentel."],
+    emballage:["Emballage selon accord compagnie."],
+    marquage:["Selon accord (souvent mention sur le colis)."],
+    etiquette:["Étiquette 2.2 si exigée par la compagnie."],
+    docs:["Fret : DGD selon accord.","Bagages : information au check-in."],
+    autor:["<b>Accord compagnie obligatoire</b> en fret.","En bagages : généralement ≤ 2 gilets avec cartouches (2 gilets + 2 cartouches de rechange selon CASS)."],
+    verif:["Nombre de cartouches déclaré.","Accord CASS vérifié."]
+  };
+  if(sub==="fusees") return {
+    tone:"err",
+    title:"⚠️ Gilet avec fusées de détresse — UN 0191 / 0323 (1.4G)",
+    un:"0191/0323", psn:"Fusées, détresse / cartouches, signalisation", cl:"1.4G", pi:"135",
+    soc:["Explosifs classe 1 — régime lourd."],
+    emballage:["Selon PI 135 et accord."],
+    marquage:["Selon PI 135 (compatibilité groupe G)."],
+    etiquette:["Étiquette 1.4G (+ Ex selon cas)."],
+    docs:["DGD obligatoire en fret."],
+    autor:["<b>Accord compagnie préalable systématique — souvent REFUSÉES, surtout en bagages.","Souvent interdites bagages enregistrés selon compagnies."],
+    verif:["Demander l'accord par écrit avant tout achat de billet.","Prévoir un gilet sans fusées en remplacement."]
+  };
+  if(sub==="pile") return {
+    title:"🦺 Gilet avec pile/batterie lithium",
+    un:"3481 / 3091", psn:"Piles au lithium [ion/métal] contenues dans un équipement", cl:"9", pi:"967 / 970 — Section II en général",
+    soc:["Piles bouton ou petites batteries → Section II le plus souvent."],
+    emballage:["Colis solide standard (≤ 5 kg de piles par colis en § II)."],
+    marquage:["Marquage lithium, sauf exception piles bouton / petite consignation."],
+    etiquette:["Pas d'étiquette de risque en § II."],
+    docs:["Pas de DGD en § II.","Mention LTA si marquage lithium apposé."],
+    autor:["Autorisé fret et bagages dans les limites § II.","Vérifier CASS pour le transport combiné gilet CO₂ + pile."],
+    verif:["Section II confirmée (Wh / g lithium).","Marquage ou mention LTA selon le cas."]
+  };
+  return null;
+}
+function refreshWiz(){
+  chips("wz-cat", CATS, WZ.cat, function(v){
+    WZ.cat = v; WZ.sub = null; WZ.params = {};
+    refreshWiz();
+  });
+  var subWrap = document.getElementById("wz-sub-wrap");
+  var subBox = document.getElementById("wz-sub");
+  if(WZ.cat && SUBS[WZ.cat]){
+    subWrap.style.display = "";
+    document.getElementById("wz-sub-label").textContent = SUBS[WZ.cat].label;
+    chips("wz-sub", SUBS[WZ.cat].opts, WZ.sub, function(v){
+      WZ.sub = v;
+      refreshWiz();
+    });
+  } else { subWrap.style.display = "none"; subBox.innerHTML = ""; }
+  var pz = document.getElementById("wz-params");
+  pz.innerHTML = WZ.cat && WZ.sub ? paramsHtml(WZ.cat, WZ.sub) : "";
+  var out = document.getElementById("wz-result");
+  if(WZ.cat && WZ.sub){
+    var p = readParams();
+    var r = compute(WZ.cat, WZ.sub, p);
+    out.innerHTML = resultCard(r || {title:"ℹ️ Renseigne les champs ci-dessus."});
+    // listeners pour recalcul en direct
+    pz.querySelectorAll("input,select").forEach(function(el){
+      el.addEventListener("change", refreshWiz);
+      el.addEventListener("input", refreshWiz);
+    });
+  } else out.innerHTML = "";
+}
+refreshWiz();
+
+// ---------- GÉNÉRATEUR DGD ----------
+function gv(id, def){ var e = document.getElementById(id); return e && e.value ? e.value : (def||"—"); }
+function renderDgd(){
+  var cao = gv("d-cao")==="oui" ? "CARGO AIRCRAFT ONLY" : "—";
+  var d = document.getElementById("dgd-preview");
+  if(!d) return;
+  var h = '<div class="hatch"></div>';
+  h += '<h4>Shipper&rsquo;s Declaration for Dangerous Goods</h4>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Shipper (expéditeur) — nom, adresse, tél.</div><div class="vl">' + esc(gv("d-ship")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Consignee (destinataire)</div><div class="vl">' + esc(gv("d-cons")) + '</div></div>';
+  h += '</div>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Air Waybill No (LTA)</div><div class="vl">' + esc(gv("d-awb")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Page 1 of 1 pages — Shipper&rsquo;s reference</div><div class="vl">—</div></div>';
+  h += '</div>';
+  h += '<div class="row">';
+  h += '<div class="box"><div class="lb">Airport of departure (aéroport de départ)</div><div class="vl">' + esc(gv("d-dep")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Airport of destination</div><div class="vl">' + esc(gv("d-arr")) + '</div></div>';
+  h += '</div>';
+  h += '<div class="box"><div class="lb">Transporteur / compagnie aérienne</div><div class="vl">' + esc(gv("d-cie")) + '</div></div>';
+  h += '<table><tr><th>UN No</th><th>Proper Shipping Name (PSN)</th><th>Class/Div</th><th>PG</th><th>Quantity &amp; Type of Packaging</th><th>Packing Inst.</th></tr>';
+  h += '<tr><td>' + esc(gv("d-un")) + '</td><td>' + esc(gv("d-psn")) + '</td><td>' + esc(gv("d-cl")) + '</td><td>' + esc(gv("d-pg")) + '</td><td>' + esc(gv("d-qty")) + ' — ' + esc(gv("d-pkg")) + '</td><td>' + esc(gv("d-pi")) + '</td></tr>';
+  h += '</table>';
+  h += '<div class="box"><div class="lb">Aircraft limitation / mention</div><div class="vl">' + cao + '</div></div>';
+  h += '<div class="box"><div class="lb">Handling information (informations de manipulation)</div><div class="vl">' + esc(gv("d-hi")) + '</div></div>';
+  h += '<div class="decl"><b>Déclaration :</b> Je déclare que le contenu de cette expédition est pleinement et exactement décrit ci-dessus par la désignation officielle de transport, qu\'il est classé, emballé, marqué, étiqueté et en état de transport conformément aux règles internationales applicables et aux normes nationales applicables, et que le transport aérien est autorisé (I declare that the contents of this consignment are fully and accurately described above…)…</div>';
+  h += '<div class="sign">';
+  h += '<div class="box"><div class="lb">Name/Title of Signatory (nom, fonction du signataire)</div><div class="vl">' + esc(gv("d-sign")) + '</div></div>';
+  h += '<div class="box"><div class="lb">Signature &amp; date</div><div class="vl">(signature manuscrite obligatoire)</div></div>';
+  h += '</div>';
+  d.innerHTML = h;
+  var line = document.getElementById("dgd-line");
+  if(line){
+    var txt = "UN " + gv("d-un") + ", " + gv("d-psn") + ", classe " + gv("d-cl") + ", PI " + gv("d-pi");
+    if(cao!=="—") txt += " — CARGO AIRCRAFT ONLY";
+    txt += " — " + gv("d-qty") + ", " + gv("d-pkg") + ".";
+    if(gv("d-hi")!=="—") txt += " Manipulation : " + gv("d-hi") + ".";
+    line.textContent = txt;
+  }
+}
+["d-ship","d-cons","d-cie","d-awb","d-dep","d-arr","d-un","d-psn","d-cl","d-pg","d-pi","d-qty","d-pkg","d-cao","d-hi","d-sign"].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el){ el.addEventListener("input", renderDgd); el.addEventListener("change", renderDgd); }
+});
+var cpBtn = document.getElementById("dgd-copy");
+if(cpBtn) cpBtn.addEventListener("click", function(){
+  var t = document.getElementById("dgd-line").textContent;
+  if(navigator.clipboard) navigator.clipboard.writeText(t).catch(function(){});
+});
+renderDgd();
 </script>
 <script>
 if ("serviceWorker" in navigator) {

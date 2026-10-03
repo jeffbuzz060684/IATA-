@@ -1,4 +1,4 @@
-var CACHE = "iata-mdd-v1";
+var CACHE = "iata-mdd-v2";
 var SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", function(e) {
