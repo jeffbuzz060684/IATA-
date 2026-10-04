@@ -127,7 +127,7 @@
 </head>
 <body>
 <header>
-  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v5</span></h1>
+  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v6</span></h1>
   <div class="search"><input id="q" type="search" placeholder="🔎 Rechercher : n° ONU, matière, PI, classe… (base : 2349 n° ONU)" autocomplete="off"></div>
   <div id="vernote"></div>
 </header>
@@ -147,7 +147,7 @@
 
 <!-- ======================= RECHERCHE ======================= -->
 <section id="tab-rech">
-  <div class="warnbox">⚠️ Aide-mémoire de terrain — toujours vérifier l'édition du DGR IATA en vigueur et les variations compagnie (CASS) avant d'expédier. Les fiches détaillées s'affichent en premier, puis les entrées de la base ONU (classe, PG, risques subsidiaires).</div>
+  <div class="warnbox">⚠️ Aide-mémoire de terrain — toujours vérifier l'édition du DGR IATA en vigueur et les variations compagnie (CASS) avant d'expédier. Les fiches détaillées s'affichent en premier, puis les entrées de la base ONU (classe, PG, risques subsidiaires). <b>➕ Sur chaque résultat : « Ajouter à mon état de colisage »</b> — choisis le colis de destination (nouveau ou existant), l'app vérifie aussitôt les incompatibilités.</div>
   <div id="results"></div>
 </section>
 
@@ -738,7 +738,8 @@ function ficheCard(f){
     + '<b>Avion pax</b><span>'+esc(f.pax)+'</span>'
     + '<b>Cargo</b><span>'+esc(f.cargo)+'</span>'
     + '</div><ul><li>'+esc(f.notes)+'</li></ul>'
-    + '<div class="note">Vérifier l\'édition du DGR en vigueur + variations compagnie (CASS).</div></div>';
+    + '<div class="note">Vérifier l\'édition du DGR en vigueur + variations compagnie (CASS).</div>'
+    + '<button class="btn-mini" data-colisadd="'+esc(f.un)+'">➕ Ajouter à mon état de colisage</button></div>';
 }
 function dbCard(e){
   var ov = AIRX[e[0]];
@@ -749,7 +750,8 @@ function dbCard(e){
     + '<b>Particularités</b><span>'+(ov ? (ov.cao?'Cargo Aircraft Only. ':'')+(ov.li?'Marquage piles. ':'')+(ov.interdit?'INTERDIT en fret aérien. ':'')+(ov.noDgd?'Pas de DGD (mention LTA). ':'')+(ov.dgd?'DGD obligatoire. ':'')+(ov.awb?'Mention LTA obligatoire. ':'') : '—')+'</span>'
     + '</div>'
     + (ov ? '<ul><li>'+(ov.cao?'Interdit avion passagers (CAO). ':'')+(ov.li?'Régime piles : sections/SoC selon configuration — voir onglet Piles. ':'')+'</li></ul>' : '')
-    + '<div class="note">Entrée base publique ONU — la désignation officielle de transport exacte (PSN) et les limites aériennes : toujours au DGR en vigueur + CASS.</div></div>';
+    + '<div class="note">Entrée base publique ONU — la désignation officielle de transport exacte (PSN) et les limites aériennes : toujours au DGR en vigueur + CASS.</div>'
+    + '<button class="btn-mini" data-colisadd="'+esc(e[0])+'">➕ Ajouter à mon état de colisage</button></div>';
 }
 function search(){
   var q = document.getElementById("q").value.trim();
@@ -772,6 +774,126 @@ function search(){
 }
 document.getElementById("q").addEventListener("input", search);
 search();
+
+// ---------- RECHERCHE → AJOUT AU COLISAGE (v6) ----------
+var ADD_DET = null, ADD_BOX = null;
+function detFromUn(un){
+  var u = un4(un);
+  var e = dbByUn(u), ax = AIRX[u] || {};
+  var f = FICHES.filter(function(x){ return un4(x.un) === u; })[0] || null;
+  var cls = parseCls(f ? f.cl : (e ? e[2] : ""));
+  var cl = cls[0] || (e ? e[2] : "");
+  var sub = (e && e[4]) ? e[4] : (cls.slice(1).join(" ") || "");
+  return {
+    un: u, psn: f ? f.psn : (e ? e[1] : ""),
+    cl: cl, sub: sub,
+    pg: (f && f.pg && f.pg !== "—") ? f.pg : (e ? (e[3] || "") : ""),
+    pi: ax.pi || (f ? String(f.pi).split(" ")[0] : ""),
+    cao: !!ax.cao, lq: !!ax.lq, note: ax.note || "",
+    interdit: !!ax.interdit
+  };
+}
+function colisDstOptions(){
+  var out = '<option value="">➕ Nouveau colis</option>', seen = {};
+  COLIS.forEach(function(c){
+    var p = String(c.pkg || "").trim();
+    if(!p || seen[norm(p)]) return;
+    seen[norm(p)] = 1;
+    var inside = COLIS.filter(function(x){ return colisGrp(x) === norm(p); });
+    out += '<option value="' + esc(p) + '">' + esc(p) + ' — ' + inside.length + ' matière(s) (UN ' + inside.map(function(x){ return x.un || "?"; }).join(", ") + ')</option>';
+  });
+  return out;
+}
+function colisAddOpen(un, card){
+  if(ADD_BOX && ADD_BOX.parentNode) ADD_BOX.parentNode.removeChild(ADD_BOX);
+  ADD_DET = detFromUn(un);
+  ADD_BOX = document.createElement("div");
+  ADD_BOX.className = "card";
+  ADD_BOX.innerHTML = '<h3>➕ UN ' + esc(ADD_DET.un) + ' — ' + esc(ADD_DET.psn) + ' : ajout au colisage</h3>'
+    + (ADD_DET.interdit ? '<p class="warnline">⛔ Cette matière est interdite en fret aérien — expédition impossible.</p>' : '')
+    + '<div class="field"><label>Destination — dans quel colis ?</label><select id="ca-dst">' + colisDstOptions() + '</select></div>'
+    + '<div class="field"><label>Type d\'emballage / nom du colis</label><input type="text" id="ca-pkg" placeholder="ex. caisse ONU 4G, fût 3A… (identifie le colis)"></div>'
+    + '<div class="field"><label>Quantité nette</label><input type="text" id="ca-qty" placeholder="ex. 12 kg / 8 L"></div>'
+    + '<div class="field"><label>Nombre de colis</label><input type="number" id="ca-nb" value="1" min="1"></div>'
+    + '<div class="field"><label>Particularités / remarques</label><input type="text" id="ca-notes" placeholder="' + esc(ADD_DET.note || "SoC 30 %, accord compagnie…") + '"></div>'
+    + '<p class="note">⚠️ L\'app vérifie immédiatement les incompatibilités (Table 9.3.A) avec tes autres colis et te prévient — y compris si deux matières incompatibles finissent dans le même colis.</p>'
+    + '<div class="toolbar"><button class="btn acc" id="ca-ok">✅ Ajouter au colisage</button><button class="btn" id="ca-no">✖️ Annuler</button></div>'
+    + '<div id="ca-res"></div>';
+  if(card && card.parentNode) card.parentNode.insertBefore(ADD_BOX, card.nextSibling);
+  else res.appendChild(ADD_BOX);
+  var sel = document.getElementById("ca-dst");
+  if(sel) sel.addEventListener("change", colisAddDstSync);
+  var okB = document.getElementById("ca-ok");
+  if(okB) okB.addEventListener("click", colisAddConfirm);
+  var noB = document.getElementById("ca-no");
+  if(noB) noB.addEventListener("click", colisAddClose);
+  if(ADD_BOX.scrollIntoView) ADD_BOX.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+function colisAddDstSync(){
+  var v = gv("ca-dst");
+  var e = document.getElementById("ca-pkg");
+  if(v && e) e.value = v;
+}
+function colisAddClose(){
+  if(ADD_BOX && ADD_BOX.parentNode) ADD_BOX.parentNode.removeChild(ADD_BOX);
+  ADD_BOX = null;
+}
+function colisBuildFromDet(det, opts){
+  opts = opts || {};
+  var dst = opts.dstPkg ? (COLIS.filter(function(x){ return colisGrp(x) === norm(opts.dstPkg); })[0] || null) : null;
+  return {
+    id: Date.now() + Math.floor(Math.random() * 1000),
+    date: new Date().toISOString().slice(0, 10),
+    un: det.un, psn: det.psn, cl: det.cl, sub: det.sub || "", pg: det.pg || "", pi: det.pi || "",
+    ship: dst ? (dst.ship || "") : "", cons: dst ? (dst.cons || "") : "",
+    qty: opts.qty || "", nb: opts.nb || 1,
+    pkg: opts.pkg || (dst ? dst.pkg : ""),
+    cao: !!det.cao, lq: !!det.lq,
+    notes: opts.notes || det.note || ""
+  };
+}
+function colisAddConfirm(){
+  if(!ADD_DET) return;
+  var dstV = gv("ca-dst");
+  var c = colisBuildFromDet(ADD_DET, { dstPkg: dstV, pkg: gv("ca-pkg") || dstV, qty: gv("ca-qty"), nb: parseInt(gv("ca-nb"), 10) || 1, notes: gv("ca-notes") });
+  COLIS.push(c);
+  colisSave(); colisRender();
+  colisAddFeedback(c);
+}
+function colisNewConflicts(c){
+  return analyseIncompat(COLIS).filter(function(x){ return x.a.id === c.id || x.b.id === c.id; });
+}
+function colisAddFeedback(c){
+  var box = document.getElementById("ca-res");
+  if(!box) return;
+  var conf = colisNewConflicts(c);
+  var where = c.pkg ? 'dans le colis « ' + esc(c.pkg) + ' »' : "comme nouveau colis";
+  var h = '<p class="okline">✅ <b>UN ' + esc(c.un) + ' — ' + esc(c.psn) + '</b> ajouté ' + where + '.</p>';
+  if(conf.length){
+    h += incompatHtml(conf);
+    h += '<p class="note">À corriger dans l\'onglet 📦 Colis avant expédition (séparer les matières, changer de colis/overpack).</p>';
+  } else {
+    h += '<p class="okline">Aucune incompatibilité détectée avec tes autres colis.</p>';
+  }
+  h += '<button class="btn-mini" id="ca-goto">📦 Voir mon état de colisage</button>';
+  box.innerHTML = h;
+  var g = document.getElementById("ca-goto");
+  if(g) g.addEventListener("click", function(){ goTab("colis"); });
+}
+if(res) res.addEventListener("click", function(ev){
+  var t = ev.target;
+  var un = null;
+  while(t && t !== res){
+    var a = t.getAttribute ? t.getAttribute("data-colisadd") : null;
+    if(a){ un = a; break; }
+    t = t.parentNode;
+  }
+  if(un){
+    var card = t ? t.parentNode : null;
+    while(card && card !== res && String(card.className || "").indexOf("card") === -1) card = card.parentNode;
+    colisAddOpen(un, card && card !== res ? card : null);
+  }
+});
 
 // ---------- CALCULATEUR Wh ----------
 function wh(){
@@ -1295,7 +1417,7 @@ function labelSvg(kind){
     + '</svg>';
 }
 // ====================== COLIS v4 : état de colisage ======================
-var APP_VERSION = 5;
+var APP_VERSION = 6;
 var COLIS_KEY = "iata-colis-v1";
 var COLIS = [];
 function colisLoad(){ try { COLIS = JSON.parse(localStorage.getItem(COLIS_KEY) || "[]"); } catch(e){ COLIS = []; } }
@@ -1390,19 +1512,24 @@ function segReason(a, b){
   }
   return null;
 }
+function colisGrp(c){ var p = String((c && c.pkg) || "").trim(); return p ? norm(p) : ""; }
 function analyseIncompat(colis){
   var out = [];
   for(var i = 0; i < colis.length; i++){
     for(var j = i + 1; j < colis.length; j++){
       var t = segReason(colis[i], colis[j]);
-      if(t) out.push({a: colis[i], b: colis[j], txt: t});
+      if(t){
+        var g = colisGrp(colis[i]);
+        out.push({a: colis[i], b: colis[j], txt: t, same: !!(g && g === colisGrp(colis[j]))});
+      }
     }
   }
   return out;
 }
 function incompatHtml(items){
   return items.map(function(x){
-    return '<div class="warnline">🚫 <b>UN ' + esc(x.a.un || "?") + '</b> (' + esc(x.a.psn || "?") + ') ↔ <b>UN ' + esc(x.b.un || "?") + '</b> (' + esc(x.b.psn || "?") + ') — ' + x.txt + '</div>';
+    var head = x.same ? '⛔ <b>Même colis « ' + esc(x.a.pkg || "?") + ' »</b> — à séparer immédiatement : ' : '🚫 ';
+    return '<div class="warnline">' + head + '<b>UN ' + esc(x.a.un || "?") + '</b> (' + esc(x.a.psn || "?") + ') ↔ <b>UN ' + esc(x.b.un || "?") + '</b> (' + esc(x.b.psn || "?") + ') — ' + x.txt + '</div>';
   }).join("");
 }
 function reglesCheckRender(items){
@@ -1592,6 +1719,17 @@ function colisRender(){
       + '<p class="note">Détail dans l\'onglet ⚖️ Règles.</p>';
     list.appendChild(d0);
   }
+  var groups = {};
+  COLIS.forEach(function(c){ var g = colisGrp(c); if(g){ (groups[g] = groups[g] || []).push(c); } });
+  Object.keys(groups).forEach(function(g){
+    if(groups[g].length > 1){
+      var dg = document.createElement("div");
+      dg.className = "colis-item";
+      dg.innerHTML = '<h4>📦 Colis « ' + esc(groups[g][0].pkg) + ' » — ' + groups[g].length + ' matières <span class="badge">OVERPACK</span></h4>'
+        + '<div class="infoline">ℹ️ Plusieurs matières dans ce colis → overpack : mention « OVERPACK » à côté du marquage + reproduire marquages et étiquettes de chaque contenu (sauf s\'ils restent visibles). Overpack interdit entre matières devant être séparées.</div>';
+      list.appendChild(dg);
+    }
+  });
   COLIS.forEach(function(c){
     var a = analyseColis(c);
     var d = document.createElement("div");
@@ -1599,6 +1737,7 @@ function colisRender(){
     d.innerHTML = '<h4>UN ' + esc(c.un) + ' — ' + esc(c.psn) + ' <span class="badge b-cl">Cl ' + esc(c.cl) + '</span>'
       + (c.cao ? ' <span class="badge b-err">CAO</span>' : '')
       + (c.lq ? ' <span class="badge b-lq">LQ</span>' : '')
+      + (c.pkg ? ' <span class="badge">📦 ' + esc(c.pkg) + '</span>' : '')
       + (a.warns.length ? ' <span class="badge b-err">' + a.warns.length + ' ⚠️</span>' : ' <span class="badge b-ok">✅</span>') + '</h4>'
       + '<div class="kv"><b>Expéditeur</b><span>' + esc(c.ship) + '</span><b>Destinataire</b><span>' + esc(c.cons) + '</span><b>PI/section</b><span>' + esc(c.pi) + '</span><b>Qté</b><span>' + esc(c.qty) + ' · ' + c.nb + ' colis · ' + esc(c.pkg) + '</span><b>Notes</b><span>' + esc(c.notes) + '</span></div>'
       + '<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">' + colisLabelsHtml(c) + '</div>'

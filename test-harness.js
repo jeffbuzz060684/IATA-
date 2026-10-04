@@ -1,4 +1,4 @@
-// Harnais de tests — Assistant IATA MDD v5
+// Harnais de tests — Assistant IATA MDD v6
 var fs = require("fs");
 var path = require("path");
 var DIR = __dirname;
@@ -13,12 +13,13 @@ function T(name, cond) {
 ["index.html", "manifest.webmanifest", "sw.js", "icon.svg", "tools/gen-icons.js", ".github/workflows/pages.yml", "version.json", "db-onu.js"].forEach(function (f) {
   T("fichier présent " + f, fs.existsSync(path.join(DIR, f)));
 });
-T("badge v5", html.indexOf(">v5<") !== -1);
-T("sw v5", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v5") !== -1);
+T("badge v6", html.indexOf(">v6<") !== -1);
+T("sw v6", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v6") !== -1);
 T("sw inclut db-onu.js", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("db-onu.js") !== -1);
 T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("version.json") !== -1);
-T("version.json v5", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 5);
+T("version.json v6", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 6);
 T("10 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
+T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);
 T("import xlsx retiré (accept csv seul)", html.indexOf('accept=".csv,text/csv"') !== -1 && !/accept="[^"]*\.xlsx/.test(html));
 T("parseur xlsx supprimé", html.indexOf("function zipExtract") === -1 && html.indexOf("function xlsxRows") === -1 && html.indexOf("DecompressionStream") === -1);
@@ -27,9 +28,11 @@ T("onglet Règles : tableau 9.3.A", html.indexOf("Table 9.3.A") !== -1 && html.i
 // ---- Stubs DOM ----
 function makeEl() {
   return {
-    children: [], innerHTML: "", textContent: "", value: "", style: {}, files: null, className: "",
+    children: [], innerHTML: "", textContent: "", value: "", style: {}, files: null, className: "", dataset: {},
     addEventListener: function(){}, appendChild: function(c){this.children.push(c)},
+    insertBefore: function(c){this.children.push(c)},
     setAttribute: function(){}, getAttribute: function(){return null;},
+    querySelector: function(){ return null; },
     querySelectorAll: function(){ return { forEach: function(){} }; },
     classList: { add:function(){}, remove:function(){}, contains:function(){return false} }
   };
@@ -75,7 +78,7 @@ T("UN 2990 = classe 9 (IATA)", dbByUn("2990") && dbByUn("2990")[2] === "9");
 T("UN 1072 : subsidiaire 5.1", dbByUn("1072") && dbByUn("1072")[4] === "5.1");
 
 // ---- Corrections réglementaires v4 ----
-T("APP_VERSION = 5", typeof APP_VERSION !== "undefined" && APP_VERSION === 5);
+T("APP_VERSION = 6", typeof APP_VERSION !== "undefined" && APP_VERSION === 6);
 var rM = compute("carb", "moteur", {});
 T("UN 3528 → PI 378 (plus jamais 970)", rM.pi.indexOf("378") !== -1 && rM.pi.indexOf("970") === -1);
 var rG = compute("gilet", "co2", {});
@@ -210,6 +213,55 @@ T("DGD : mention CARGO AIRCRAFT ONLY", dgdH.indexOf("CARGO AIRCRAFT ONLY") !== -
 T("DGD : format officiel (Nature and Quantity + déclaration)", dgdH.indexOf("Nature and Quantity") !== -1 && dgdH.indexOf("fully and accurately described") !== -1);
 T("DGD : lignes texte copiables", (els["dgd-line"].textContent || "").indexOf("UN 3480") !== -1 && (els["dgd-line"].textContent || "").indexOf("UN 1203") !== -1);
 T("DGD : impression A4 remplie", els["print-dgd"].innerHTML.indexOf("3480") !== -1);
+
+// ---- v6 : ajout depuis la recherche + choix du colis de destination ----
+T("detFromUn défini", typeof detFromUn === "function");
+var det1 = detFromUn("1072");
+T("detFromUn 1072 → 2.2 + subsidiaire 5.1 + PI 200", det1.cl === "2.2" && det1.sub === "5.1" && det1.pi.indexOf("200") !== -1);
+var det2 = detFromUn("3480");
+T("detFromUn 3480 → CAO + PI 965", det2.cao === true && det2.pi.indexOf("965") !== -1);
+COLIS = [ { id: 501, date: "2026-10-04", un: "3480", psn: "Piles au lithium-ion", cl: "9", sub: "", pg: "", pi: "965 IB", ship: "BMPM Marseille", cons: "Doha", qty: "5 kg", nb: 1, pkg: "caisse ONU 4G", cao: true, lq: false, notes: "" } ];
+colisSave();
+var newC = colisBuildFromDet(detFromUn("1203"), { dstPkg: "caisse ONU 4G", qty: "20 L", nb: 2 });
+T("colisBuildFromDet : colis existant → ship/cons/pkg copiés", newC.ship === "BMPM Marseille" && newC.pkg === "caisse ONU 4G" && newC.qty === "20 L");
+var newD = colisBuildFromDet(detFromUn("1203"), {});
+T("colisBuildFromDet : nouveau colis → pkg vide, expéditeur vide", newD.pkg === "" && newD.ship === "");
+COLIS.push(newC); colisSave();
+var confSame = analyseIncompat(COLIS);
+T("deux matières incompatibles dans le MÊME colis → même=true", confSame.length === 1 && confSame[0].same === true);
+T("incompatHtml : mention « Même colis »", incompatHtml(confSame).indexOf("ême colis") !== -1);
+var confNew = colisNewConflicts(newC);
+T("colisNewConflicts : conflit impliquant le colis ajouté", confNew.length === 1 && (confNew[0].a.id === newC.id || confNew[0].b.id === newC.id));
+var confFar = analyseIncompat([mk("1203","Essence","3"), mk("1266","Parfums","3")]);
+T("colis distincts (pkg différents) → même=false", (function(){ var x = analyseIncompat([mk("1203","Essence","3",""), mk("9994","Comburant","5.1")]); return x.length===1 && x[0].same===false; })());
+void confFar;
+colisRender();
+T("bannière OVERPACK pour colis multi-matières", els["c-list"].children.some(function(ch){ return (ch.innerHTML||"").indexOf("OVERPACK") !== -1; }));
+T("badge colis (pkg) affiché sur chaque matière", els["c-list"].children.some(function(ch){ return (ch.innerHTML||"").indexOf("caisse ONU 4G") !== -1; }));
+// flux complet via le formulaire (stubs DOM)
+COLIS = [ { id: 601, date: "2026-10-04", un: "1203", psn: "ESSENCE", cl: "3", sub: "", pg: "II", pi: "358", ship: "BMPM", cons: "Doha", qty: "20 L", nb: 1, pkg: "fût ONU 3A", cao: false, lq: false, notes: "" } ];
+colisSave();
+colisAddOpen("3480", null);
+T("formulaire d'ajout ouvert (destination + quantité)", ADD_BOX && ADD_BOX.innerHTML.indexOf("ca-dst") !== -1 && ADD_BOX.innerHTML.indexOf("ca-qty") !== -1);
+T("liste des destinations : colis existant proposé", ADD_BOX.innerHTML.indexOf("fût ONU 3A") !== -1);
+getEl("ca-dst").value = "fût ONU 3A";
+getEl("ca-qty").value = "5 kg";
+getEl("ca-nb").value = "1";
+getEl("ca-notes").value = "SoC 30 %";
+colisAddConfirm();
+T("ajout confirmé : colis créé avec les bons champs", COLIS.length === 2 && COLIS[1].un === "3480" && COLIS[1].pkg === "fût ONU 3A" && COLIS[1].ship === "BMPM" && COLIS[1].notes === "SoC 30 %" && COLIS[1].cao === true);
+T("feedback : ✅ ajouté + incompatibilité même colis signalée", els["ca-res"].innerHTML.indexOf("✅") !== -1 && els["ca-res"].innerHTML.indexOf("ême colis") !== -1);
+colisRender();
+T("bannière incompatibilités mise à jour après ajout", els["c-list"].children.some(function(ch){ return (ch.innerHTML||"").indexOf("Incompatibilité") !== -1; }));
+// un ajout compatible ne génère pas d'alerte
+COLIS = [ { id: 701, date: "2026-10-04", un: "1203", psn: "ESSENCE", cl: "3", sub: "", pg: "II", pi: "358", ship: "BMPM", cons: "Doha", qty: "20 L", nb: 1, pkg: "fût ONU 3A", cao: false, lq: false, notes: "" } ];
+colisSave();
+colisAddOpen("1266", null);
+getEl("ca-dst").value = "";
+getEl("ca-pkg").value = "caisse ONU 4G";
+getEl("ca-qty").value = "3 L";
+colisAddConfirm();
+T("ajout compatible : aucune incompatibilité signalée", COLIS.length === 2 && els["ca-res"].innerHTML.indexOf("Aucune incompatibilité") !== -1);
 
 // ---- checkVersion offline ----
 try { checkVersion(); T("checkVersion offline sans crash", true); } catch (e) { T("checkVersion offline sans crash", false); }

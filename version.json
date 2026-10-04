@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "date": "2026-10-04",
-  "note": "v5 — onglet Règles (incompatibilités Table 9.3.A + LQ/EQ/exceptions/autorisations/particularités), contrôle automatique des incompatibilités entre colis, import CSV uniquement (Excel retiré), polices agrandies, PI sodium-ion corrigées (976/977/978)"
+  "note": "v6 — bouton « Ajouter à mon colisage » depuis la recherche avec choix du colis de destination (nouveau ou existant), contrôle immédiat des incompatibilités (alerte renforcée même colis/overpack), bannière OVERPACK pour les colis multi-matières"
 }
