@@ -9,101 +9,101 @@
 <style>
   :root{--bg:#0b1220;--card:#121b2e;--card2:#0e1626;--txt:#e2e8f0;--mut:#8ea0bd;--acc:#38bdf8;--ok:#34d399;--warn:#fbbf24;--err:#fb7185;--bord:#22314f}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--txt);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:72px}
+  body{background:var(--bg);color:var(--txt);font:17.5px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:72px}
   header{position:sticky;top:0;z-index:5;background:rgba(11,18,32,.95);backdrop-filter:blur(8px);padding:12px 14px 8px;border-bottom:1px solid var(--bord)}
-  h1{font-size:1.05rem;display:flex;align-items:center;gap:8px}
+  h1{font-size:1.15rem;display:flex;align-items:center;gap:8px}
   h1 .v{font-size:.7rem;color:var(--mut);font-weight:400;margin-left:auto}
   .search{margin-top:8px;display:flex;gap:8px}
-  .search input{flex:1;background:var(--card2);border:1px solid var(--bord);border-radius:10px;color:var(--txt);padding:10px 12px;font-size:1rem}
+  .search input{flex:1;background:var(--card2);border:1px solid var(--bord);border-radius:10px;color:var(--txt);padding:10px 12px;font-size:1.05rem}
   .search input:focus{outline:none;border-color:var(--acc)}
   main{padding:12px 14px}
   .card{background:var(--card);border:1px solid var(--bord);border-radius:12px;padding:12px;margin-bottom:10px}
-  .card h3{font-size:1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .badge{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:999px;background:var(--card2);border:1px solid var(--bord);color:var(--mut)}
+  .card h3{font-size:1.1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge{display:inline-block;font-size:.8rem;padding:2px 8px;border-radius:999px;background:var(--card2);border:1px solid var(--bord);color:var(--mut)}
   .b-cl{background:rgba(56,189,248,.15);color:var(--acc);border-color:rgba(56,189,248,.4)}
   .b-ok{background:rgba(52,211,153,.12);color:var(--ok);border-color:rgba(52,211,153,.4)}
   .b-err{background:rgba(251,113,133,.12);color:var(--err);border-color:rgba(251,113,133,.4)}
   .b-warn{background:rgba(251,191,36,.12);color:var(--warn);border-color:rgba(251,191,36,.4)}
-  table{width:100%;border-collapse:collapse;font-size:.85rem;margin:8px 0}
+  table{width:100%;border-collapse:collapse;font-size:.95rem;margin:8px 0}
   th,td{border:1px solid var(--bord);padding:6px 8px;text-align:left;vertical-align:top}
   th{background:var(--card2);color:var(--mut);font-weight:600}
   ul{padding-left:20px}
   li{margin:3px 0}
-  .kv{display:grid;grid-template-columns:120px 1fr;gap:4px 10px;font-size:.92rem;margin:6px 0}
+  .kv{display:grid;grid-template-columns:132px 1fr;gap:4px 10px;font-size:1rem;margin:6px 0}
   .kv b{color:var(--mut);font-weight:600}
-  .note{font-size:.8rem;color:var(--mut);margin-top:8px;border-top:1px dashed var(--bord);padding-top:6px}
+  .note{font-size:.88rem;color:var(--mut);margin-top:8px;border-top:1px dashed var(--bord);padding-top:6px}
   nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(11,18,32,.97);border-top:1px solid var(--bord);padding:6px 2px calc(6px + env(safe-area-inset-bottom));z-index:6}
-  nav button{flex:1;background:none;border:none;color:var(--mut);font-size:.6rem;padding:6px 1px;border-radius:8px}
-  nav button .ic{display:block;font-size:1.15rem;margin-bottom:2px}
+  nav button{flex:1;background:none;border:none;color:var(--mut);font-size:.7rem;padding:6px 1px;border-radius:8px}
+  nav button .ic{display:block;font-size:1.3rem;margin-bottom:2px}
   nav button.on{color:var(--acc)}
   section{display:none}
   section.on{display:block}
-  input[type=number],input[type=text],select,textarea{background:var(--card2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);padding:8px;width:100%;font-size:1rem;margin-top:2px;font-family:inherit}
+  input[type=number],input[type=text],select,textarea{background:var(--card2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);padding:8px;width:100%;font-size:1.05rem;margin-top:2px;font-family:inherit}
   input:focus,select:focus,textarea:focus{outline:none;border-color:var(--acc)}
-  .res{font-size:1.05rem;color:var(--ok);margin-top:6px}
-  .warnbox{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:10px;font-size:.85rem;margin-bottom:10px}
-  .disclaimer{font-size:.75rem;color:var(--mut);text-align:center;padding:14px}
-  .dim{color:var(--mut);font-size:.85rem}
+  .res{font-size:1.15rem;color:var(--ok);margin-top:6px}
+  .warnbox{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:10px;font-size:.95rem;margin-bottom:10px}
+  .disclaimer{font-size:.82rem;color:var(--mut);text-align:center;padding:14px}
+  .dim{color:var(--mut);font-size:.95rem}
   .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
-  .cl{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:10px;font-size:.85rem}
-  .cl b{display:block;font-size:.95rem;margin-bottom:2px}
+  .cl{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:10px;font-size:.95rem}
+  .cl b{display:block;font-size:1.05rem;margin-bottom:2px}
   .label-diamond{display:inline-block;width:46px;height:46px;transform:rotate(45deg);margin:6px 10px 10px 6px;border:2px solid;border-radius:4px;text-align:center;vertical-align:middle}
-  .label-diamond span{display:inline-block;transform:rotate(-45deg);font-size:.62rem;font-weight:700;line-height:1.1;padding-top:10px}
-  .chip{display:inline-block;background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:12px;padding:10px 14px;font-size:.9rem;margin:4px 4px 4px 0;cursor:pointer}
+  .label-diamond span{display:inline-block;transform:rotate(-45deg);font-size:.7rem;font-weight:700;line-height:1.1;padding-top:10px}
+  .chip{display:inline-block;background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:12px;padding:10px 14px;font-size:1rem;margin:4px 4px 4px 0;cursor:pointer}
   .chip.on{border-color:var(--acc);color:var(--acc);background:rgba(56,189,248,.1)}
-  .wz-label{font-size:.8rem;color:var(--mut);margin:14px 0 4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-  .field{margin:8px 0;font-size:.85rem}
+  .wz-label{font-size:.86rem;color:var(--mut);margin:14px 0 4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .field{margin:8px 0;font-size:.95rem}
   .field label{color:var(--mut)}
-  .btn{background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:.9rem;cursor:pointer}
+  .btn{background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:1rem;cursor:pointer}
   .btn.acc{border-color:var(--acc);color:var(--acc)}
-  .sec-title{font-size:.78rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px;display:flex;align-items:center;gap:6px}
+  .sec-title{font-size:.84rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px;display:flex;align-items:center;gap:6px}
   .rescard{border-left:3px solid var(--acc)}
   .rescard.err{border-left-color:var(--err)}
   .rescard.ok{border-left-color:var(--ok)}
   .dgd-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .dgd{min-width:640px;background:#fff;color:#111;border:2px solid #d00;padding:10px;font-size:11px;font-family:Arial,Helvetica,sans-serif;position:relative}
+  .dgd{min-width:640px;background:#fff;color:#111;border:2px solid #d00;padding:10px;font-size:12px;font-family:Arial,Helvetica,sans-serif;position:relative}
   .dgd .hatch{position:absolute;inset:0;border:6px solid transparent;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(200,0,0,.06) 4px,rgba(200,0,0,.06) 8px);pointer-events:none}
   .dgd h4{text-align:center;font-size:13px;color:#d00;margin:2px 0 6px;text-transform:uppercase;font-weight:bold}
   .dgd .row{display:flex;gap:6px;margin-bottom:6px}
   .dgd .box{border:1px solid #666;padding:4px;flex:1}
   .dgd .box .lb{font-size:8px;font-weight:700;color:#444;text-transform:uppercase}
-  .dgd .box .vl{font-size:11px;min-height:14px;color:#000}
-  .dgd table{width:100%;border-collapse:collapse;font-size:10px;margin:4px 0}
-  .dgd th,.dgd td{border:1px solid #666;padding:3px;font-size:10px;text-align:left;color:#111}
-  .dgd th{background:#eee;font-size:8px;text-transform:uppercase}
-  .dgd .decl{font-size:9px;border:1px solid #666;padding:5px;margin-top:4px;line-height:1.4}
+  .dgd .box .vl{font-size:12px;min-height:14px;color:#000}
+  .dgd table{width:100%;border-collapse:collapse;font-size:11px;margin:4px 0}
+  .dgd th,.dgd td{border:1px solid #666;padding:3px;font-size:11px;text-align:left;color:#111}
+  .dgd th{background:#eee;font-size:9px;text-transform:uppercase}
+  .dgd .decl{font-size:10px;border:1px solid #666;padding:5px;margin-top:4px;line-height:1.4}
   .dgd .sign{display:flex;gap:6px;margin-top:6px}
   .dgd .sign .box{min-height:40px}
-  .copybox{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:10px;font-size:.8rem;font-family:monospace;white-space:pre-wrap;word-break:break-word;margin-top:8px}
+  .copybox{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:10px;font-size:.9rem;font-family:monospace;white-space:pre-wrap;word-break:break-word;margin-top:8px}
   .colis-item{border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0;background:var(--card2)}
-  .colis-item h4{font-size:.95rem;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-  .btn-mini{background:var(--card);border:1px solid var(--bord);color:var(--acc);border-radius:8px;padding:4px 8px;font-size:.78rem;margin:2px 4px 0 0;cursor:pointer}
+  .colis-item h4{font-size:1.05rem;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .btn-mini{background:var(--card);border:1px solid var(--bord);color:var(--acc);border-radius:8px;padding:4px 8px;font-size:.88rem;margin:2px 4px 0 0;cursor:pointer}
   .btn-mini.warn{color:var(--err)}
   .toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-  #vernote{display:none;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.4);border-radius:10px;padding:8px 10px;font-size:.85rem;margin-bottom:10px}
+  #vernote{display:none;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.4);border-radius:10px;padding:8px 10px;font-size:.95rem;margin-bottom:10px}
   .chk{color:var(--ok);font-weight:700}
   .wrn{color:var(--err)}
   .lblset{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:8px;margin:6px 0}
   .lblset .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
   .ac{position:relative}
   .ac-list{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--acc);border-radius:0 0 10px 10px;z-index:20;max-height:240px;overflow:auto;display:none}
-  .ac-list .ac-item{padding:8px 10px;font-size:.85rem;cursor:pointer;border-bottom:1px solid var(--bord)}
+  .ac-list .ac-item{padding:8px 10px;font-size:.95rem;cursor:pointer;border-bottom:1px solid var(--bord)}
   .ac-list .ac-item:hover,.ac-list .ac-item.sel{background:rgba(56,189,248,.15)}
   .dgline{border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0;background:var(--card2)}
   .dgline .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}
   .dgline .g .field{margin:2px 0}
   .b-lq{background:rgba(250,204,21,.12);color:#a16207;border-color:rgba(250,204,21,.4)}
   .preview{border:1px dashed var(--acc);border-radius:10px;padding:10px;margin-top:8px}
-  .warnline{color:var(--err);font-size:.85rem;margin-top:4px}
-  .infoline{color:#a16207;font-size:.85rem;margin-top:4px}
-  .okline{color:var(--ok);font-size:.9rem;margin-top:4px}
+  .warnline{color:var(--err);font-size:.95rem;margin-top:4px}
+  .infoline{color:#a16207;font-size:.95rem;margin-top:4px}
+  .okline{color:var(--ok);font-size:1rem;margin-top:4px}
   .imp-line{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0}
   .imp-check{padding-top:4px}
   .imp-body{flex:1}
   .dgline-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
   .ac-list .ac-item.on{background:rgba(56,189,248,.25)}
   .dgd table.inner{width:100%;border-collapse:collapse;margin:0}
-  .dgd table.inner th,.dgd table.inner td{border:1px solid #999;font-size:.62rem;padding:3px 4px;text-align:left}
+  .dgd table.inner th,.dgd table.inner td{border:1px solid #999;font-size:.68rem;padding:3px 4px;text-align:left}
   .lbl-warn{color:var(--err);font-weight:700;margin-top:6px}
   #print-label,#print-dgd{display:none}
   @media print{
@@ -127,7 +127,7 @@
 </head>
 <body>
 <header>
-  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v4</span></h1>
+  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v5</span></h1>
   <div class="search"><input id="q" type="search" placeholder="🔎 Rechercher : n° ONU, matière, PI, classe… (base : 2349 n° ONU)" autocomplete="off"></div>
   <div id="vernote"></div>
 </header>
@@ -153,7 +153,7 @@
 
 <!-- ======================= PILES ======================= -->
 <section id="tab-piles">
-  <h2 style="font-size:1rem;margin-bottom:8px">🔋 Piles &amp; accus — vue d'ensemble</h2>
+  <h2 style="font-size:1.2rem;margin-bottom:8px">🔋 Piles &amp; accus — vue d'ensemble</h2>
   <div class="card">
     <h3>Configurations &amp; PI</h3>
     <table>
@@ -216,7 +216,7 @@
 
 <!-- ======================= GAZ ======================= -->
 <section id="tab-gaz">
-  <h2 style="font-size:1rem;margin-bottom:8px">💨 Gaz — classe 2</h2>
+  <h2 style="font-size:1.2rem;margin-bottom:8px">💨 Gaz — classe 2</h2>
   <div class="card">
     <h3>Divisions</h3>
     <table>
@@ -280,7 +280,7 @@
 
 <!-- ======================= ESSENCE ======================= -->
 <section id="tab-essence">
-  <h2 style="font-size:1rem;margin-bottom:8px">⛽ Essence &amp; liquides inflammables — classe 3</h2>
+  <h2 style="font-size:1.2rem;margin-bottom:8px">⛽ Essence &amp; liquides inflammables — classe 3</h2>
   <div class="card">
     <h3>Essence — UN 1203</h3>
     <ul>
@@ -325,7 +325,7 @@
 
 <!-- ======================= CLASSES ======================= -->
 <section id="tab-classes">
-  <h2 style="font-size:1rem;margin-bottom:8px">🔢 Les 9 classes</h2>
+  <h2 style="font-size:1.2rem;margin-bottom:8px">🔢 Les 9 classes</h2>
   <div class="cl-grid" id="cl-grid"></div>
   <div class="card">
     <h3>Étiquettes — rappel</h3>
@@ -347,7 +347,7 @@
 
 <!-- ======================= MARQUAGE ======================= -->
 <section id="tab-marquage">
-  <h2 style="font-size:1rem;margin-bottom:8px">🏷️ Marquage &amp; étiquetage — checklist colis</h2>
+  <h2 style="font-size:1.2rem;margin-bottom:8px">🏷️ Marquage &amp; étiquetage — checklist colis</h2>
   <div class="card">
     <h3>Marquage (inscriptions)</h3>
     <ul>
@@ -380,14 +380,88 @@
   </div>
 </section>
 
+<!-- ======================= REGLES (v5) ======================= -->
+<section id="tab-regles">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">⚖️ Règles — incompatibilités, exceptions, quantités, autorisations</h2>
+  <div class="card">
+    <h3>🚫 Incompatibilités &amp; séparation entre colis</h3>
+    <p class="dim">Séparation des colis dans un même chargement ou overpack — <b>Table 9.3.A IATA</b> (points vérifiés, édition 2023/2026). Toujours confirmer dans la Table 9.3.A de l'édition en vigueur et les règles de la compagnie.</p>
+    <ul>
+      <li><b>Classe 1 (explosifs, sauf 1.4S)</b> : séparation avec <b>toutes</b> les autres classes. <b>1.4B</b> : uniquement avec 1.4S.</li>
+      <li><b>Paires interdites</b> (X mutuelles) :
+        <table>
+          <tr><th>Classe A</th><th>Classe B</th><th>Notes</th></tr>
+          <tr><td>2.1 (gaz inflammables)</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+          <tr><td>3 (liquides inflam.)</td><td>5.1 (comburants)</td><td>sauf UN 3528 moteurs</td></tr>
+          <tr><td>3</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+          <tr><td>4.1 (solides inflam.)</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+          <tr><td>4.2 (inflammation spontanée)</td><td>5.1</td><td>séparation obligatoire</td></tr>
+          <tr><td>4.3 (au contact de l'eau)</td><td>8 (corrosifs)</td><td>séparation obligatoire</td></tr>
+          <tr><td>5.1</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+        </table>
+        * <b>Piles seules</b> = lithium-ion / lithium-métal / sodium-ion expédiées seules (UN 3480, 3090, 3551 — PI 965/968/976).</li>
+      <li><b>Pas de séparation requise</b> : 1.4S, classes 6, 7 et 9 (hors piles seules ci-dessus).</li>
+      <li><b>Overpack</b> : deux matières devant être séparées (Table 9.3.A) sont <b>interdites dans le même overpack</b> ; des substances pouvant réagir dangereusement ensemble ne doivent jamais y être combinées.</li>
+    </ul>
+    <div id="reg-check"></div>
+  </div>
+  <div class="card">
+    <h3>📦 Quantités limitées (LQ)</h3>
+    <ul>
+      <li>PI aérienne préfixée <b>« Y »</b> (ex. Y203 aérosols, Y341 essence, Y343/Y344 peintures) — quantités nettes max. par emballage intérieur : voir la PI Y exacte du DGR.</li>
+      <li>Colis ≤ <b>30 kg brut</b>.</li>
+      <li>Marque <b>« Y »</b> aérienne obligatoire (losange, bandes noires haut/bas) — <b>pas</b> la marque « LIMITED QUANTITY » du régime terrestre ADR.</li>
+      <li><b>Pas de DGD exigée</b> en régime LQ.</li>
+      <li>L'acceptation du régime LQ peut varier selon la matière et la compagnie — vérifier l'édition du DGR en vigueur et les variations opérateur (CASS).</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>🧪 Quantités exceptées (EQ)</h3>
+    <ul>
+      <li>Code <b>E0</b> (régime interdit) à <b>E5</b> — colonne « EQ » des listes de matières du DGR (sections 2.6/2.7).</li>
+      <li>Limites de quantités par code : <b>Table 2.7.A</b> du DGR (ne pas se fier à des valeurs de mémoire — vérifier la table).</li>
+      <li>Marque <b>« E »</b> + code (ex. E2) sur le colis + quantité nette par emballage intérieur.</li>
+      <li><b>Pas de DGD exigée</b> en quantités exceptées.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>✅ Exceptions courantes</h3>
+    <ul>
+      <li><b>Piles au plomb étanches (VRLA, UN 2800)</b> : PI 806, régime « exceptées » possible si critères du SP A67 remplis (pas de liquide libre, bornes protégées…).</li>
+      <li><b>Piles lithium § II</b> (UN 3481/3091, PI 966–970 ; sodium 3552, PI 977/978) : <b>pas de DGD</b>, mais <b>mention obligatoire sur la LTA</b>. Piles seules (965/968/976) : pas de § II, DGD obligatoire en IB.</li>
+      <li><b>Glace carbonique (UN 1845)</b> : mention obligatoire sur la LTA (« Dry Ice, UN 1845, x kg ») ; DGD uniquement si elle refroidit d'autres marchandises dangereuses.</li>
+      <li><b>Liquides PE &gt; 60,5 °C</b> : non réglementés classe 3.</li>
+      <li><b>Bagages</b> : annexes 2.3.A / 2.3.B du DGR (piles de secours, aérosols, cartouches de gaz…) selon compagnie.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>📝 Autorisations &amp; interdictions</h3>
+    <ul>
+      <li><b>Cargo Aircraft Only</b> : piles seules (UN 3480, 3090, 3551), et matières interdites en passagers selon le DGR (PG I, toxiques inhalation…).</li>
+      <li><b>Accord / approbation</b> : certaines matières exigent une approbation d'État ou un accord préalable de la compagnie — vérifier les dispositions spéciales et les variations opérateur (CASS).</li>
+      <li><b>Quasi toujours refusées</b> : générateurs chimiques d'oxygène (UN 3356 — interdits fret), briquets à essence, fusées de détresse (UN 0191/0323 — conditions strictes + accord).</li>
+      <li><b>Explosifs</b> : fret uniquement, autorisations et compatibilités groupes A–S à vérifier.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>⚠️ Particularités à ne pas oublier</h3>
+    <ul>
+      <li><b>Piles lithium / sodium-ion</b> : <b>SoC ≤ 30 %</b> pour les piles seules (et selon l'édition pour 3481/3091 emballées avec équipement — vérifier) ; test <b>UN 38.3</b> ; marquage lithium avec <b>n° de téléphone 24h/24</b>.</li>
+      <li><b>Overpack</b> : mention « OVERPACK » + reproduire marquages et étiquettes du contenu.</li>
+      <li><b>Mentions LTA</b> : piles § II, glace carbonique, CARGO AIRCRAFT ONLY.</li>
+      <li>Les PI non vérifiables dans l'app s'affichent « voir DGR » — toujours trancher avec l'édition en vigueur.</li>
+    </ul>
+  </div>
+</section>
+
 <!-- ======================= COLIS (état de colisage) ======================= -->
 <section id="tab-colis">
-  <h2 style="font-size:1rem;margin-bottom:8px">📦 Mon état de colisage</h2>
+  <h2 style="font-size:1.2rem;margin-bottom:8px">📦 Mon état de colisage</h2>
   <div class="warnbox">Tes colis sont enregistrés <b>uniquement sur ton appareil</b> (sauvegarde auto). L'app calcule automatiquement les <b>étiquettes requises</b> (diamants de classe, CAO, marque Y, marquage lithium, orientations), te prévient des <b>oublis de conformité</b>, génère la <b>DGD</b> et l'<b>étiquette imprimable</b> pour chaque colis.</div>
   <div class="card">
-    <h3>🧪 Analyse d'un fichier de colisage (Excel ou CSV)</h3>
-    <p class="dim">Importe ton état de colisage : l'app <b>identifie chaque matière dangereuse</b> (n° ONU, classe, PG, PI, étiquettes, particularités) via la base des 2349 n° ONU + synonymes, <b>signale les anomalies</b> (CAO manquant, orientations, interdictions), puis propose le colisage — tout reste <b>modifiable</b> avant et après import.</p>
-    <div class="field"><label>Fichier .xlsx ou .csv (colonnes libres : ONU, matière, quantité, colis, emballage, expéditeur, destinataire…)</label><input type="file" id="imp-file" accept=".xlsx,.csv,text/csv"></div>
+    <h3>🧪 Analyse d'un fichier de colisage (CSV)</h3>
+    <p class="dim">Importe ton état de colisage au format <b>CSV</b> (depuis Excel : Fichier → Enregistrer sous → CSV) : l'app <b>identifie chaque matière dangereuse</b> (n° ONU, classe, PG, PI, étiquettes, particularités) via la base des 2349 n° ONU + synonymes, <b>signale les anomalies</b> (CAO manquant, orientations, interdictions), puis propose le colisage — tout reste <b>modifiable</b> avant et après import.</p>
+    <div class="field"><label>Fichier .csv (colonnes libres : ONU, matière, quantité, colis, emballage, expéditeur, destinataire…)</label><input type="file" id="imp-file" accept=".csv,text/csv"></div>
     <div id="imp-result"></div>
     <div class="toolbar" id="imp-actions" style="display:none">
       <button class="btn acc" id="imp-add">➕ Ajouter les lignes cochées à mes colis</button>
@@ -431,13 +505,13 @@
       <button class="btn" id="c-dgd-all" style="border-color:var(--acc);color:var(--acc)">📄 Générer la DGD de toute la liste</button>
       <button class="btn warn" id="c-clear" style="color:var(--err)">🗑️ Tout effacer</button>
     </div>
-    <p class="note">Le fichier Excel contient l'état complet du colisage — un onglet, prêt pour Excel/Sheets. L'export peut être ré-importé et ré-analysé ici même.</p>
+    <p class="note">Le fichier Excel contient l'état complet du colisage — un onglet, prêt pour Excel/Sheets. Pour ré-importer dans l'app : exporter en <b>CSV</b> (ou enregistrer le xlsx en CSV depuis Excel).</p>
   </div>
 </section>
 
 <!-- ======================= DGD ======================= -->
 <section id="tab-dgd">
-  <h2 style="font-size:1rem;margin-bottom:8px">📄 DGD — générateur officiel multi-lignes</h2>
+  <h2 style="font-size:1.2rem;margin-bottom:8px">📄 DGD — générateur officiel multi-lignes</h2>
   <div class="warnbox">Modèle reprenant le format IATA (rubriques 8.1) : bordure hachurée rouge, « Shipment type : non-radioactive », tableau « Nature and Quantity of Dangerous Goods », déclaration de conformité, signature. <b>Modifiable à volonté</b>, imprimable A4. Signature manuscrite obligatoire sur l'original.</div>
   <div class="card">
     <h3>1 · En-tête de l'expédition</h3>
@@ -496,9 +570,9 @@ var FICHES = [
     notes:"Section II supprimée depuis 2022. IB : cellule ≤ 1 g, pile ≤ 2 g, ≤ 2,5 kg/colis. IA au-delà. Étiquette 9 lithium-métal spécifique." },
   { un:"3091", psn:"Piles au lithium-métal avec/dans équipement", cl:"9", pi:"969 / 970", pg:"—", lbl:"9 (lithium-métal)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
     notes:"§ II : ≤ 1 g/cellule, ≤ 2 g/pile, ≤ 5 kg/colis. Pas de DGD, marquage lithium, mention LTA. § I : DGD + ONU PG II. Test summary UN 38.3." },
-  { un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"977 (IA/IB)", pg:"—", lbl:"9 (sodium-ion) + CAO", pax:"INTERDIT avion passagers", cargo:"SoC ≤ 30 % · DGD obligatoire",
-    notes:"Régime analogue au lithium-ion (désignations propres depuis l'éd. 66). 3551 seules (977), 3552 avec/dans équipement (978). Vérifier l'édition en vigueur." },
-  { un:"3552", psn:"Piles sodium-ion avec/dans équipement", cl:"9", pi:"978", pg:"—", lbl:"9 (sodium-ion)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
+  { un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"976 (IA/IB)", pg:"—", lbl:"9 (sodium-ion) + CAO", pax:"INTERDIT avion passagers", cargo:"SoC ≤ 30 % · DGD obligatoire",
+    notes:"PI propres au sodium-ion depuis l'éd. 66 : 3551 seules (976, toujours CAO), 3552 avec équipement (977) / dans équipement (978), avec § I/II. Vérifier l'édition en vigueur." },
+  { un:"3552", psn:"Piles sodium-ion avec/dans équipement", cl:"9", pi:"977 (avec) / 978 (dans)", pg:"—", lbl:"9 (sodium-ion)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
     notes:"§ II possible : pas de DGD, marquage sodium. § I : DGD. Vérifier DGR en vigueur." },
   { un:"2794", psn:"Piles au plomb, acide (électrolyte liquide)", cl:"8", pi:"872", pg:"—", lbl:"8", pax:"Selon compagnie", cargo:"Selon compagnie",
     notes:"Souvent refusées en soute passagers. Étanchéité, protection courts-circuits, bornes vers le haut, étiquettes d'orientation." },
@@ -551,8 +625,8 @@ var AIRX = {
   "3481":{pi:"966 / 967",li:"ion"},
   "3090":{pi:"968 IA/IB",cao:true,li:"metal",dgd:true},
   "3091":{pi:"969 / 970",li:"metal"},
-  "3551":{pi:"977 IA/IB",cao:true,li:"na",dgd:true},
-  "3552":{pi:"978",li:"na"},
+  "3551":{pi:"976 IA/IB",cao:true,li:"na",dgd:true},
+  "3552":{pi:"977 (avec) / 978 (dans équipement)",li:"na"},
   "2794":{pi:"872",dgd:true},"2795":{pi:"872",dgd:true},
   "2800":{pi:"806 (exceptées possibles — SP A67)"},
   "3171":{pi:"952 (950/951/952 selon véhicule)",dgd:true},
@@ -625,6 +699,7 @@ var TABS = [
   {id:"essence", ic:"⛽", t:"Essence"},
   {id:"classes", ic:"🔢", t:"Classes"},
   {id:"marquage", ic:"🏷️", t:"Marquage"},
+  {id:"regles", ic:"⚖️", t:"Règles"},
   {id:"colis", ic:"📦", t:"Colis"},
   {id:"dgd", ic:"📄", t:"DGD"}
 ];
@@ -840,7 +915,7 @@ function computePiles(sub, p){
       if(isNa) sec = wh && wh<=100 ? "IB (à confirmer dans l'édition)" : "IA";
       return {
         title: "🛫 Piles " + ion + " seules — UN " + unSeul,
-        un: unSeul, psn: "Piles au " + ion, cl: "9", pi: (isNa?"977":"965") + " — Section " + sec,
+        un: unSeul, psn: "Piles au " + ion, cl: "9", pi: (isNa?"976":"965") + " — Section " + sec,
         soc: ["<b>SoC ≤ 30 %</b> de la capacité nominale (contrôle documenté).", "UN 38.3 : résumé d'essais du fabricant à disposition.", "Protection contre les courts-circuits (bornes isolées)."],
         emballage: sec==="IB" ? ["Emballage extérieur solide (pas d'emballage ONU exigé en IB, mais résistance 1,2 m).", "Quantité max : <b>10 kg nets par colis</b> (vérifier Table 965-IB)."] : ["Emballage <b>ONU agréé PG II</b> obligatoire.", "Quantités selon PI (Table 965-IA)."],
         marquage: ["Marquage lithium (min 100×100 mm) + <b>n° de téléphone</b> de renseignement.", "En § IB, le n° ONU/PSN n'est pas requis sur le colis ; en Section IA : UN " + unSeul + " + PSN sur chaque colis."],
@@ -854,7 +929,7 @@ function computePiles(sub, p){
       var sec2 = "II";
       var over = wh && wh>100;
       if(over) sec2 = "I";
-      var piEq = isNa ? "978" : (avec ? "966" : "967");
+      var piEq = isNa ? "977 / 978" : (avec ? "966" : "967");
       var r = {
         title: "🛫 Piles " + ion + " " + (avec?"emballées avec":"installées dans") + " l'équipement — UN " + unEq,
         un: unEq, psn: "Piles au " + ion + (avec?" emballées avec un équipement":" contenues dans un équipement"), cl: "9",
@@ -1220,7 +1295,7 @@ function labelSvg(kind){
     + '</svg>';
 }
 // ====================== COLIS v4 : état de colisage ======================
-var APP_VERSION = 4;
+var APP_VERSION = 5;
 var COLIS_KEY = "iata-colis-v1";
 var COLIS = [];
 function colisLoad(){ try { COLIS = JSON.parse(localStorage.getItem(COLIS_KEY) || "[]"); } catch(e){ COLIS = []; } }
@@ -1248,13 +1323,13 @@ function analyseColis(c){
   // --- avertissements de conformité ---
   if(airx && airx.interdit) warns.push("⛔ INTERDIT au transport aérien (générateurs chimiques d'O₂…) — ne pas expédier.");
   if(caoReq && !c.cao) warns.push("🚨 Étiquette CARGO AIRCRAFT ONLY <b>manquante</b> — obligatoire pour UN " + un4(c.un) + " (interdit avion passagers).");
-  if(!c.cao && /IA\b|IB\b/.test(c.pi||"") && /965|968|977/.test(c.pi||"")) warns.push("⚠️ PI " + (c.pi||"") + " : piles seules → toujours CAO. Vérifie.");
+  if(!c.cao && /IA\b|IB\b/.test(c.pi||"") && /965|968|976/.test(c.pi||"")) warns.push("⚠️ PI " + (c.pi||"") + " : piles seules → toujours CAO. Vérifie.");
   if(isLi && !/\d{6,}/.test(c.notes||"")) warns.push("🖊️ Marquage lithium : n° de téléphone 24h/24 requis sur le colis (à ajouter dans Particularités).");
   if(isLi && un4(c.un)==="3480" && !/soc|30 ?%/i.test(c.notes||"")) warns.push("⚡ UN 3480 : SoC ≤ 30 % à documenter (contrôle avant expédition).");
   if(orientReq && !c.lq && /liquide|essence|gaso|alcool|peinture|corros|acide/i.test(c.psn||"")) infos.push("↕️ Liquides : étiquettes d'orientation sur 2 faces opposées (fournies sur l'étiquette imprimable).");
   if(cls.indexOf("3")!==-1 && !c.pg) warns.push("📦 Classe 3 sans groupe d'emballage — PG (I/II/III) requis pour la DGD et l'emballage ONU.");
   if(!c.qty) infos.push("ℹ️ Quantité nette à préciser (obligatoire sur le marquage du colis).");
-  if(!c.un && !c.psn) warns.push("❓ Ni n° ONU ni matière identifiée — utilise l'autocomplétion ou l'import Excel.");
+  if(!c.un && !c.psn) warns.push("❓ Ni n° ONU ni matière identifiée — utilise l'autocomplétion ou l'import CSV.");
   if(airx && airx.noDgd) infos.push("📄 Pas de DGD exigée — mais mention sur la LTA obligatoire (ex. glace carbonique : « Dry Ice, UN 1845, xx kg »).");
   if(airx && airx.dgd) infos.push("📄 DGD obligatoire pour cette matière.");
   if(c.lq && caoReq) warns.push("🚫 Incohérent : LQ et CAO ne se combinent pas — vérifie le régime.");
@@ -1272,6 +1347,71 @@ function colisBadges(c){
   var out = "";
   if(a.warns.length) out += ' <span class="badge b-err">' + a.warns.length + ' ⚠️</span>';
   return out;
+}
+// ===== RÈGLES v5 : incompatibilités entre colis (Table 9.3.A IATA — vérifiée 10/2026) =====
+var SEG_PAIRS = [["3","5.1"],["3","LI"],["4.1","LI"],["4.2","5.1"],["4.3","8"],["2.1","LI"],["5.1","LI"]];
+function segLabel(k){
+  if(k === "LI") return "piles seules (UN 3480/3090/3551)";
+  return "classe/division " + k;
+}
+function explosifNonS(c){
+  return parseCls(c.cl).some(function(k){ return k.charAt(0) === "1" && k !== "1.4S"; });
+}
+function colisClsAll(c){
+  var cls = parseCls(c.cl).concat(parseCls(c.sub));
+  var ax = AIRX[un4(c.un)] || null;
+  if(ax && ax.sub && cls.indexOf(ax.sub) === -1) cls.push(ax.sub);
+  var u = un4(c.un);
+  if(u === "3480" || u === "3090" || u === "3551") cls.push("LI");
+  var out = [];
+  cls.forEach(function(k){ if(out.indexOf(k) === -1) out.push(k); });
+  return out;
+}
+function segReason(a, b){
+  if(!a || !b) return null;
+  var eA = explosifNonS(a), eB = explosifNonS(b);
+  if(eA || eB){
+    var x = eA ? a : b, y = eA ? b : a;
+    var xDivs = parseCls(x.cl).filter(function(k){ return k.charAt(0) === "1"; });
+    var yDivs = parseCls(y.cl).filter(function(k){ return k.charAt(0) === "1"; });
+    var yOnlyS = yDivs.length > 0 && yDivs.every(function(k){ return k === "1.4S"; });
+    if(xDivs.indexOf("1.4B") !== -1 && yOnlyS) return null;
+    return "classe 1 (" + xDivs.join("/") + ") : séparation avec toutes les autres matières (sauf 1.4B avec 1.4S) — jamais dans le même overpack.";
+  }
+  var clsA = colisClsAll(a), clsB = colisClsAll(b);
+  for(var i = 0; i < SEG_PAIRS.length; i++){
+    var p = SEG_PAIRS[i];
+    var f = clsA.indexOf(p[0]) !== -1 && clsB.indexOf(p[1]) !== -1;
+    var r = clsB.indexOf(p[0]) !== -1 && clsA.indexOf(p[1]) !== -1;
+    if(f || r){
+      if(p[0] === "3" && p[1] === "5.1" && (un4(a.un) === "3528" || un4(b.un) === "3528")) continue;
+      return segLabel(p[0]) + " + " + segLabel(p[1]) + " : séparation obligatoire (Table 9.3.A) — jamais dans le même overpack.";
+    }
+  }
+  return null;
+}
+function analyseIncompat(colis){
+  var out = [];
+  for(var i = 0; i < colis.length; i++){
+    for(var j = i + 1; j < colis.length; j++){
+      var t = segReason(colis[i], colis[j]);
+      if(t) out.push({a: colis[i], b: colis[j], txt: t});
+    }
+  }
+  return out;
+}
+function incompatHtml(items){
+  return items.map(function(x){
+    return '<div class="warnline">🚫 <b>UN ' + esc(x.a.un || "?") + '</b> (' + esc(x.a.psn || "?") + ') ↔ <b>UN ' + esc(x.b.un || "?") + '</b> (' + esc(x.b.psn || "?") + ') — ' + x.txt + '</div>';
+  }).join("");
+}
+function reglesCheckRender(items){
+  var box = document.getElementById("reg-check");
+  if(!box) return;
+  if(!COLIS.length){ box.innerHTML = '<div class="sec-title">Contrôle automatique de tes colis</div><p class="dim">Aucun colis enregistré pour l\'instant — le contrôle s\'affichera ici dès que tu ajoutes des colis (onglet 📦).</p>'; return; }
+  if(!items.length){ box.innerHTML = '<div class="sec-title">Contrôle automatique de tes colis</div><p class="okline">✅ Aucune incompatibilité détectée entre tes ' + COLIS.length + ' colis (points contrôlés : classe 1, paires Table 9.3.A, piles seules).</p>'; return; }
+  box.innerHTML = '<div class="sec-title">Contrôle automatique de tes colis</div><p class="warnline"><b>🚫 ' + items.length + ' incompatibilité(s) détectée(s) :</b></p>' + incompatHtml(items)
+    + '<p class="note">Vérifier la Table 9.3.A de l\'édition en vigueur et les règles de la compagnie avant chargement.</p>';
 }
 // --- autocomplétion matière ---
 var EDIT_ID = null;
@@ -1440,8 +1580,18 @@ function colisStartEdit(c){
 function colisRender(){
   var list = document.getElementById("c-list");
   if(!list) return;
-  if(!COLIS.length){ list.innerHTML = '<p class="dim">Aucun colis enregistré. Ajoute ton premier colis ci-dessus, ou importe ton état de colisage Excel/CSV.</p>'; return; }
+  var incompat = analyseIncompat(COLIS);
+  reglesCheckRender(incompat);
+  if(!COLIS.length){ list.innerHTML = '<p class="dim">Aucun colis enregistré. Ajoute ton premier colis ci-dessus, ou importe ton état de colisage CSV.</p>'; return; }
   list.innerHTML = "";
+  if(incompat.length){
+    var d0 = document.createElement("div");
+    d0.className = "colis-item";
+    d0.style.borderColor = "var(--err)";
+    d0.innerHTML = '<h4>🚫 Incompatibilités entre colis <span class="badge b-err">' + incompat.length + '</span></h4>' + incompatHtml(incompat)
+      + '<p class="note">Détail dans l\'onglet ⚖️ Règles.</p>';
+    list.appendChild(d0);
+  }
   COLIS.forEach(function(c){
     var a = analyseColis(c);
     var d = document.createElement("div");
@@ -1493,67 +1643,8 @@ function printLabel(c){
   try { window.print(); } catch(e){}
 }
 function setVal(id, v){ var e = document.getElementById(id); if(e) e.value = v || ""; }
-// ====================== IMPORT EXCEL / CSV : ANALYSE DE COLISAGE ======================
+// ====================== IMPORT CSV : ANALYSE DE COLISAGE ======================
 var IMP_ROWS = [];
-function u16at(u8, o){ return u8[o] | (u8[o+1] << 8); }
-function u32at(u8, o){ return (u8[o] | (u8[o+1] << 8) | (u8[o+2] << 16) | (u8[o+3] << 24)) >>> 0; }
-async function zipExtract(u8){
-  var files = {}, o = 0;
-  while(o + 30 <= u8.length && u8[o] === 0x50 && u8[o+1] === 0x4b && u8[o+2] === 0x03 && u8[o+3] === 0x04){
-    var method = u16at(u8, o+8), csize = u32at(u8, o+18);
-    var nlen = u16at(u8, o+26), elen = u16at(u8, o+28);
-    var name = new TextDecoder().decode(u8.subarray(o+30, o+30+nlen));
-    var dstart = o + 30 + nlen + elen;
-    var data = u8.subarray(dstart, dstart + csize);
-    if(method === 8 && typeof DecompressionStream !== "undefined"){
-      try {
-        var ds = new DecompressionStream("deflate-raw");
-        var stream = new Blob([data]).stream().pipeThrough(ds);
-        var ab = await new Response(stream).arrayBuffer();
-        data = new Uint8Array(ab);
-      } catch(e){ /* fichier laissé tel quel */ }
-    }
-    files[name] = data;
-    o = dstart + csize;
-  }
-  return files;
-}
-function xmlText(x){
-  return String(x||"").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,"&");
-}
-function xlsxShared(xml){
-  var out = [], re = /<si>([\s\S]*?)<\/si>/g, m;
-  while((m = re.exec(xml))){ out.push(xmlText((m[1].match(/<t[^>]*>([\s\S]*?)<\/t>/g)||[]).map(function(t){return t.replace(/<[^>]*>/g,"");}).join(""))); }
-  return out;
-}
-function colIndex(ref){
-  var m = String(ref||"").match(/^([A-Z]+)/);
-  if(!m) return -1;
-  var n = 0;
-  for(var i = 0; i < m[1].length; i++) n = n * 26 + (m[1].charCodeAt(i) - 64);
-  return n - 1;
-}
-function xlsxRows(xml, shared){
-  var rows = [], re = /<row[^>]*>([\s\S]*?)<\/row>/g, m;
-  while((m = re.exec(xml))){
-    var row = [], cre = /<c([^>]*)(?:\/>|>([\s\S]*?)<\/c>)/g, cm;
-    while((cm = cre.exec(m[1]))){
-      var attrs = cm[1], body = cm[2] || "";
-      var rref = (attrs.match(/r="([A-Z]+\d+)"/)||[])[1];
-      var ci = colIndex(rref);
-      if(ci === -1){ ci = row.length; }
-      var t = (attrs.match(/t="(\w+)"/)||[])[1] || "";
-      var val = "";
-      if(t === "s"){ var vi = parseInt((body.match(/<v>([\s\S]*?)<\/v>/)||[])[1], 10); val = isNaN(vi) ? "" : (shared[vi]||""); }
-      else if(t === "inlineStr"){ val = (body.match(/<t[^>]*>([\s\S]*?)<\/t>/)||[])[1] || ""; }
-      else if(t === "str" || t === ""){ val = (body.match(/<v>([\s\S]*?)<\/v>/)||[])[1] || ""; }
-      row[ci] = xmlText(String(val).trim());
-    }
-    for(var k = 0; k < row.length; k++) if(row[k] === undefined) row[k] = "";
-    rows.push(row);
-  }
-  return rows;
-}
 function csvRows(txt){
   var lines = String(txt||"").replace(/^\uFEFF/,"").split(/\r?\n/).filter(function(l){return l.trim();});
   var sep = lines[0].indexOf(";") !== -1 ? ";" : ",";
@@ -1709,33 +1800,9 @@ var impFile = document.getElementById("imp-file");
 if(impFile) impFile.addEventListener("change", function(){
   var f = impFile.files && impFile.files[0];
   if(!f) return;
-  var name = (f.name||"").toLowerCase();
-  if(/\.xlsx$/.test(name)){
-    var rd = new FileReader();
-    rd.onload = async function(){
-      try {
-        var u8 = new Uint8Array(rd.result);
-        var files = await zipExtract(u8);
-        var sheet = null;
-        Object.keys(files).forEach(function(n){
-          if(!sheet && /xl\/worksheets\/sheet1?\.xml$/.test(n)) sheet = new TextDecoder().decode(files[n]);
-        });
-        if(!sheet){
-          Object.keys(files).forEach(function(n){ if(!sheet && /worksheets\/.*\.xml$/.test(n) && n.indexOf("_rels")===-1) sheet = new TextDecoder().decode(files[n]); });
-        }
-        if(!sheet){ document.getElementById("imp-result").innerHTML = '<p class="warnline">❌ Feuille introuvable dans le fichier xlsx.</p>'; return; }
-        var shared = [];
-        if(files["xl/sharedStrings.xml"]) shared = xlsxShared(new TextDecoder().decode(files["xl/sharedStrings.xml"]));
-        impAnalyse(xlsxRows(sheet, shared));
-      } catch(err){ document.getElementById("imp-result").innerHTML = '<p class="warnline">❌ Lecture impossible : ' + esc(err.message) + '</p>'; }
-      impFile.value = "";
-    };
-    rd.readAsArrayBuffer(f);
-  } else {
-    var rd2 = new FileReader();
-    rd2.onload = function(){ try { impAnalyse(csvRows(rd2.result)); } catch(err){ document.getElementById("imp-result").innerHTML = '<p class="warnline">❌ ' + esc(err.message) + '</p>'; } impFile.value = ""; };
-    rd2.readAsText(f, "utf-8");
-  }
+  var rd = new FileReader();
+  rd.onload = function(){ try { impAnalyse(csvRows(rd.result)); } catch(err){ document.getElementById("imp-result").innerHTML = '<p class="warnline">❌ ' + esc(err.message) + '</p>'; } impFile.value = ""; };
+  rd.readAsText(f, "utf-8");
 });
 // ====================== DGD v4 : multi-lignes, format officiel ======================
 var DGD_LINES = [];

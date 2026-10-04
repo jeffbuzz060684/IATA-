@@ -1,5 +1,5 @@
 {
-  "version": 4,
-  "date": "2026-10-03",
-  "note": "v4 — analyse d'état de colisage Excel/CSV (détection matières, 2349 n° ONU), assistant corrigé, colisage enrichi (CAO/LQ/orientations/lithium), DGD multi-lignes, étiquettes SVG officielles"
+  "version": 5,
+  "date": "2026-10-04",
+  "note": "v5 — onglet Règles (incompatibilités Table 9.3.A + LQ/EQ/exceptions/autorisations/particularités), contrôle automatique des incompatibilités entre colis, import CSV uniquement (Excel retiré), polices agrandies, PI sodium-ion corrigées (976/977/978)"
 }

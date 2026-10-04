@@ -1,4 +1,4 @@
-// Harnais de tests — Assistant IATA MDD v4
+// Harnais de tests — Assistant IATA MDD v5
 var fs = require("fs");
 var path = require("path");
 var DIR = __dirname;
@@ -13,12 +13,16 @@ function T(name, cond) {
 ["index.html", "manifest.webmanifest", "sw.js", "icon.svg", "tools/gen-icons.js", ".github/workflows/pages.yml", "version.json", "db-onu.js"].forEach(function (f) {
   T("fichier présent " + f, fs.existsSync(path.join(DIR, f)));
 });
-T("badge v4", html.indexOf(">v4<") !== -1);
-T("sw v4", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v4") !== -1);
+T("badge v5", html.indexOf(">v5<") !== -1);
+T("sw v5", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v5") !== -1);
 T("sw inclut db-onu.js", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("db-onu.js") !== -1);
 T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("version.json") !== -1);
-T("version.json v4", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 4);
-T("9 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
+T("version.json v5", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 5);
+T("10 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
+T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);
+T("import xlsx retiré (accept csv seul)", html.indexOf('accept=".csv,text/csv"') !== -1 && !/accept="[^"]*\.xlsx/.test(html));
+T("parseur xlsx supprimé", html.indexOf("function zipExtract") === -1 && html.indexOf("function xlsxRows") === -1 && html.indexOf("DecompressionStream") === -1);
+T("onglet Règles : tableau 9.3.A", html.indexOf("Table 9.3.A") !== -1 && html.indexOf("tab-regles") !== -1);
 
 // ---- Stubs DOM ----
 function makeEl() {
@@ -71,7 +75,7 @@ T("UN 2990 = classe 9 (IATA)", dbByUn("2990") && dbByUn("2990")[2] === "9");
 T("UN 1072 : subsidiaire 5.1", dbByUn("1072") && dbByUn("1072")[4] === "5.1");
 
 // ---- Corrections réglementaires v4 ----
-T("APP_VERSION = 4", typeof APP_VERSION !== "undefined" && APP_VERSION === 4);
+T("APP_VERSION = 5", typeof APP_VERSION !== "undefined" && APP_VERSION === 5);
 var rM = compute("carb", "moteur", {});
 T("UN 3528 → PI 378 (plus jamais 970)", rM.pi.indexOf("378") !== -1 && rM.pi.indexOf("970") === -1);
 var rG = compute("gilet", "co2", {});
@@ -84,7 +88,7 @@ T("assistant décision présent", typeof compute === "function");
 var r1 = compute("piles", "liion", {"wz-config":"seul","wz-wh":"98","wz-whc":"18","wz-etat":"neuf"});
 T("li-ion seul 98 Wh → IB + DGD + CAO", r1.pi.indexOf("IB") !== -1 && JSON.stringify(r1.docs).indexOf("DGD") !== -1 && JSON.stringify(r1.etiquette).indexOf("CARGO") !== -1);
 var rNa = compute("piles", "sodium", {"wz-config":"seul","wz-wh":"60","wz-etat":"neuf"});
-T("sodium-ion seul → UN 3551 PI 977", rNa.un === "3551" && rNa.pi.indexOf("977") !== -1);
+T("sodium-ion seul → UN 3551 PI 976 (plus 977)", rNa.un === "3551" && rNa.pi.indexOf("976") !== -1 && rNa.pi.indexOf("977") === -1);
 
 // ---- Wizard : le bug v3 (champs effacés) est corrigé ----
 T("refreshWiz(rebuild) garde les champs (garde WZ_BUILT)", html.indexOf("WZ_BUILT !== key") !== -1 && html.indexOf("refreshWiz(false)") !== -1);
@@ -148,15 +152,6 @@ T("entrée sheet1.xml présente", sheetEntry !== null && sheetEntry.length > 200
 if (sheetEntry) {
   var sheetXml = sheetEntry.toString("utf8");
   T("sheet xml : UN 3480 + inlineStr", sheetXml.indexOf("3480") !== -1 && sheetXml.indexOf("inlineStr") !== -1);
-  // aller-retour : relire avec le lecteur de l'app
-  var rowsBack = xlsxRows(sheetXml, []);
-  T("xlsx relu : 3 lignes (en-tête + 2)", rowsBack.length === 3);
-  T("xlsx relu : en-têtes reconnus", rowsBack[0][0] === "Date" && rowsBack[0][1] === "ONU");
-  impAnalyse(rowsBack);
-  T("analyse xlsx : 2 matières détectées", IMP_ROWS.length === 2);
-  T("analyse xlsx : 3480 avec CAO", IMP_ROWS[0].un === "3480" && IMP_ROWS[0].cao === true);
-  T("analyse xlsx : 1203 PG II", IMP_ROWS[1].un === "1203" && IMP_ROWS[1].pg === "II");
-  T("analyse xlsx : lignes trouvées cochées par défaut", IMP_ROWS[0]._chk === true && IMP_ROWS[1]._chk === true);
 }
 
 // ---- CSV round-trip via csvRows + impAnalyse ----
@@ -169,6 +164,33 @@ T("analyse CSV : détection sans n° ONU (essence)", (function(){
   impAnalyse([["Matiere","Quantite","Expediteur"],["essence sans plomb","10 L","BMPM"]]);
   return IMP_ROWS.length === 1 && IMP_ROWS[0].un === "1203";
 })());
+
+// ---- RÈGLES v5 : incompatibilités entre colis (Table 9.3.A) ----
+T("analyseIncompat défini", typeof analyseIncompat === "function");
+var mk = function(un, psn, cl, sub){ return {un:un, psn:psn, cl:cl, sub:sub||"", notes:"", nb:1}; };
+T("3 + 5.1 → incompatibilité", analyseIncompat([mk("1203","Essence","3"), mk("9994","Matière comburante","5.1")]).length === 1);
+T("piles seules (3480) + 2.1 → incompatibilité", analyseIncompat([mk("3480","Piles au lithium-ion","9"), mk("1978","Propane","2.1")]).length === 1);
+T("piles seules (3480) + classe 3 → incompatibilité", analyseIncompat([mk("3480","Piles au lithium-ion","9"), mk("1090","Acétone","3")]).length === 1);
+T("4.3 + 8 → incompatibilité", analyseIncompat([mk("1414","Hydrure de lithium","4.3"), mk("1830","Acide sulfurique","8")]).length === 1);
+T("4.2 + 5.1 → incompatibilité", analyseIncompat([mk("9997","Matière classe 4.2","4.2"), mk("9994","Matière comburante","5.1")]).length === 1);
+T("1.4S + classe 3 → PAS d'incompatibilité", analyseIncompat([mk("0338","Cartouches à armes légères","1.4S"), mk("1203","Essence","3")]).length === 0);
+T("1.4B + classe 3 → incompatibilité", analyseIncompat([mk("9999","Essai 1.4B","1.4B"), mk("1203","Essence","3")]).length === 1);
+T("1.4B + 1.4S → autorisé", analyseIncompat([mk("9999","Essai 1.4B","1.4B"), mk("0338","Cartouches à armes légères","1.4S")]).length === 0);
+T("UN 3528 + 5.1 → PAS d'incompatibilité (exception moteurs)", analyseIncompat([mk("3528","Moteur à combustion interne","3"), mk("9994","Matière comburante","5.1")]).length === 0);
+T("6.2 + 7 → pas de ségrégation", analyseIncompat([mk("9996","Matière infectieuse","6.2"), mk("9995","Matière radioactive","7")]).length === 0);
+T("3481 (avec équipement) + classe 3 → PAS d'incompatibilité", analyseIncompat([mk("3481","Piles avec équipement","9"), mk("1203","Essence","3")]).length === 0);
+T("subsidiaire 5.1 (UN 1072) + classe 3 → incompatibilité", analyseIncompat([mk("1072","Oxygène comprimé","2.2","5.1"), mk("1203","Essence","3")]).length === 1);
+var incC = analyseIncompat(COLIS);
+T("COLIS démo (3480 + 1203) → 1 incompatibilité détectée", incC.length === 1);
+colisRender();
+T("bannière incompatibilités en tête de c-list", (els["c-list"].children[0] && els["c-list"].children[0].innerHTML.indexOf("Incompatibilités") !== -1) || els["c-list"].innerHTML.indexOf("Incompatibilités") !== -1);
+reglesCheckRender(incC);
+T("bloc contrôle Règles rempli", els["reg-check"].innerHTML.indexOf("incompatibilité") !== -1);
+var incOk = analyseIncompat([mk("1203","Essence","3"), mk("1266","Parfums","3")]);
+reglesCheckRender(incOk);
+T("bloc contrôle Règles : aucun conflit → message ✅", els["reg-check"].innerHTML.indexOf("✅") !== -1);
+var dNa = detectMatiere("sodium ion");
+T("« sodium ion » → UN 3551 PI 976", dNa && dNa.un === "3551" && dNa.pi.indexOf("976") !== -1);
 
 // ---- étiquettes / impression ----
 var lbl1 = colisLabelsHtml(COLIS[0]);
