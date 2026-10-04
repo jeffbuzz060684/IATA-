@@ -1,5 +1,5 @@
 {
-  "version": 9,
+  "version": 10,
   "date": "2026-10-04",
-  "note": "v9 — fiabilité réglementaire : verdict ⚠️ NON VÉRIFIÉ par défaut pour tout UN sans donnée aérienne vérifiée, double verdict DGR + transporteur, champ état structuré (plus aucun verdict sur texte libre), PSN anglais exact sur la DGD et l'étiquette, SoC ≤ 30 % : PI 966 obligatoire / PI 967 recommandé, véhicules UN 3556/3557/3558 (PI 952) et UN 3373 (PI 650) ajoutés, contrôle de quantité par colis, synonymes dangereux retirés, CASS remplacé par variations État/opérateur, validité DGR 67 affichée + formation 24 mois + classe 7 hors périmètre"
+  "note": "v10 — socle Compliance Engine : verdict 5 états (identification incomplète / données DGR incomplètes / conditionnel / non conforme / prêt pour acceptation), classification confirmée obligatoire avant décision (base SDS/fabricant/labo), classe 7 bloquée (aucune DGD), édition DGR 67/68 selon la date d'expédition, type de transport fret/passager, SoC et téléphone 24h structurés (champs dédiés), marquage batterie avec n° ONU (sodium-ion distinct), power banks passagers 2026 (2 max, cabine, ≤ 100 Wh, pas d'usage en vol), FRG-07 France (téléphone urgence 24h sur la DGD), DGD verrouillée + validateur avant impression, checklist d'acceptation, formation CBTA"
 }

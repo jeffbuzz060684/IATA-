@@ -1,5 +1,5 @@
 // ============================================================
-// Harnais RÉGLEMENTAIRE — Assistant IATA MDD v9
+// Harnais RÉGLEMENTAIRE — Assistant IATA MDD v10
 // Vérifie que les DONNÉES réglementaires du code correspondent aux
 // valeurs vérifiées par recherche web (règle methode-verification).
 // Manifeste indépendant du code : toute divergence = FAIL.
@@ -129,6 +129,18 @@ T("classe 1 × classe 1 → renvoi groupes A–S (9.3.2)", analyseIncompat([mk("
 T("3 × 5.1 interdits ensemble", analyseIncompat([mk("1203","Essence","3"), mk("9994","Comburant","5.1")]).length === 1);
 T("4.3 × 8 interdits ensemble", analyseIncompat([mk("1414","Lithium hydrure","4.3"), mk("1830","Acide sulfurique","8")]).length === 1);
 T("piles seules (3480) × classe 3 interdits ensemble", analyseIncompat([mk("3480","Piles li-ion","9"), mk("1203","Essence","3")]).length === 1);
+
+// ---- v10 : conformité moteur — manifeste complémentaire (vérifié web 04/10/2026) ----
+T("power banks : maximum 2 par personne + cabine uniquement (guidance IATA 27/03/2026)", html.indexOf("Maximum 2 power banks par personne") !== -1 && html.indexOf("Cabine uniquement") !== -1);
+T("power banks : DGR 68 (§ 2.3.1.4, 01/01/2027) — > 100 Wh interdits passagers/équipage", html.indexOf("2.3.1.4") !== -1 && html.indexOf("01/01/2027") !== -1);
+T("FRG-07 : n° d'urgence 24h/24 exigé sur la Shipper's Declaration (France)", html.indexOf("FRG-07") !== -1 && html.indexOf("d-tel") !== -1);
+T("DGR 68 : éditions 67/68 avec dates d'effet dans le moteur", typeof DGR_EDITIONS === "object" && DGR_EDITIONS["67"].from === "2026-01-01" && DGR_EDITIONS["68"].from === "2027-01-01" && dgrEditionFor("2026-06-01") === "67" && dgrEditionFor("2027-06-01") === "68");
+T("marquage batterie : n° ONU approprié — sodium-ion étiquette dédiée (UN 3551)", (function(){ var a = analyseColis({un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"976", nb:1}); return a.labels.indexOf("sodium") !== -1 && a.labels.indexOf("lithium") === -1; })());
+T("CBTA : formation MDD par fonction (DGR § 1.5, approbation ICAO, ≤ 24 mois)", html.indexOf("CBTA") !== -1 && html.indexOf("24 mois") !== -1);
+T("verdict 5 états : classe 7 bloquée (🔴 hors périmètre, pas de DGD)", verdictColis({un:"2977", psn:"Radioactif", cl:"7", confirme:"oui", nb:1}).v === "red");
+T("verdict 5 états : classification non confirmée → 🔵 aucun verdict réglementaire", verdictColis({un:"1203", psn:"Essence", cl:"3", pg:"II", confirme:"non", nb:1}).v === "blue");
+T("verdict 5 états : SoC 40 % UN 3480 → 🔴 NON COMPLIANT (limite obligatoire)", verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", cao:true, confirme:"oui", soc:"40", tel:"06", nb:1}).v === "red");
+T("DGD : validateur avant impression (verrouillage)", typeof dgdValidate === "function" && html.indexOf("DGD NON IMPRIMABLE") !== -1);
 
 console.log("\n" + (total - fails) + "/" + total + " tests RÉGLEMENTAIRES OK" + (fails ? " — " + fails + " ÉCHEC(S) : DONNÉES À REVÉRIFIER AVANT EXPÉDITION" : ""));
 process.exit(fails ? 1 : 0);

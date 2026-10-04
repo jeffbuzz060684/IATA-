@@ -1,4 +1,4 @@
-// Harnais de tests — Assistant IATA MDD v9
+// Harnais de tests — Assistant IATA MDD v10
 var fs = require("fs");
 var path = require("path");
 var DIR = __dirname;
@@ -13,11 +13,11 @@ function T(name, cond) {
 ["index.html", "manifest.webmanifest", "sw.js", "icon.svg", "tools/gen-icons.js", ".github/workflows/pages.yml", "version.json", "db-onu.js"].forEach(function (f) {
   T("fichier présent " + f, fs.existsSync(path.join(DIR, f)));
 });
-T("badge v9", html.indexOf(">v9<") !== -1);
-T("sw v9", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v9") !== -1);
+T("badge v10", html.indexOf(">v10<") !== -1);
+T("sw v10", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v10") !== -1);
 T("sw inclut db-onu.js", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("db-onu.js") !== -1);
 T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("version.json") !== -1);
-T("version.json v9", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 9);
+T("version.json v10", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 10);
 T("10 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);
@@ -78,7 +78,7 @@ T("UN 2990 = classe 9 (IATA)", dbByUn("2990") && dbByUn("2990")[2] === "9");
 T("UN 1072 : subsidiaire 5.1", dbByUn("1072") && dbByUn("1072")[4] === "5.1");
 
 // ---- Corrections réglementaires v4 ----
-T("APP_VERSION = 9", typeof APP_VERSION !== "undefined" && APP_VERSION === 9);
+T("APP_VERSION = 10", typeof APP_VERSION !== "undefined" && APP_VERSION === 10);
 T("REGULATORY_DATA défini (édition ≠ version logicielle)", typeof REGULATORY_DATA === "object" && REGULATORY_DATA.edition === "67" && REGULATORY_DATA.applicableFrom === "2026-01-01" && REGULATORY_DATA.applicableTo === "2026-12-31");
 var rM = compute("carb", "moteur", {});
 T("UN 3528 → PI 378 (plus jamais 970)", rM.pi.indexOf("378") !== -1 && rM.pi.indexOf("970") === -1);
@@ -94,7 +94,7 @@ T("li-ion seul 98 Wh → IB + DGD + CAO", r1.pi.indexOf("IB") !== -1 && JSON.str
 var rNa = compute("piles", "sodium", {"wz-config":"seul","wz-wh":"60","wz-etat":"neuf"});
 T("sodium-ion seul → UN 3551 PI 976 (plus 977)", rNa.un === "3551" && rNa.pi.indexOf("976") !== -1 && rNa.pi.indexOf("977") === -1);
 
-var mk = function(un, psn, cl, sub){ return {un:un, psn:psn, cl:cl, sub:sub||"", notes:"", nb:1}; };
+var mk = function(un, psn, cl, sub){ return {un:un, psn:psn, cl:cl, sub:sub||"", notes:"", nb:1, confirme:"oui", etat:"sain"}; };
 // ---- Corrections réglementaires v7 ----
 T("esc() échappe & < > \" '", esc("a&b").indexOf("&amp;") !== -1 && esc("a<b").indexOf("&lt;") !== -1 && esc('a"b').indexOf("&quot;") !== -1 && esc("a>b").indexOf("&gt;") !== -1 && esc("a'b").indexOf("&#39;") !== -1);
 T("FICHE 2794 (plomb) → PI 870 + interdit pax", FICHES.some(function(f){ return f.un === "2794" && String(f.pi).indexOf("870") !== -1 && String(f.pax).indexOf("INTERDIT") !== -1; }));
@@ -136,25 +136,25 @@ T("verdict 🔴 UN 3356 (interdit fret)", verdictColis({un:"3356", psn:"Généra
 T("verdict 🔴 pile endommagée (champ structuré etat)", verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", etat:"endommage", cao:true, nb:1}).v === "red");
 T("v9 : notes « endommagée » en texte libre ne déclenchent PAS rouge tout seuls", verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", cao:true, notes:"endommagée", nb:1}).v !== "red");
 T("v9 : notes « non réglementé » en texte libre ne déclenchent PAS vert", verdictColis({un:"1170", psn:"Alcool", cl:"3", pg:"III", notes:"boisson non réglementée", nb:1}).v !== "green");
-T("verdict ⚠️ matière non identifiée", verdictColis({un:"", psn:"", cl:"", nb:1}).v === "warn");
-T("verdict ⚠️ classe 3 sans PG", verdictColis({un:"1203", psn:"Essence", cl:"3", pg:"", nb:1}).v === "warn");
-T("verdict ⚠️ CAO requis mais non confirmé", verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", pg:"", cao:false, notes:"tél 0601020304", nb:1}).v === "warn");
-var vOr = verdictColis({un:"1203", psn:"Essence", cl:"3", pg:"II", cao:false, lq:false, nb:1});
+T("v10 : verdict 🔵 matière non identifiée (bloqué, pas de verdict)", verdictColis({un:"", psn:"", cl:"", nb:1}).v === "blue");
+T("v10 : verdict 🟡 classe 3 sans PG (confirmée) — DONNÉES DGR INCOMPLÈTES", verdictColis({un:"1203", psn:"Essence", cl:"3", pg:"", confirme:"oui", nb:1}).v === "yellow");
+T("v10 : verdict 🟠 3480 — CAO requis mais non confirmé", (function(){ var v = verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", pg:"", cao:false, confirme:"oui", nb:1}); return v.v === "orange" && v.t.indexOf("CAO") !== -1; })());
+var vOr = verdictColis({un:"1203", psn:"Essence", cl:"3", pg:"II", cao:false, lq:false, confirme:"oui", nb:1});
 T("verdict 🟠 classe 3 complet → sous conditions", vOr.v === "orange" && vOr.r.indexOf("DGD") !== -1);
-var vGr = verdictColis({un:"3496", psn:"Piles au nickel-hydrure métallique", cl:"9", nb:1});
-T("verdict 🟢 UN 3496 NiMH (non restreint)", vGr.v === "green");
-var vOk2 = verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", cao:true, notes:"SoC 30 % — tél 0601020304", nb:1});
-T("verdict 🟠 3480 complet → CAO + SoC cités", vOk2.v === "orange" && vOk2.r.indexOf("CAO") !== -1 && vOk2.r.indexOf("SoC") !== -1);
+var vGr = verdictColis({un:"3496", psn:"Piles au nickel-hydrure métallique", cl:"9", confirme:"oui", nb:1});
+T("v10 : verdict 🟢 UN 3496 NiMH → READY FOR ACCEPTANCE", vGr.v === "green" && vGr.t.indexOf("READY FOR ACCEPTANCE") !== -1);
+var vOk2 = verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", cao:true, confirme:"oui", soc:"30", tel:"0601020304", nb:1});
+T("v10 : verdict 🟠 3480 complet → CAO + marquage batterie cités", vOk2.v === "orange" && vOk2.r.indexOf("CAO") !== -1 && vOk2.r.indexOf("téléphone 24h/24") !== -1);
 T("colisageVerdict = pire niveau (red gagne)", colisageVerdict([mk("1203","Essence","3"), mk("3356","Générateur O₂ chimique","5.1")]).v === "red");
 T("colisageVerdict tout 🟢 → green", colisageVerdict([mk("3496","Piles NiMH","9")]).v === "green");
-T("resultCard : VERDICT DGR INTERDIT (tone err)", resultCard({tone:"err", title:"t", autor:[]}).indexOf("VERDICT DGR : INTERDIT") !== -1);
-T("resultCard : VERDICT SOUS CONDITIONS (défaut)", resultCard(compute("piles", "plomb", {})).indexOf("SOUS CONDITIONS") !== -1);
-T("resultCard : VERDICT DGR AUTORISÉ (tone ok)", resultCard(compute("gilet", "mousse", {})).indexOf("VERDICT DGR : AUTORISÉ") !== -1);
-COLIS = [ { id: 801, date: "2026-10-04", un: "1203", psn: "ESSENCE", cl: "3", sub: "", pg: "II", pi: "353/364", ship: "BMPM", cons: "Doha", qty: "20 L", nb: 1, pkg: "fût ONU 3A", cao: false, lq: false, notes: "" } ];
+T("v10 : resultCard — NON COMPLIANT — INTERDIT (tone err)", resultCard({tone:"err", title:"t", autor:[]}).indexOf("NON COMPLIANT — INTERDIT") !== -1);
+T("v10 : resultCard — CONDITIONNEL (défaut)", resultCard(compute("piles", "plomb", {})).indexOf("CONDITIONNEL") !== -1);
+T("v10 : resultCard — PRÊT POUR ACCEPTATION (tone ok)", resultCard(compute("gilet", "mousse", {})).indexOf("PRÊT POUR ACCEPTATION") !== -1);
+COLIS = [ { id: 801, date: "2026-10-04", un: "1203", psn: "ESSENCE", cl: "3", sub: "", pg: "II", pi: "353/364", ship: "BMPM", cons: "Doha", qty: "20 L", nb: 1, pkg: "fût ONU 3A", cao: false, lq: false, notes: "", confirme: "oui", etat: "sain" } ];
 colisSave();
 colisRender();
 T("bannière verdict colisage en tête (Verdict DGR)", els["c-list"].children[0] && els["c-list"].children[0].innerHTML.indexOf("Verdict DGR") !== -1);
-T("badge verdict sur chaque colis", els["c-list"].children.some(function(ch){ return /SOUS CONDITIONS|À COMPLÉTER|INTERDIT|AUTORISÉ|QUANTITÉ|NON VÉRIFIÉ/.test(ch.innerHTML || ""); }));
+T("v10 : badge verdict sur chaque colis (5 états)", els["c-list"].children.some(function(ch){ return /CONDITIONNEL|NON COMPLIANT|NON CONFIRMÉE|IDENTIFICATION INCOMPLÈTE|DONNÉES DGR|READY FOR ACCEPTANCE/.test(ch.innerHTML || ""); }));
 
 // ---- v8 : traçabilité des sources ----
 T("SRC défini avec entrées vérifiées", typeof SRC === "object" && Object.keys(SRC).length >= 20 && SRC["1203"].indexOf("353") !== -1 && SRC["2794"].indexOf("870") !== -1);
@@ -167,10 +167,10 @@ T("FICHE 3475 → PG II + 353/364", (function(){ var f = FICHES.filter(function(
 T("harnais réglementaire séparé présent et PASSANT", (function(){ var r = require("child_process").spawnSync("node", ["test-reglementaire.js"], { cwd: DIR }); return r.status === 0; })());
 
 // ---- v9 : fiabilité réglementaire ----
-T("verdict ⚠️ NON VÉRIFIÉ par défaut : UN 0004 (1.1D) sans donnée aérienne", verdictColis({un:"0004", psn:"Picrate d'ammonium", cl:"1.1D", nb:1}).v === "warn" && verdictColis({un:"0004", psn:"Picrate d'ammonium", cl:"1.1D", nb:1}).t.indexOf("NON VÉRIFIÉ") !== -1);
-T("verdict ⚠️ NON VÉRIFIÉ : UN 1005 ammoniac (2.3)", verdictColis({un:"1005", psn:"Ammoniac anhydre", cl:"2.3", sub:"8", nb:1}).v === "warn");
-T("verdict ⚠️ NON VÉRIFIÉ : UN 2814 infectieux (6.2)", verdictColis({un:"2814", psn:"Substance infectieuse", cl:"6.2", nb:1}).v === "warn");
-T("verdict 🟢 UN 3496 NiMH via AIRX.ok (SP A199)", verdictColis({un:"3496", psn:"Piles au nickel-hydrure métallique", cl:"9", nb:1}).v === "green");
+T("v10 : verdict 🟡 DONNÉES DGR INCOMPLÈTES (NON VÉRIFIÉ) : UN 0004 (1.1D)", (function(){ var v = verdictColis({un:"0004", psn:"Picrate d'ammonium", cl:"1.1D", confirme:"oui", nb:1}); return v.v === "yellow" && v.t.indexOf("NON VÉRIFIÉ") !== -1; })());
+T("v10 : verdict 🟡 NON VÉRIFIÉ : UN 1005 ammoniac (2.3)", verdictColis({un:"1005", psn:"Ammoniac anhydre", cl:"2.3", sub:"8", confirme:"oui", nb:1}).v === "yellow");
+T("v10 : verdict 🟡 NON VÉRIFIÉ : UN 2814 infectieux (6.2)", verdictColis({un:"2814", psn:"Substance infectieuse", cl:"6.2", confirme:"oui", nb:1}).v === "yellow");
+T("v10 : verdict 🟢 UN 3496 NiMH via AIRX.ok (SP A199, confirmée)", verdictColis({un:"3496", psn:"Piles au nickel-hydrure métallique", cl:"9", confirme:"oui", nb:1}).v === "green");
 T("FICHE 3556 (véhicules lithium-ion) → PI 952", FICHES.some(function(f){ return f.un === "3556" && String(f.pi).indexOf("952") !== -1; }));
 T("FICHE 3573 absente ; FICHE 3557/3558 → PI 952", FICHES.some(function(f){ return f.un === "3557" && String(f.pi).indexOf("952") !== -1; }) && FICHES.some(function(f){ return f.un === "3558" && String(f.pi).indexOf("952") !== -1; }));
 T("FICHE 3373 (biologique catégorie B) → PI 650, pas de DGD", FICHES.some(function(f){ return f.un === "3373" && String(f.pi).indexOf("650") !== -1; }) && AIRX["3373"] && AIRX["3373"].noDgd === true);
@@ -361,6 +361,31 @@ getEl("ca-pkg").value = "caisse ONU 4G";
 getEl("ca-qty").value = "3 L";
 colisAddConfirm();
 T("ajout compatible : aucune incompatibilité signalée", COLIS.length === 2 && els["ca-res"].innerHTML.indexOf("Aucune incompatibilité") !== -1);
+
+// ---- v10 : compliance engine ----
+T("v10 : DGR_EDITIONS + dgrEditionFor (67 en 2026, 68 dès 2027)", typeof DGR_EDITIONS === "object" && DGR_EDITIONS["68"].from === "2027-01-01" && dgrEditionFor("2026-06-15") === "67" && dgrEditionFor("2027-01-01") === "68");
+T("v10 : tMode/tDate + REGULATORY_DATA dataset v10", typeof tMode === "function" && typeof tDate === "function" && REGULATORY_DATA.datasetVersion === "2026.10.04-v10");
+T("v10 : sans confirmation → 🔵 CLASSIFICATION NON CONFIRMÉE (bloqué)", (function(){ var v = verdictColis({un:"1203", psn:"Essence", cl:"3", pg:"II", confirme:"non", nb:1}); return v.v === "blue" && v.t.indexOf("CLASSIFICATION") !== -1; })());
+T("v10 : classe 7 → 🔴 NON COMPLIANT HORS PÉRIMÈTRE", (function(){ var v = verdictColis({un:"2977", psn:"Matière radioactive", cl:"7", confirme:"oui", nb:1}); return v.v === "red" && v.t.indexOf("CLASSE 7") !== -1; })());
+T("v10 : dgdAddFromColis refuse la classe 7 (aucune DGD générée)", (function(){ DGD_LINES = []; dgdAddFromColis({un:"2977", psn:"Radioactif", cl:"7", nb:1, cao:false}); return DGD_LINES.length === 0; })());
+T("v10 : dbCard marque la classe 7 hors périmètre", dbCard(["2977","Matière radioactive","7","",""]).indexOf("hors périmètre") !== -1);
+T("v10 : SoC 40 % sur UN 3480 → 🔴 NON CONFORME", verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", cao:true, confirme:"oui", soc:"40", tel:"0601020304", nb:1}).v === "red");
+T("v10 : SoC 40 % en PI 967 → 🟠 recommandation non suivie (pas rouge)", (function(){ var v = verdictColis({un:"3481", psn:"Piles avec équipement", cl:"9", pi:"967 Section II", confirme:"oui", soc:"40", tel:"0601020304", nb:1}); return v.v === "orange" && v.r.indexOf("recommandation") !== -1; })());
+T("v10 : mode passager + matière CAO → 🔴 INTERDIT AVION PASSAGERS", (function(){ getEl("t-mode").value = "passager"; var v = verdictColis({un:"3480", psn:"Piles li-ion", cl:"9", cao:true, confirme:"oui", soc:"30", tel:"0601020304", nb:1}); getEl("t-mode").value = ""; return v.v === "red" && v.t.indexOf("PASSAGERS") !== -1; })());
+T("v10 : expédition datée 2027 → 🟡 DONNÉES À RE-VÉRIFIER (DGR 68)", (function(){ getEl("t-date").value = "2027-03-01"; var v = verdictColis({un:"3496", psn:"Piles NiMH", cl:"9", confirme:"oui", nb:1}); getEl("t-date").value = ""; return v.v === "yellow" && v.t.indexOf("68") !== -1; })());
+T("v10 : marquage sodium-ion — étiquette « sodium » (pas lithium)", (function(){ var a = analyseColis({un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"976 IA", nb:1}); return a.labels.indexOf("sodium") !== -1 && a.labels.indexOf("lithium") === -1 && a.isBat === true && a.liType === "na"; })());
+T("v10 : labelSvg sodium défini (marquage batterie avec n° ONU approprié)", labelSvg("sodium").indexOf("svg") !== -1);
+T("v10 : UN 3480 sans tél dédié → avertissement marquage (champ dédié, pas les notes)", analyseColis({un:"3480", psn:"Piles li-ion", cl:"9", pi:"965 IB", cao:true, nb:1}).warns.some(function(w){ return w.indexOf("téléphone 24h/24") !== -1; }));
+T("v10 : dgdValidate — FRG-07 France sans n° → erreur validateur", (function(){ DGD_LINES = []; getEl("d-france").value = "oui"; getEl("d-tel").value = ""; getEl("d-ship").value = "BMPM"; getEl("d-cons").value = "DOH"; getEl("d-sign").value = "JF"; getEl("d-place").value = "Marseille"; var errs = dgdValidate(); getEl("d-france").value = ""; return errs.some(function(e){ return e.indexOf("FRG-07") !== -1; }); })());
+T("v10 : dgdValidate — ligne incomplète détectée", (function(){ DGD_LINES = [{un:"", psn:"", cl:"", qty:"", pi:"", pkg:"", nb:1}]; return dgdValidate().length >= 5; })());
+T("v10 : DGD verrouillée par défaut (select d-unlock + champs disabled)", html.indexOf("d-unlock") !== -1 && html.indexOf("x.disabled = true") !== -1 && html.indexOf("DGD verrouillée") !== -1);
+T("v10 : renderDgd affiche le bloc FRG-07 quand la France est impliquée", (function(){ DGD_LINES = [{un:"1203", psn:"GASOLINE", cl:"3", sub:"", pg:"II", qty:"5 L", nb:1, pkg:"fût 3A", pi:"353", auth:"", cao:false}]; getEl("d-france").value = "oui"; renderDgd(); getEl("d-france").value = ""; return els["dgd-preview"].innerHTML.indexOf("FRG-07") !== -1; })());
+T("v10 : power banks — max 2 par personne, cabine uniquement, DGR 68 au 01/01/2027", html.indexOf("Maximum 2 power banks par personne") !== -1 && html.indexOf("Cabine uniquement") !== -1 && html.indexOf("01/01/2027") !== -1);
+T("v10 : FRG-07, CBTA, classe 7 hors périmètre — bandeaux présents", html.indexOf("FRG-07") !== -1 && html.indexOf("CBTA") !== -1 && html.indexOf("hors périmètre") !== -1);
+T("v10 : colisRead lit confirme/clsbase/soc/tel", (function(){ getEl("c-confirm").value = "oui"; getEl("c-clsbase").value = "SDS"; getEl("c-soc").value = "30"; getEl("c-tel").value = "0601020304"; var c = colisRead(); getEl("c-confirm").value = "non"; getEl("c-clsbase").value = ""; getEl("c-soc").value = ""; getEl("c-tel").value = ""; return c.confirme === "oui" && c.clsbase === "SDS" && c.soc === "30" && c.tel === "0601020304"; })());
+T("v10 : colisBuildFromDet — classification non confirmée par défaut (imports = non validés)", colisBuildFromDet(detFromUn("1203"), {}).confirme === "non");
+T("v10 : acceptanceRender — checklist DO NOT ACCEPT sur anomalie", (function(){ DGD_LINES = []; COLIS = [{ id: 901, un:"1203", psn:"ESSENCE", cl:"3", sub:"", pg:"II", pi:"353", ship:"BMPM", cons:"DOH", qty:"5 L", nb:1, pkg:"fût 3A", cao:false, lq:false, notes:"", etat:"endommage", confirme:"oui" }]; colisRender(); var h = els["accept-check"].innerHTML; return h.indexOf("Acceptance Check") !== -1 && h.indexOf("DO NOT ACCEPT") !== -1; })());
+T("v10 : acceptanceRender — checklist READY FOR ACCEPTANCE sur colis conforme", (function(){ COLIS = [{ id: 902, un:"3496", psn:"Piles NiMH", cl:"9", sub:"", pg:"", pi:"", ship:"BMPM", cons:"DOH", qty:"2 kg", nb:1, pkg:"caisse", cao:false, lq:false, notes:"", etat:"sain", confirme:"oui" }]; colisRender(); var h = els["accept-check"].innerHTML; return h.indexOf("READY FOR ACCEPTANCE") !== -1 && h.indexOf("DO NOT ACCEPT") === -1; })());
 
 // ---- checkVersion offline ----
 try { checkVersion(); T("checkVersion offline sans crash", true); } catch (e) { T("checkVersion offline sans crash", false); }
