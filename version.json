@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "date": "2026-10-04",
-  "note": "v7 — correctifs réglementaires vérifiés : plomb 2794/2795 → PI 870 (CAO), VRLA 2800 → PI 872 (A67), supercondensateurs → UN 3499 PI 971, essence UN 1203 → PI 353/364, SoC ≤ 30 % étendu aux PI 966/967 sections I et II (> 2,7 Wh), Wh par cellule pris en compte dans l'onglet Décision, UN 3496 NiMH non restreint (SP A199), aérosols UN 1950 classe 2.1 (sub 8 retiré), échappement HTML complet, classe 1 : 1.4S sans ségrégation, référentiel DGR 67e éd. affiché"
+  "note": "v8 — verdict d'expédition 4 niveaux (interdit / sous conditions / autorisé / à compléter) sur chaque colis et dans l'assistant Décision, traçabilité des sources par donnée (vérifiées web avec date, les autres marquées « à confirmer »), UN 3475 vérifié PI 353/364, harnais de tests réglementaires séparé (test-reglementaire.js)"
 }
