@@ -15,29 +15,17 @@
 (function(){
   var st = document.getElementById("st");
   var tries = 0;
-  try { tries = parseInt(sessionStorage.getItem("v11b-tries") || "0", 10); } catch(e){}
-  function fail(m){
-    st.innerHTML = "⚠️ Mise à jour impossible : " + m + "<br>Vérifie ta connexion puis <b>recharge la page</b>.";
-  }
-  if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-    if (tries >= 2) { fail("l'application n'arrive pas à démarrer malgré la mise à jour — signale-le avec une capture d'écran."); return; }
-    try { sessionStorage.setItem("v11b-tries", String(tries + 1)); } catch(e){}
-    location.reload();
-    return;
-  }
+  try { tries = parseInt(sessionStorage.getItem("v11b-tries") || "0", 10) || 0; } catch(e){}
+  function save(n){ try { sessionStorage.setItem("v11b-tries", String(n)); } catch(e){} }
+  function fail(m){ st.innerHTML = "⚠️ Mise à jour impossible : " + m + "<br>Vérifie ta connexion puis <b>recharge la page</b>."; }
   if (!("serviceWorker" in navigator)) { fail("navigateur sans service worker."); return; }
-  if (tries >= 3) { fail("3 tentatives sans succès — signale-le."); return; }
-  try { sessionStorage.setItem("v11b-tries", String(tries + 1)); } catch(e){}
   var reloaded = false;
-  function go(){
-    if (reloaded) return;
-    reloaded = true;
-    try { sessionStorage.setItem("v11b-tries", "0"); } catch(e){}
-    location.reload();
-  }
-  navigator.serviceWorker.addEventListener("controllerchange", go);
-  navigator.serviceWorker.register("./sw.js").then(function(reg){
-    setTimeout(function(){ go(); }, 6000);
+  function reloadNow(reset){ if (reloaded) return; reloaded = true; save(reset ? 0 : tries + 1); location.reload(); }
+  navigator.serviceWorker.addEventListener("controllerchange", function(){ reloadNow(true); });
+  navigator.serviceWorker.register("./sw.js").then(function(){
+    if (tries >= 3) { fail("l'application n'arrive pas à démarrer malgré la mise à jour — signale-le avec une capture d'écran."); return; }
+    var wait = tries === 0 ? 6000 : 12000;
+    setTimeout(function(){ if (!reloaded) reloadNow(false); }, wait);
   }).catch(function(e){ fail("installation du service worker (" + (e && e.message ? e.message : e) + ")"); });
 })();
 </script>
