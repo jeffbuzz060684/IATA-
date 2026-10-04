@@ -1,5 +1,5 @@
 // ============================================================
-// Harnais RÉGLEMENTAIRE — Assistant IATA MDD v8
+// Harnais RÉGLEMENTAIRE — Assistant IATA MDD v9
 // Vérifie que les DONNÉES réglementaires du code correspondent aux
 // valeurs vérifiées par recherche web (règle methode-verification).
 // Manifeste indépendant du code : toute divergence = FAIL.
@@ -26,7 +26,7 @@ var REG = [
   { un: "3475", pi: ["353", "364"], src: "web 04/10/2026 (extrait DGR : 353 5 L / 364 60 L)" },
   // — Lithium / sodium — vérifié web 10/2026
   { un: "3480", pi: ["965"], cao: true, soc: true, src: "web 10/2026" },
-  { un: "3481", pi: ["966", "967"], soc: true, src: "web 04/10/2026 (SoC § I et II dès 01/01/2026, SP A331)" },
+  { un: "3481", pi: ["966", "967"], soc: true, soc966: "OBLIGATOIRE", soc967: "RECOMMANDÉ", src: "web 04/10/2026 (SoC : PI 966 obligatoire dès 01/01/2026 > 2,7 Wh ; PI 967 recommandé — guide batteries IATA 2026, SP A331)" },
   { un: "3090", pi: ["968"], cao: true, src: "web 10/2026" },
   { un: "3551", pi: ["976"], cao: true, src: "web 04/10/2026" },
   // — Divers vérifiés v4 (03/10/2026) —
@@ -36,7 +36,14 @@ var REG = [
   { un: "1845", pi: ["954"], src: "web 03/10/2026" },
   { un: "1072", pi: ["200"], sub: "5.1", src: "web 03/10/2026" },
   // — Base ONU corrigée — vérifié web 04/10/2026
-  { un: "1950", cl: "2.1", subVide: true, src: "web 04/10/2026 (sub 8 : variantes corrosives seulement)" },
+  // — Véhicules (guide batteries IATA 2026) — vérifié web 04/10/2026
+  { un: "3556", pi: ["952"], src: "web 04/10/2026 (véhicules lithium-ion : PI 952, SoC ≤ 30 % si > 100 Wh)" },
+  { un: "3557", pi: ["952"], src: "web 04/10/2026 (véhicules lithium-métal : PI 952)" },
+  { un: "3558", pi: ["952"], src: "web 04/10/2026 (véhicules sodium-ion : PI 952)" },
+  // — Biologique catégorie B (PI 650 DGR 67) — vérifié web 04/10/2026
+  { un: "3373", pi: ["650"], src: "web 04/10/2026 (PI 650 : pas de DGD, mention LTA personne responsable, colis ≤ 4 kg)" },
+  // — Fiche aérosols : classe 2.1 (inflammable) — vérifié web 04/10/2026
+  { un: "1950", ficheCl: "2.1", cl: "2.1", subVide: true, src: "web 04/10/2026 (sub 8 : variantes corrosives seulement)" },
   { un: "1005", cl: "2.3", sub: "8", src: "web 04/10/2026" },
   { un: "3318", cl: "2.3", sub: "8", src: "web 04/10/2026" }
 ];
@@ -93,6 +100,9 @@ REG.forEach(function(r){
   if (r.cl) T(label + " : base ONU classe " + r.cl, !!e && e[2] === r.cl);
   if (r.sub) T(label + " : base ONU subsidiaire " + r.sub, !!e && e[4] === r.sub);
   if (r.subVide) T(label + " : base ONU sans subsidiaire", !!e && e[4] === "");
+  if (r.ficheCl) T(label + " : FICHE classe " + r.ficheCl, !!f && f.cl === r.ficheCl);
+  if (r.soc966) T(label + " : fiche note SoC OBLIGATOIRE en PI 966", !!f && /OBLIGATOIRE PI 966/.test((f.notes || "")));
+  if (r.soc967) T(label + " : fiche note SoC RECOMMANDÉ en PI 967", !!f && /RECOMMANDÉ PI 967/.test((f.notes || "")));
   if (r.note) T(label + " : mention « " + r.note + " » présente dans le code", JSON.stringify(FICHES) .indexOf(r.note.split(" ")[0]) !== -1 || html.indexOf("SP A199") !== -1);
 });
 
@@ -105,6 +115,10 @@ T("li-ion 90 Wh / cellule 30 Wh → Section I (PI 966)", r90.pi.indexOf("Section
 T("SoC ≤ 30 % en Section I 966", JSON.stringify(r90.soc).indexOf("SoC ≤ 30 %") !== -1);
 var rS2 = compute("piles", "liion", { "wz-config":"dans", "wz-wh":"50", "wz-whc":"10", "wz-etat":"neuf" });
 T("li-ion 50 Wh / cellule 10 Wh → Section II (PI 967) + SoC", rS2.pi.indexOf("Section II") !== -1 && rS2.pi.indexOf("967") !== -1 && JSON.stringify(rS2.soc).indexOf("SoC ≤ 30 %") !== -1);
+T("SoC v9 : PI 966 (emballées avec) → OBLIGATOIRE", JSON.stringify(r90.soc).indexOf("OBLIGATOIRE") !== -1);
+T("SoC v9 : PI 967 (dans l'équipement) → RECOMMANDÉ", JSON.stringify(rS2.soc).indexOf("RECOMMANDÉ") !== -1);
+var rVeh9 = compute("piles", "vehicule", { "wz-veh":"li" });
+T("véhicules lithium-ion : PI 952 + SoC ≤ 30 % obligatoire UN 3556 (> 100 Wh)", rVeh9.pi.indexOf("952") !== -1 && JSON.stringify(rVeh9.soc).indexOf("3556") !== -1 && JSON.stringify(rVeh9.soc).indexOf("OBLIGATOIRE") !== -1);
 var rNo = compute("piles", "liion", { "wz-config":"avec", "wz-etat":"neuf" });
 T("li-ion sans Wh → Section I prudente + invite", rNo.pi.indexOf("Section I") !== -1 && rNo.pi.indexOf("Section II") === -1 && JSON.stringify(rNo.soc).indexOf("saisis") !== -1);
 

@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 9,
   "date": "2026-10-04",
-  "note": "v8 — verdict d'expédition 4 niveaux (interdit / sous conditions / autorisé / à compléter) sur chaque colis et dans l'assistant Décision, traçabilité des sources par donnée (vérifiées web avec date, les autres marquées « à confirmer »), UN 3475 vérifié PI 353/364, harnais de tests réglementaires séparé (test-reglementaire.js)"
+  "note": "v9 — fiabilité réglementaire : verdict ⚠️ NON VÉRIFIÉ par défaut pour tout UN sans donnée aérienne vérifiée, double verdict DGR + transporteur, champ état structuré (plus aucun verdict sur texte libre), PSN anglais exact sur la DGD et l'étiquette, SoC ≤ 30 % : PI 966 obligatoire / PI 967 recommandé, véhicules UN 3556/3557/3558 (PI 952) et UN 3373 (PI 650) ajoutés, contrôle de quantité par colis, synonymes dangereux retirés, CASS remplacé par variations État/opérateur, validité DGR 67 affichée + formation 24 mois + classe 7 hors périmètre"
 }
