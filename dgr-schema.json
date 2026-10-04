@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Assistant IATA MDD V11 — DGR licensed dataset",
+  "description": "Format d'échange pour un jeu de données IATA DGR détenu légitimement sous licence, transformé pour le moteur V11. Ce fichier est un modèle/schéma : il ne contient aucune table DGR protégée. Le DGR complet n'est pas embarqué dans l'application. Sans complete=true ET variationsComplete=true, le moteur reste en fail-safe : verdict 🟢 READY et impression de production verrouillés.",
+  "type": "object",
+  "required": ["edition", "records"],
+  "properties": {
+    "edition": { "type": "string", "enum": ["67", "68"], "description": "Édition DGR (67 = 2026, 68 = dès 2027-01-01) — doit correspondre à l'édition applicable à la date d'expédition" },
+    "datasetVersion": { "type": "string" },
+    "source": { "type": "string", "description": "Provenance/licence du jeu (ex. DGR détenu par l'unité, édition, date d'extraction)" },
+    "complete": { "type": "boolean", "description": "true = jeu déclaré complet pour toutes les matières transportées" },
+    "variationsComplete": { "type": "boolean", "description": "true = variations État/opérateur incluses et vérifiées" },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["un"],
+        "properties": {
+          "un": { "type": "string", "description": "n° ONU/ID (chiffres)" },
+          "psn": { "type": "string", "description": "désignation officielle exacte (Proper Shipping Name)" },
+          "class": { "type": "string" },
+          "subsidiaryRisk": { "type": "string" },
+          "packingGroup": { "type": "string" },
+          "packingInstructions": { "type": "object", "description": "PI applicables : sections, limites par colis, pax/CAO" },
+          "limitations": { "type": "object", "description": "interdictions passagers, quantités max, CAO" },
+          "marksLabels": { "type": "object", "description": "étiquettes et marquages exigés" },
+          "specialProvisions": { "type": "array" },
+          "stateVariations": { "type": "array" },
+          "operatorVariations": { "type": "array" },
+          "source": { "type": "string", "description": "page/section DGR de référence" }
+        }
+      }
+    }
+  }
+}
