@@ -1,5 +1,5 @@
 {
-  "version": 11,
-  "date": "2026-10-04",
-  "note": "v11 — fusion des deux moteurs V10 : champs bloquants structurés (UN 38.3, emballage ONU déclaré vérifié code+spécification+compatibilité PI, quantité nette structurée valeur+unité, configuration batterie, état de sécurité batterie fin, mention LTA vérifiée), contexte transport enrichi persisté (origine/destination/transits/exploitant, FRG-07 auto-détecté France), chargeur de référentiel DGR licencié (dgr-schema.json, complete + variationsComplete) : sans lui verdict 🟢 READY et impression de production verrouillés (impression brouillon filigranée DRAFT), DGD liée aux colis (lignes manuelles = brouillon), enregistrement colis refusé si verdict 🔴. Conserve : base ONU 2349, verdict 5 états, ségrégation 9.3.A, étiquettes, édition DGR 67/68 selon date, FRG-07, power banks 2026, CBTA, classe 7 bloquée."
+  "version": 17,
+  "date": "2026-10-10",
+  "note": "v17 — refonte navigation : 🧭 Décision = fusion recherche express + recherche détaillée (tout-en-un), 📚 Guides & Règles en sous-dossiers (piles, gaz, essence, classes, marquage, règles), 📦 Colis auto-rempli + compatibilités, 📄 DGD. Fix service worker : réseau-d'abord (l'ancien cache-first figeait app-core.js en v12 sur les téléphones). Badge v17 visible en haut à droite pour vérifier la mise à jour."
 }

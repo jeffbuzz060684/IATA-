@@ -178,9 +178,7 @@ var CLASSES = [
 // ---------- NAV ----------
 var TABS = [
   {id:"wiz", ic:"🧭", t:"Décision"},
-  {id:"rech", ic:"🔎", t:"Recherche"},
   {id:"guides", ic:"📚", t:"Guides"},
-  {id:"regles", ic:"⚖️", t:"Règles"},
   {id:"colis", ic:"📦", t:"Colis"},
   {id:"dgd", ic:"📄", t:"DGD"}
 ];
@@ -189,7 +187,8 @@ var GUIDE_SUBS = [
   {id:"gaz", ic:"💨", t:"Gaz"},
   {id:"essence", ic:"⛽", t:"Essence"},
   {id:"classes", ic:"🔢", t:"Classes"},
-  {id:"marquage", ic:"🏷️", t:"Marquage"}
+  {id:"marquage", ic:"🏷️", t:"Marquage"},
+  {id:"regles", ic:"⚖️", t:"Règles"}
 ];
 var nav = document.getElementById("nav");
 TABS.forEach(function(t, i){
@@ -290,6 +289,8 @@ function search(){
   res.innerHTML = html;
 }
 document.getElementById("q").addEventListener("input", search);
+var qMain = document.getElementById("q-main");
+if(qMain) qMain.addEventListener("input", function(){ var q = document.getElementById("q"); if(q) q.value = qMain.value; search(); });
 search();
 
 // ---------- RECHERCHE → AJOUT AU COLISAGE (v6) ----------
@@ -477,6 +478,7 @@ function exRenderCard(det){
     h += '<div class="toolbar">'
       + '<button class="btn acc" id="ex-go">⚡ Tout remplir (colis + DGD)</button>'
       + '<button class="btn" id="ex-adj">➕ Ajuster avant d\'ajouter</button>'
+      + '<button class="btn" id="ex-more">🔎 Fiche détaillée</button>'
       + '</div>';
   } else if(parseCls(det.cl).concat(parseCls(det.sub || "")).indexOf("7") !== -1){
     h += '<p class="warnline">🔴 Classe 7 (radioactif) : hors périmètre de cet outil — procédure IAEA dédiée.</p>';
@@ -487,6 +489,15 @@ function exRenderCard(det){
   if(go) go.addEventListener("click", exPrepare);
   var adj = document.getElementById("ex-adj");
   if(adj) adj.addEventListener("click", function(){ colisAddOpen(EX_DET.un, exRes.firstChild); });
+  var more = document.getElementById("ex-more");
+  if(more) more.addEventListener("click", function(){
+    var qm = document.getElementById("q-main"), q = document.getElementById("q");
+    if(qm) qm.value = "UN " + EX_DET.un;
+    if(q) q.value = EX_DET.un;
+    search();
+    var rs = document.getElementById("results");
+    if(rs && rs.scrollIntoView) rs.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
   if(exRes.scrollIntoView) exRes.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 function exPrepare(){
@@ -980,6 +991,7 @@ function computeGilet(sub){
 }
 // ---------- refreshWiz v4 : ne reconstruit les paramètres QUE si cat/sub change ----------
 function refreshWiz(rebuild){
+  if(!document.getElementById("wz-cat")) return;
   chips("wz-cat", CATS, WZ.cat, function(v){ WZ.cat = v; WZ.sub = null; WZ.params = {}; refreshWiz(true); });
   var subWrap = document.getElementById("wz-sub-wrap");
   var subBox = document.getElementById("wz-sub");
@@ -1082,7 +1094,7 @@ function labelSvg(kind){
     + '</svg>';
 }
 // ====================== COLIS v4 : état de colisage ======================
-var APP_VERSION = 11;
+var APP_VERSION = 17;
 // Référentiel réglementaire — version des données séparée de la version logicielle (DGR 68e éd. en vigueur au 01/01/2027)
 var REGULATORY_DATA = { authority:"IATA", document:"Dangerous Goods Regulations", edition:"67", applicableFrom:"2026-01-01", applicableTo:"2026-12-31", nextEdition:"68 (en vigueur 2027-01-01)", datasetVersion:"2026.10.04-v11" };
 // v10 : éditions DGR avec date d'effet — le moteur choisit l'édition selon la date d'expédition
@@ -1935,6 +1947,7 @@ function dgdAddFromColis(c){
   goTab("dgd");
 }
 function goTab(id){
+  if(id === "rech") id = "wiz";
   if(GUIDE_SUBS.some(function(g){ return g.id === id; })){
     var gi = TABS.findIndex(function(t){ return t.id === "guides"; });
     if(gi !== -1) nav.querySelectorAll("button")[gi].click();

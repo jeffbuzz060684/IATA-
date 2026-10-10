@@ -138,7 +138,7 @@
 </head>
 <body>
 <header id="hdr">
-  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v11</span><button id="hdr-toggle" type="button" aria-label="Réduire le bandeau">▼</button></h1>
+  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v17</span><button id="hdr-toggle" type="button" aria-label="Réduire le bandeau">▼</button></h1>
   <div id="hdr-fold">
   <p class="dim" style="margin:0 0 6px">Référentiel : IATA DGR <b>67e éd.</b> — en vigueur du <b>01/01/2026</b> au <b>31/12/2026</b> (68e éd. en vigueur au 01/01/2027) · base publique ONU — croiser avec l'édition en vigueur + variations État/opérateur</p>
   <div class="warnbox">📘 Formation MDD <b>par fonction</b> (CBTA — DGR § 1.5, approbation ICAO) : initiale puis récurrente <b>≤ 24 mois</b> avec ré-évaluation de compétence, pour tout expéditeur, emballeur ou agent d'acceptation · Classe 7 (radioactif) : <b>hors périmètre</b> de cet outil — réglementation IAEA.</div>
@@ -150,30 +150,25 @@
 
 <!-- ======================= DECISION ======================= -->
 <section id="tab-wiz" class="on">
-  <div class="warnbox">🧭 Dis ce que tu transportes → l'app calcule : n° ONU, PI, section, emballage, marquage, étiquetage, DGD, autorisations. Toujours vérifier l'édition du DGR en vigueur + variations État/opérateur.</div>
+  <div class="warnbox">🧭 Tape un n° ONU ou une matière → l'app affiche TOUT ce qu'elle sait (identité, PI, restrictions, exceptions, étiquettes, marquage) et peut remplir colis + DGD automatiquement. Toujours vérifier l'édition du DGR en vigueur + variations État/opérateur.</div>
   <div class="card">
-    <div class="wz-label">⚡ Express — tape ton n° ONU</div>
+    <div class="wz-label">⚡ Recherche rapide — n° ONU ou matière</div>
     <div class="ac" style="position:relative">
-      <input type="text" id="ex-un" placeholder="ex. 1950 · 1203 · 3481 · 1845…" autocomplete="off">
+      <input type="text" id="ex-un" placeholder="ex. 1950 · 1203 · essence · piles lithium…" autocomplete="off">
       <div class="ac-list" id="ex-ac"></div>
     </div>
     <div id="ex-res"></div>
     <p class="note">Tout ce que la base vérifiée connaît pour ce code (identité, PI, restrictions, exceptions, étiquettes, marquage) s'affiche et se reporte automatiquement dans le colis ET la DGD.</p>
   </div>
   <div class="card">
-    <div class="wz-label">1 · Que transportes-tu ?</div>
-    <div id="wz-cat"></div>
-    <div id="wz-sub-wrap"><div class="wz-label" id="wz-sub-label">2 · Précision</div><div id="wz-sub"></div></div>
-    <div id="wz-params"></div>
+    <div class="wz-label">🔎 Recherche approfondie (base : 2349 n° ONU)</div>
+    <input type="search" id="q-main" placeholder="🔎 n° ONU, matière, PI, classe…" autocomplete="off">
+    <p class="hint">Fiches vérifiées en premier, puis base ONU complète. Sur chaque résultat : « ➕ Ajouter à mon état de colisage » — choisis le colis de destination (nouveau ou existant), l'app vérifie aussitôt les incompatibilités.</p>
   </div>
-  <div id="wz-result"></div>
-</section>
-
-<!-- ======================= RECHERCHE ======================= -->
-<section id="tab-rech">
-  <div class="warnbox">⚠️ Aide-mémoire de terrain — toujours vérifier l'édition du DGR IATA en vigueur et les variations État/opérateur avant d'expédier. Les fiches détaillées s'affichent en premier, puis les entrées de la base ONU (classe, PG, risques subsidiaires). <b>➕ Sur chaque résultat : « Ajouter à mon état de colisage »</b> — choisis le colis de destination (nouveau ou existant), l'app vérifie aussitôt les incompatibilités.</div>
   <div id="results"></div>
 </section>
+
+
 
 <!-- ======================= GUIDES ======================= -->
 <section id="tab-guides">
@@ -419,11 +414,8 @@
     </ul>
   </div>
 </div>
-</section>
-
-<!-- ======================= REGLES (v5) ======================= -->
-<section id="tab-regles">
-  <h2 style="font-size:1.2rem;margin-bottom:8px">⚖️ Règles — incompatibilités, exceptions, quantités, autorisations</h2>
+  <div class="gpage" id="gp-regles">
+<h2 style="font-size:1.2rem;margin-bottom:8px">⚖️ Règles — incompatibilités, exceptions, quantités, autorisations</h2>
   <div class="card">
     <h3>🚫 Incompatibilités &amp; séparation entre colis</h3>
     <p class="dim">Séparation des colis dans un même chargement ou overpack — <b>Table 9.3.A IATA</b> (points vérifiés, édition 2023/2026). Toujours confirmer dans la Table 9.3.A de l'édition en vigueur et les règles de la compagnie.</p>
@@ -493,7 +485,10 @@
       <li>Les PI non vérifiables dans l'app s'affichent « voir DGR » — toujours trancher avec l'édition en vigueur.</li>
     </ul>
   </div>
+  </div>
 </section>
+
+
 
 <!-- ======================= COLIS (état de colisage) ======================= -->
 <section id="tab-colis">

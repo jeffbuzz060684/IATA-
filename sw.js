@@ -1,4 +1,4 @@
-var CACHE = "iata-mdd-v12";
+var CACHE = "iata-mdd-v17";
 var SHELL = ["./", "./index.html", "./app-core.js", "./db-onu.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", function(e) {
@@ -21,15 +21,13 @@ self.addEventListener("fetch", function(e) {
     e.respondWith(fetch(e.request).catch(function() { return new Response("{}", { headers: { "Content-Type": "application/json" } }); }));
     return;
   }
-  if (e.request.mode === "navigate") {
-    e.respondWith(fetch(e.request).then(function(r) {
-      var copy = r.clone();
-      caches.open(CACHE).then(function(c) { c.put(e.request, copy); });
-      return r;
-    }).catch(function() {
-      return caches.match(e.request).then(function(m) { return m || caches.match("./index.html"); });
-    }));
-    return;
-  }
-  e.respondWith(caches.match(e.request).then(function(m) { return m || fetch(e.request); }));
+  // v17 : RÉSEAU D'ABORD pour tout le reste (app-core.js inclus) — l'ancien cache-first
+  // figeait app-core.js sur la version installée du SW (bug « la recherche express ne fonctionne pas »).
+  e.respondWith(fetch(e.request).then(function(r) {
+    var copy = r.clone();
+    caches.open(CACHE).then(function(c) { c.put(e.request, copy); });
+    return r;
+  }).catch(function() {
+    return caches.match(e.request).then(function(m) { return m || caches.match("./index.html"); });
+  }));
 });

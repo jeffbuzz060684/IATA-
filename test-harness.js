@@ -14,9 +14,9 @@ function T(name, cond) {
 ["index.html", "app-core.js", "manifest.webmanifest", "sw.js", "icon.svg", "tools/gen-icons.js", ".github/workflows/pages.yml", "version.json", "db-onu.js"].forEach(function (f) {
   T("fichier présent " + f, fs.existsSync(path.join(DIR, f)));
 });
-T("badge v11", html.indexOf(">v11<") !== -1);
+T("badge v17 (vérification visuelle de la mise à jour sur téléphone)", html.indexOf(">v17<") !== -1);
 T("dgr-schema.json présent (V11)", fs.existsSync(path.join(DIR, "dgr-schema.json")));
-T("sw v12 (redéploiement monolithique)", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v12") !== -1);
+T("v17 : sw cache bump iata-mdd-v17 (≠ v12) — déclenche la mise à jour du SW sur les téléphones", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v17") !== -1);
 T("sw inclut db-onu.js", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("db-onu.js") !== -1);
 T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("version.json") !== -1);
 // V11.0.1 — bugfix déploiement : le SHELL du sw ne doit référencer QUE des fichiers réellement présents (sinon install du sw échoue → PWA jamais mise à jour)
@@ -32,7 +32,7 @@ T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8
   T("sw SHELL : aucun PNG binaire (icônes SVG uniquement)", !/\.png"/.test(shell));
 })();
 T("manifest : icônes SVG uniquement (aucun PNG à déployer)", (function(){ var m = fs.readFileSync(path.join(DIR, "manifest.webmanifest"), "utf8"); return m.indexOf("icon.svg") !== -1 && m.indexOf("image/png") === -1; })());
-T("version.json v11", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 11);
+T("version.json v17", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 17);
 // ---- v12 : redéploiement monolithique en fichiers directs (suppression du chargeur v11b à blocs compressés) ----
 T("v12 : index.html référence app-core.js", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('src="app-core.js"') !== -1);
 T("v12 : index.html léger (HTML/CSS seul)", fs.statSync(path.join(DIR, "index.html")).size < 60000);
@@ -84,12 +84,21 @@ T("v16.1 : liste matière colis VISIBLE — cAc affiché en block (même correct
 T("v16.1 : détection matière au blur du champ colis (detectMatiere + applyDetected quand liste fermée sans sélection)", coreJs.indexOf("if(AC_SEL < 0){ var d = detectMatiere(cMat.value); if(d) applyDetected(d); }") !== -1);
 T("v16.1 : carte express au blur si n° ONU complet saisi (robustesse saisie)", coreJs.indexOf("exRenderCard(detFromUn(m[0]))") !== -1);
 T("v16.1 : acPick remet AC_SEL à -1 (pas de blocage de détection après un choix)", (coreJs.match(/function acPick\(i\)\{[\s\S]*?AC_SEL = -1;/) || []).length === 1);
-T("v15 : navigation 6 onglets + guides en sous-onglets", ["tab-wiz","tab-rech","tab-guides","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }) && ["gp-piles","gp-gaz","gp-essence","gp-classes","gp-marquage"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
+// ---- v17 : refonte navigation (demande de Jade : Décision = recherche rapide tout-en-un, Guides & Règles en sous-dossiers) ----
+T("v17 : Décision = fusion express + recherche (champ #q-main + #results dans tab-wiz)", (idxHtml.match(/<section id="tab-wiz"[\s\S]*?id="results"/) || []).length === 1 && idxHtml.indexOf('id="q-main"') !== -1);
+T("v17 : TABS = 4 onglets (plus de rech/regles dans la nav)", (coreJs.match(/var TABS = \[([\s\S]*?)\];/) || ["",""])[1].indexOf('id:"wiz"') !== -1 && (coreJs.match(/var TABS = \[([\s\S]*?)\];/) || ["",""])[1].indexOf('id:"rech"') === -1 && (coreJs.match(/var TABS = \[([\s\S]*?)\];/) || ["",""])[1].indexOf('id:"regles"') === -1);
+T("v17 : Règles = sous-onglet des Guides (GUIDE_SUBS + gp-regles avec Table 9.3.A)", (coreJs.match(/var GUIDE_SUBS = \[([\s\S]*?)\];/) || ["",""])[1].indexOf('id:"regles"') !== -1 && idxHtml.indexOf('id="gp-regles"') !== -1 && idxHtml.indexOf("Table 9.3.A") !== -1);
+T("v17 : goTab redirige l'ancien id \"rech\" vers la Décision (rétro-compatibilité)", coreJs.indexOf('if(id === "rech") id = "wiz";') !== -1);
+T("v17 : wizard retiré de l'UI, refreshWiz sécurisé par garde", idxHtml.indexOf('id="wz-cat"') === -1 && coreJs.indexOf('if(!document.getElementById("wz-cat")) return;') !== -1);
+T("v17 : express → fiche détaillée (bouton #ex-more alimente la recherche)", coreJs.indexOf('id="ex-more"') !== -1 && coreJs.indexOf('getElementById("ex-more")') !== -1);
+T("v17 : version cohérente partout (badge v17 + APP_VERSION 17 + version.json 17)", idxHtml.indexOf(">v17<") !== -1 && coreJs.indexOf("var APP_VERSION = 17;") !== -1 && JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 17);
+T("v17 : sw réseau-d'abord pour tout (fix du cache-first qui figeait app-core.js en v12 sur les téléphones)", (function(){ var s = fs.readFileSync(path.join(DIR, "sw.js"), "utf8"); return s.indexOf("iata-mdd-v17") !== -1 && s.indexOf("iata-mdd-v12") === -1 && s.indexOf("respondWith(fetch(e.request)") !== -1 && s.indexOf("caches.match(e.request)") !== -1; })());
+T("v17 : navigation 4 onglets + guides & règles en sous-onglets", ["tab-wiz","tab-guides","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }) && html.indexOf('id="tab-rech"') === -1 && html.indexOf('id="tab-regles"') === -1 && ["gp-piles","gp-gaz","gp-essence","gp-classes","gp-marquage","gp-regles"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);
 T("import xlsx retiré (accept csv seul)", html.indexOf('accept=".csv,text/csv"') !== -1 && !/accept="[^"]*\.xlsx/.test(html));
 T("parseur xlsx supprimé", html.indexOf("function zipExtract") === -1 && html.indexOf("function xlsxRows") === -1 && html.indexOf("DecompressionStream") === -1);
-T("onglet Règles : tableau 9.3.A", html.indexOf("Table 9.3.A") !== -1 && html.indexOf("tab-regles") !== -1);
+T("onglet Règles (sous-onglet Guides) : tableau 9.3.A", html.indexOf("Table 9.3.A") !== -1 && html.indexOf("gp-regles") !== -1);
 
 // ---- Stubs DOM ----
 function makeEl() {
@@ -144,7 +153,7 @@ T("UN 2990 = classe 9 (IATA)", dbByUn("2990") && dbByUn("2990")[2] === "9");
 T("UN 1072 : subsidiaire 5.1", dbByUn("1072") && dbByUn("1072")[4] === "5.1");
 
 // ---- Corrections réglementaires v4 ----
-T("APP_VERSION = 11", typeof APP_VERSION !== "undefined" && APP_VERSION === 11);
+T("APP_VERSION = 17", typeof APP_VERSION !== "undefined" && APP_VERSION === 17);
 T("REGULATORY_DATA défini (édition ≠ version logicielle)", typeof REGULATORY_DATA === "object" && REGULATORY_DATA.edition === "67" && REGULATORY_DATA.applicableFrom === "2026-01-01" && REGULATORY_DATA.applicableTo === "2026-12-31");
 var rM = compute("carb", "moteur", {});
 T("UN 3528 → PI 378 (plus jamais 970)", rM.pi.indexOf("378") !== -1 && rM.pi.indexOf("970") === -1);
