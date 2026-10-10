@@ -9,6 +9,7 @@ var fs = require("fs");
 var path = require("path");
 var DIR = __dirname;
 var html = fs.readFileSync(path.join(DIR, "index.html"), "utf8");
+html += "\n" + fs.readFileSync(path.join(DIR, "app-core.js"), "utf8");
 
 // ---- Manifeste des valeurs aériennes vérifiées (source : recherche web, date) ----
 var REG = [
@@ -72,6 +73,7 @@ var Blob = function(parts, opts){ this.parts = parts || []; this.type = (opts &&
 var scripts = [], reS = /<script>([\s\S]*?)<\/script>/g, mm;
 while ((mm = reS.exec(html))) scripts.push(mm[1]);
 var mainScript = scripts.filter(function(s){ return s.indexOf("APP_VERSION") !== -1; })[0];
+if (!mainScript) mainScript = fs.readFileSync(path.join(DIR, "app-core.js"), "utf8");
 
 var fails = 0, total = 0;
 function T(name, cond){ total++; if(!cond){ fails++; console.log("FAIL: " + name); } else console.log("ok  : " + name); }

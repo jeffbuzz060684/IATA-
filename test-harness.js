@@ -3,6 +3,7 @@ var fs = require("fs");
 var path = require("path");
 var DIR = __dirname;
 var html = fs.readFileSync(path.join(DIR, "index.html"), "utf8");
+html += "\n" + fs.readFileSync(path.join(DIR, "app-core.js"), "utf8");
 var fails = 0, total = 0;
 function T(name, cond) {
   total++;
@@ -10,15 +11,35 @@ function T(name, cond) {
   else console.log("ok  : " + name);
 }
 
-["index.html", "manifest.webmanifest", "sw.js", "icon.svg", "tools/gen-icons.js", ".github/workflows/pages.yml", "version.json", "db-onu.js"].forEach(function (f) {
+["index.html", "app-core.js", "manifest.webmanifest", "sw.js", "icon.svg", "tools/gen-icons.js", ".github/workflows/pages.yml", "version.json", "db-onu.js"].forEach(function (f) {
   T("fichier présent " + f, fs.existsSync(path.join(DIR, f)));
 });
 T("badge v11", html.indexOf(">v11<") !== -1);
 T("dgr-schema.json présent (V11)", fs.existsSync(path.join(DIR, "dgr-schema.json")));
-T("sw v11", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v11") !== -1);
+T("sw v12 (redéploiement monolithique)", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v12") !== -1);
 T("sw inclut db-onu.js", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("db-onu.js") !== -1);
 T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("version.json") !== -1);
+// V11.0.1 — bugfix déploiement : le SHELL du sw ne doit référencer QUE des fichiers réellement présents (sinon install du sw échoue → PWA jamais mise à jour)
+(function(){
+  var swSrc = fs.readFileSync(path.join(DIR, "sw.js"), "utf8");
+  var shell = (swSrc.match(/SHELL = \[([^\]]*)\]/) || [])[1] || "";
+  var entries = (shell.match(/"\.\/([^"]*)"/g) || []).map(function(s){ return s.slice(3, -1); });
+  T("sw SHELL lisible (" + entries.length + " entrées)", entries.length >= 5);
+  entries.forEach(function(f){
+    var p = f === "" ? "index.html" : f; // "./" → la page elle-même
+    T("sw SHELL : " + (f === "" ? "./" : "./" + f) + " existe dans le déploiement", fs.existsSync(path.join(DIR, p)));
+  });
+  T("sw SHELL : aucun PNG binaire (icônes SVG uniquement)", !/\.png"/.test(shell));
+})();
+T("manifest : icônes SVG uniquement (aucun PNG à déployer)", (function(){ var m = fs.readFileSync(path.join(DIR, "manifest.webmanifest"), "utf8"); return m.indexOf("icon.svg") !== -1 && m.indexOf("image/png") === -1; })());
 T("version.json v11", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 11);
+// ---- v12 : redéploiement monolithique en fichiers directs (suppression du chargeur v11b à blocs compressés) ----
+T("v12 : index.html référence app-core.js", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('src="app-core.js"') !== -1);
+T("v12 : index.html léger (HTML/CSS seul)", fs.statSync(path.join(DIR, "index.html")).size < 60000);
+T("v12 : app-core.js complet (script principal intégral)", fs.statSync(path.join(DIR, "app-core.js")).size > 100000);
+T("v12 : aucun bloc compressé ni chargeur (architecture directe)", !fs.existsSync(path.join(DIR, "app-a.b64")) && !fs.existsSync(path.join(DIR, "app-b.b64")));
+T("v12 : plus de reconstruction runtime (DecompressionStream ni atob côté app)", html.indexOf("DecompressionStream") === -1);
+T("v12 : le sw référence app-core.js dans le SHELL", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("app-core.js") !== -1);
 T("10 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);
@@ -61,7 +82,7 @@ var Blob = BlobCls;
 var scripts = [];
 var reS = /<script>([\s\S]*?)<\/script>/g, mm;
 while ((mm = reS.exec(html))) scripts.push(mm[1]);
-var mainScript = scripts.filter(function(s){ return s.indexOf("APP_VERSION") !== -1; })[0];
+var mainScript = scripts.filter(function(s){ return s.indexOf("APP_VERSION") !== -1; })[0] || fs.readFileSync(path.join(DIR, "app-core.js"), "utf8");
 T("script principal extrait", !!mainScript);
 
 try {
