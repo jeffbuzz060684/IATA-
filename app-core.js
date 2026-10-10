@@ -401,6 +401,135 @@ function colisAddFeedback(c){
   var g = document.getElementById("ca-goto");
   if(g) g.addEventListener("click", function(){ goTab("colis"); });
 }
+// ---- v16 : ⚡ saisie express par n° ONU (demande de Jade : tout se remplit automatiquement) ----
+var EX_DET = null, EX_LIST = [], EX_SEL = -1;
+var exIn = document.getElementById("ex-un"), exAc = document.getElementById("ex-ac"), exRes = document.getElementById("ex-res");
+function exSearch(t){
+  var list = [];
+  var m = t.match(/\d{3,4}/);
+  if(m){
+    var exact = dbByUn(m[0]);
+    if(exact) list.push({ un: exact[0], psn: exact[1] });
+  }
+  var low = norm(t);
+  if(low && list.length < 9){
+    Object.keys(SYNONYMES).forEach(function(k){
+      if(list.length >= 9) return;
+      if(norm(k).indexOf(low) !== -1 || low.indexOf(norm(k)) !== -1){
+        var u = SYNONYMES[k], ee = dbByUn(u);
+        if(list.filter(function(x){ return x.un === u; }).length === 0) list.push({ un: u, psn: ee ? ee[1] : k, syn: k });
+      }
+    });
+    DB_ONU.forEach(function(e){
+      if(list.length >= 9) return;
+      if(norm(e[1]).indexOf(low) !== -1 && list.filter(function(x){ return x.un === e[0]; }).length === 0) list.push({ un: e[0], psn: e[1] });
+    });
+  }
+  return list;
+}
+function exRenderList(list){
+  EX_LIST = list; EX_SEL = -1;
+  if(!list.length){ exAc.innerHTML = ""; exAc.style.display = "none"; return; }
+  exAc.innerHTML = list.map(function(x, i){
+    var e = dbByUn(x.un);
+    return '<div class="ac-item" data-i="' + i + '"><b>UN ' + esc(x.un) + '</b> — ' + esc(x.psn) + (e && e[2] ? ' <span class="badge b-cl">Cl ' + esc(e[2]) + '</span>' : "") + (e && e[3] ? ' <span class="badge">PG ' + esc(e[3]) + '</span>' : "") + (x.syn ? ' <span class="dim">« ' + esc(x.syn) + ' »</span>' : "") + '</div>';
+  }).join("");
+  exAc.style.display = "";
+  exAc.querySelectorAll(".ac-item").forEach(function(el){
+    el.addEventListener("mousedown", function(ev){ ev.preventDefault(); exPick(parseInt(el.getAttribute("data-i"), 10)); });
+  });
+}
+function exPick(i){
+  var x = EX_LIST[i]; if(!x) return;
+  exIn.value = "UN " + x.un;
+  exAc.style.display = "none";
+  exRenderCard(detFromUn(x.un));
+}
+function exRenderCard(det){
+  if(!det || !det.un){ exRes.innerHTML = ""; return; }
+  EX_DET = det;
+  var f = FICHES.filter(function(x){ return un4(x.un) === un4(det.un); })[0] || null;
+  var ax = AIRX[un4(det.un)] || {};
+  var h = '<div class="card rescard' + (det.interdit ? ' err' : '') + '">'
+    + '<h3>UN ' + esc(det.un) + ' — ' + esc(det.psn) + '</h3>'
+    + '<div class="kv">'
+    + '<b>PSN (DGD)</b><span>' + esc(psnEn(det.un, det.psn)) + '</span>'
+    + '<b>Classe</b><span>' + esc(det.cl) + (det.sub ? ' (subs. ' + esc(det.sub) + ')' : '') + '</span>'
+    + '<b>PG</b><span>' + (det.pg ? esc(det.pg) : '—') + '</span>'
+    + '<b>PI</b><span>' + (det.pi ? esc(det.pi) : '⚠️ à vérifier dans le DGR (absente de la base vérifiée)') + '</span>'
+    + (det.cao ? '<b>Restriction</b><span>🚚 CARGO AIRCRAFT ONLY — interdit avion passagers</span>' : '')
+    + (det.lq ? '<b>Régime</b><span>LQ possible (quantités limitées, marque Y)</span>' : '')
+    + '</div>';
+  if(det.interdit) h += '<p class="warnline">⛔ INTERDIT au transport aérien — aucune préparation possible.</p>';
+  if(f){
+    h += '<div class="lblset"><div class="row">' + (f.lbl ? '<b>🧾 ' + esc(f.lbl) + '</b>' : '') + '</div></div>'
+      + '<ul>'
+      + (f.pax ? '<li><b>✈️ Passagers :</b> ' + esc(f.pax) + '</li>' : '')
+      + (f.cargo ? '<li><b>🚚 Fret :</b> ' + esc(f.cargo) + '</li>' : '')
+      + (f.notes ? '<li><b>📌 Particularités :</b> ' + esc(f.notes) + '</li>' : '')
+      + '</ul>';
+  }
+  if(ax.dgd) h += '<p class="okline">📄 DGD obligatoire — ligne importée automatiquement à la préparation.</p>';
+  if(ax.noDgd) h += '<p class="infoline">📄 Pas de DGD pour ce code — mention LTA à la place (voir onglet DGD ④).</p>';
+  if(ax.note && !f) h += '<p class="infoline">📌 ' + esc(ax.note) + '</p>';
+  if(!f && !ax.pi) h += '<p class="note">Fiche détaillée absente de la base vérifiée pour ce code — identité ONU ci-dessus fiable, PI/limites à confirmer dans le DGR en vigueur avant expédition.</p>';
+  if(!det.interdit && parseCls(det.cl).concat(parseCls(det.sub || "")).indexOf("7") === -1){
+    h += '<div class="toolbar">'
+      + '<button class="btn acc" id="ex-go">⚡ Tout remplir (colis + DGD)</button>'
+      + '<button class="btn" id="ex-adj">➕ Ajuster avant d\'ajouter</button>'
+      + '</div>';
+  } else if(parseCls(det.cl).concat(parseCls(det.sub || "")).indexOf("7") !== -1){
+    h += '<p class="warnline">🔴 Classe 7 (radioactif) : hors périmètre de cet outil — procédure IAEA dédiée.</p>';
+  }
+  h += '</div>';
+  exRes.innerHTML = h;
+  var go = document.getElementById("ex-go");
+  if(go) go.addEventListener("click", exPrepare);
+  var adj = document.getElementById("ex-adj");
+  if(adj) adj.addEventListener("click", function(){ colisAddOpen(EX_DET.un, exRes.firstChild); });
+  if(exRes.scrollIntoView) exRes.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+function exPrepare(){
+  if(!EX_DET || !EX_DET.un) return;
+  var cls7 = parseCls(EX_DET.cl).concat(parseCls(EX_DET.sub || "")).indexOf("7") !== -1;
+  if(EX_DET.interdit || cls7){ alert("⛔ Ce code est interdit en fret aérien (ou hors périmètre classe 7) — aucune préparation automatique."); return; }
+  var c = colisBuildFromDet(EX_DET, { qty: "", nb: 1, pkg: "", confirme: "non" });
+  COLIS.push(c);
+  colisSave(); colisRender();
+  dgdAddFromColisQuiet(c);
+  dgdRenderLines();
+  goTab("colis");
+  var restant = [];
+  if(!c.qty) restant.push("quantité nette (obligatoire au marquage)");
+  if(!c.pkg) restant.push("type d'emballage (selon PI)");
+  if(parseCls(c.cl).indexOf("3") !== -1 && !c.pg) restant.push("groupe d'emballage PG");
+  alert("✅ UN " + c.un + " préparé automatiquement :\n• colis créé avec identité, classe, PI et particularités\n• ligne DGD importée (PSN anglais : " + psnEn(c.un, c.psn) + ")" + (restant.length ? "\n\nReste à compléter : " + restant.join(" · ") : "\n\nTout est rempli — vérifie le verdict du colis."));
+}
+if(exIn){
+  exIn.addEventListener("input", function(){
+    var t = exIn.value.trim();
+    if(t.length < 2){ exAc.innerHTML = ""; exAc.style.display = "none"; return; }
+    exRenderList(exSearch(t));
+    if(/^\d{4}$/.test(t)){
+      var e = dbByUn(t);
+      if(e){ exAc.style.display = "none"; exRenderCard(detFromUn(t)); return; }
+    }
+  });
+  exIn.addEventListener("keydown", function(ev){
+    if(!EX_LIST.length) return;
+    if(ev.key === "ArrowDown"){ EX_SEL = Math.min(EX_SEL + 1, EX_LIST.length - 1); ev.preventDefault(); exHi(); }
+    else if(ev.key === "ArrowUp"){ EX_SEL = Math.max(EX_SEL - 1, 0); ev.preventDefault(); exHi(); }
+    else if(ev.key === "Enter"){
+      ev.preventDefault();
+      if(EX_SEL >= 0) exPick(EX_SEL);
+      else { var e = dbByUn(exIn.value.trim().match(/\d{3,4}/) ? exIn.value.trim().match(/\d{3,4}/)[0] : ""); if(e) exRenderCard(detFromUn(e[0])); }
+    }
+  });
+  exIn.addEventListener("blur", function(){ setTimeout(function(){ exAc.style.display = "none"; }, 150); });
+}
+function exHi(){
+  exAc.querySelectorAll(".ac-item").forEach(function(el, i){ el.className = "ac-item" + (i === EX_SEL ? " on" : ""); });
+}
 if(res) res.addEventListener("click", function(ev){
   var t = ev.target;
   var un = null;
