@@ -76,6 +76,14 @@ T("v16 : exPrepare signale ce qui reste à compléter (quantité nette, emballag
 T("v16 : autocomplétion express (base ONU + synonymes + 4 chiffres → carte immédiate)", coreJs.indexOf("function exSearch") !== -1 && coreJs.indexOf("SYNONYMES") !== -1 && coreJs.indexOf("/^\\d{4}$/.test(t)") !== -1);
 T("v16 : « Ajuster avant d'ajouter » réutilise le dialogue existant (colisAddOpen depuis la carte express)", coreJs.indexOf('colisAddOpen(EX_DET.un, exRes.firstChild)') !== -1);
 T("v16 : fiche express pour UN 3480 dans la base vérifiée (FICHES : pax INTERDIT passagers, PI 965 IA/IB)", coreJs.indexOf('un:"3480"') !== -1 && coreJs.indexOf("INTERDIT avion passagers") !== -1 && coreJs.indexOf("pi:\"965 (IA/IB)\"") !== -1);
+// ---- v16.1 : correctif listes déroulantes (bug rapporté par Jade : « la recherche rapide ne fonctionne pas ») ----
+// Racine : la CSS impose .ac-list{display:none} ; le JS « affichait » en remettant le style inline à "" → retombe sur display:none → liste invisible. Le harnais ne simule pas la cascade CSS d'où 278/278 verts malgré le bug.
+T("v16.1 : simulation cascade CSS — style inline \"\" sur .ac-list ⇒ invisible (leçon du bug)", (function(){ var css = (idxHtml.match(/ac-list\{[^}]*\}/) || [""])[0]; return css.indexOf("display:none") !== -1; })() && coreJs.indexOf("exAc.style.display = \"block\";") !== -1);
+T("v16.1 : liste express VISIBLE — exRenderList affiche en block (plus aucun retour à \"\" qui retombe sur display:none)", coreJs.indexOf('exAc.style.display = "block";') !== -1 && coreJs.indexOf('exAc.style.display = "";') === -1);
+T("v16.1 : liste matière colis VISIBLE — cAc affiché en block (même correctif v15)", coreJs.indexOf('cAc.style.display = "block";') !== -1 && coreJs.indexOf('cAc.style.display = "";') === -1);
+T("v16.1 : détection matière au blur du champ colis (detectMatiere + applyDetected quand liste fermée sans sélection)", coreJs.indexOf("if(AC_SEL < 0){ var d = detectMatiere(cMat.value); if(d) applyDetected(d); }") !== -1);
+T("v16.1 : carte express au blur si n° ONU complet saisi (robustesse saisie)", coreJs.indexOf("exRenderCard(detFromUn(m[0]))") !== -1);
+T("v16.1 : acPick remet AC_SEL à -1 (pas de blocage de détection après un choix)", (coreJs.match(/function acPick\(i\)\{[\s\S]*?AC_SEL = -1;/) || []).length === 1);
 T("v15 : navigation 6 onglets + guides en sous-onglets", ["tab-wiz","tab-rech","tab-guides","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }) && ["gp-piles","gp-gaz","gp-essence","gp-classes","gp-marquage"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);

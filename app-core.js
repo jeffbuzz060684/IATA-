@@ -434,7 +434,7 @@ function exRenderList(list){
     var e = dbByUn(x.un);
     return '<div class="ac-item" data-i="' + i + '"><b>UN ' + esc(x.un) + '</b> — ' + esc(x.psn) + (e && e[2] ? ' <span class="badge b-cl">Cl ' + esc(e[2]) + '</span>' : "") + (e && e[3] ? ' <span class="badge">PG ' + esc(e[3]) + '</span>' : "") + (x.syn ? ' <span class="dim">« ' + esc(x.syn) + ' »</span>' : "") + '</div>';
   }).join("");
-  exAc.style.display = "";
+  exAc.style.display = "block";
   exAc.querySelectorAll(".ac-item").forEach(function(el){
     el.addEventListener("mousedown", function(ev){ ev.preventDefault(); exPick(parseInt(el.getAttribute("data-i"), 10)); });
   });
@@ -525,7 +525,7 @@ if(exIn){
       else { var e = dbByUn(exIn.value.trim().match(/\d{3,4}/) ? exIn.value.trim().match(/\d{3,4}/)[0] : ""); if(e) exRenderCard(detFromUn(e[0])); }
     }
   });
-  exIn.addEventListener("blur", function(){ setTimeout(function(){ exAc.style.display = "none"; }, 150); });
+  exIn.addEventListener("blur", function(){ setTimeout(function(){ exAc.style.display = "none"; var m = exIn.value.trim().match(/\d{3,4}/); if(m){ var e = dbByUn(m[0]); if(e) exRenderCard(detFromUn(m[0])); } }, 150); });
 }
 function exHi(){
   exAc.querySelectorAll(".ac-item").forEach(function(el, i){ el.className = "ac-item" + (i === EX_SEL ? " on" : ""); });
@@ -1493,13 +1493,13 @@ if(cMat){
     cAc.innerHTML = list.map(function(x, i){
       return '<div class="ac-item" data-i="' + i + '"><b>UN ' + x.un + '</b> — ' + esc(x.psn) + (x.cl ? ' <span class="badge b-cl">Cl ' + x.cl + '</span>' : "") + (x.pg ? ' <span class="badge">PG ' + x.pg + '</span>' : "") + (x.syn ? ' <span class="dim">« ' + esc(x.syn) + ' »</span>' : "") + '</div>';
     }).join("");
-    cAc.style.display = "";
+    cAc.style.display = "block";
     cAc.querySelectorAll(".ac-item").forEach(function(el){
       el.addEventListener("mousedown", function(ev){ ev.preventDefault(); acPick(parseInt(el.getAttribute("data-i"),10)); });
     });
     AC_SEL = -1;
   });
-  cMat.addEventListener("blur", function(){ setTimeout(function(){ cAc.style.display = "none"; }, 150); });
+  cMat.addEventListener("blur", function(){ setTimeout(function(){ cAc.style.display = "none"; if(AC_SEL < 0){ var d = detectMatiere(cMat.value); if(d) applyDetected(d); } }, 150); });
   cMat.addEventListener("keydown", function(ev){
     if(!AC_LIST || !AC_LIST.length) return;
     if(ev.key === "ArrowDown"){ AC_SEL = Math.min(AC_SEL+1, AC_LIST.length-1); ev.preventDefault(); acHi(); }
@@ -1520,6 +1520,7 @@ function acPick(i){
   var airx = AIRX[un4(x.un)] || {};
   cMat.value = "UN " + x.un + " — " + x.psn;
   cAc.style.display = "none";
+  AC_SEL = -1;
   applyDetected({un: x.un, psn: x.psn, cl: x.cl, sub: x.sub, pg: x.pg, pi: airx.pi || "", cao: !!airx.cao, note: airx.note || ""});
 }
 // --- aperçu temps réel ---
