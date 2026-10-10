@@ -40,6 +40,12 @@ T("v12 : app-core.js complet (script principal intégral)", fs.statSync(path.joi
 T("v12 : aucun bloc compressé ni chargeur (architecture directe)", !fs.existsSync(path.join(DIR, "app-a.b64")) && !fs.existsSync(path.join(DIR, "app-b.b64")));
 T("v12 : plus de reconstruction runtime (DecompressionStream ni atob côté app)", html.indexOf("DecompressionStream") === -1);
 T("v12 : le sw référence app-core.js dans le SHELL", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("app-core.js") !== -1);
+// ---- v13 : bandeau repliable (demande de Jade : bandeau fixe trop grand, réduire avec une flèche) ----
+T("v13 : bouton flèche du bandeau présent", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('id="hdr-toggle"') !== -1);
+T("v13 : contenu du bandeau repliable (#hdr-fold)", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('id="hdr-fold"') !== -1);
+T("v13 : CSS état replié (header.folded masque #hdr-fold)", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf("header.folded #hdr-fold{display:none}") !== -1);
+T("v13 : repli persistant localStorage + replié par défaut", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf("iata-hdr-fold") !== -1 && fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('saved !== "0"') !== -1);
+T("v13 : script de repli sécurisé (try/catch complet)", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('btn.addEventListener("click", function(){') !== -1);
 T("10 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);

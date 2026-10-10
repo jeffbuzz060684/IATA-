@@ -13,6 +13,9 @@
   header{position:sticky;top:0;z-index:5;background:rgba(11,18,32,.95);backdrop-filter:blur(8px);padding:12px 14px 8px;border-bottom:1px solid var(--bord)}
   h1{font-size:1.15rem;display:flex;align-items:center;gap:8px}
   h1 .v{font-size:.7rem;color:var(--mut);font-weight:400;margin-left:auto}
+  #hdr-toggle{background:var(--card2);border:1px solid var(--bord);color:var(--acc);border-radius:8px;font-size:16px;line-height:1;padding:5px 10px;cursor:pointer;flex:none}
+  header.folded{padding:8px 10px 6px}
+  header.folded #hdr-fold{display:none}
   .search{margin-top:8px;display:flex;gap:8px}
   .search input{flex:1;background:var(--card2);border:1px solid var(--bord);border-radius:10px;color:var(--txt);padding:10px 12px;font-size:1.05rem}
   .search input:focus{outline:none;border-color:var(--acc)}
@@ -129,12 +132,14 @@
 </style>
 </head>
 <body>
-<header>
-  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v11</span></h1>
+<header id="hdr">
+  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v11</span><button id="hdr-toggle" type="button" aria-label="Réduire le bandeau">▼</button></h1>
+  <div id="hdr-fold">
   <p class="dim" style="margin:0 0 6px">Référentiel : IATA DGR <b>67e éd.</b> — en vigueur du <b>01/01/2026</b> au <b>31/12/2026</b> (68e éd. en vigueur au 01/01/2027) · base publique ONU — croiser avec l'édition en vigueur + variations État/opérateur</p>
   <div class="warnbox">📘 Formation MDD <b>par fonction</b> (CBTA — DGR § 1.5, approbation ICAO) : initiale puis récurrente <b>≤ 24 mois</b> avec ré-évaluation de compétence, pour tout expéditeur, emballeur ou agent d'acceptation · Classe 7 (radioactif) : <b>hors périmètre</b> de cet outil — réglementation IAEA.</div>
   <div class="search"><input id="q" type="search" placeholder="🔎 Rechercher : n° ONU, matière, PI, classe… (base : 2349 n° ONU)" autocomplete="off"></div>
   <div id="vernote"></div>
+  </div>
 </header>
 <main>
 
@@ -602,6 +607,29 @@
 <div class="disclaimer">🛫 Assistant de terrain — source : DGR IATA (édition en vigueur) + base publique des n° ONU. Vérifier systématiquement les variations État/opérateur et l'édition du DGR avant toute expédition. Étiquettes générées = modèles à vérifier avant impression.</div>
 <script src="db-onu.js"></script>
 <script src="app-core.js"></script>
+<script>
+// v13 — bandeau repliable : replié par défaut, choix mémorisé
+(function(){
+  try {
+    var KEY = "iata-hdr-fold";
+    var hdr = document.getElementById("hdr"), btn = document.getElementById("hdr-toggle");
+    if (!hdr || !btn) return;
+    var apply = function(fold){
+      if (fold) hdr.classList.add("folded"); else hdr.classList.remove("folded");
+      btn.textContent = fold ? "▼" : "▲";
+      btn.setAttribute("aria-label", fold ? "Afficher le bandeau" : "Réduire le bandeau");
+    };
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    apply(saved !== "0"); // replié par défaut ; "0" = gardé déplié
+    btn.addEventListener("click", function(){
+      var fold = !hdr.classList.contains("folded");
+      apply(fold);
+      try { localStorage.setItem(KEY, fold ? "1" : "0"); } catch(e){}
+    });
+  } catch(e){}
+})();
+</script>
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js").catch(function(){});
