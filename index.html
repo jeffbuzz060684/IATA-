@@ -55,6 +55,11 @@
   .label-diamond span{display:inline-block;transform:rotate(-45deg);font-size:.7rem;font-weight:700;line-height:1.1;padding-top:10px}
   .chip{display:inline-block;background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:12px;padding:10px 14px;font-size:1rem;margin:4px 4px 4px 0;cursor:pointer}
   .chip.on{border-color:var(--acc);color:var(--acc);background:rgba(56,189,248,.1)}
+  .gpage{display:none}
+  .gpage.on{display:block}
+  #guide-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px}
+  .hint{font-size:.82rem;color:var(--mut);margin-top:3px;line-height:1.35}
+  #dgd-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--card);border:1px solid var(--bord);border-radius:10px;padding:8px 10px;margin-bottom:10px;font-size:.95rem}
   .wz-label{font-size:.86rem;color:var(--mut);margin:14px 0 4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
   .field{margin:8px 0;font-size:.95rem}
   .field label{color:var(--mut)}
@@ -161,8 +166,12 @@
   <div id="results"></div>
 </section>
 
-<!-- ======================= PILES ======================= -->
-<section id="tab-piles">
+<!-- ======================= GUIDES ======================= -->
+<section id="tab-guides">
+  <h2 style="font-size:1.2rem;margin-bottom:6px">📚 Guides</h2>
+  <p class="dim" style="margin-bottom:6px">Référence par famille — un guide = un thème. Choisis ci-dessous.</p>
+  <div id="guide-chips"></div>
+  <div class="gpage" id="gp-piles">
   <h2 style="font-size:1.2rem;margin-bottom:8px">🔋 Piles &amp; accus — vue d'ensemble</h2>
   <div class="card">
     <h3>Configurations &amp; PI</h3>
@@ -234,10 +243,10 @@
       <li>Piles endommagées/rappelées : interdites partout.</li>
     </ul>
   </div>
-</section>
+</div>
 
 <!-- ======================= GAZ ======================= -->
-<section id="tab-gaz">
+<div class="gpage" id="gp-gaz">
   <h2 style="font-size:1.2rem;margin-bottom:8px">💨 Gaz — classe 2</h2>
   <div class="card">
     <h3>Divisions</h3>
@@ -298,10 +307,10 @@
       <tr><td>Récipients rechargeables (camping)</td><td>UN 2037</td><td>2.1</td><td>200</td></tr>
     </table>
   </div>
-</section>
+</div>
 
 <!-- ======================= ESSENCE ======================= -->
-<section id="tab-essence">
+<div class="gpage" id="gp-essence">
   <h2 style="font-size:1.2rem;margin-bottom:8px">⛽ Essence &amp; liquides inflammables — classe 3</h2>
   <div class="card">
     <h3>Essence — UN 1203</h3>
@@ -343,10 +352,10 @@
       <li>Briquets gaz (UN 1057) : 1 sur soi en cabine, jamais en soute. Briquets essence : interdits partout.</li>
     </ul>
   </div>
-</section>
+</div>
 
 <!-- ======================= CLASSES ======================= -->
-<section id="tab-classes">
+<div class="gpage" id="gp-classes">
   <h2 style="font-size:1.2rem;margin-bottom:8px">🔢 Les 9 classes</h2>
   <div class="cl-grid" id="cl-grid"></div>
   <div class="card">
@@ -365,10 +374,10 @@
     </div>
     <p class="note">Étiquettes min 100×100 mm (100×70 petits colis). Couleurs/pictogrammes exacts : DGR en vigueur.</p>
   </div>
-</section>
+</div>
 
 <!-- ======================= MARQUAGE ======================= -->
-<section id="tab-marquage">
+<div class="gpage" id="gp-marquage">
   <h2 style="font-size:1.2rem;margin-bottom:8px">🏷️ Marquage &amp; étiquetage — checklist colis</h2>
   <div class="card">
     <h3>Marquage (inscriptions)</h3>
@@ -400,6 +409,7 @@
       <li>L'overpack ne remplace pas l'emballage agréé.</li>
     </ul>
   </div>
+</div>
 </section>
 
 <!-- ======================= REGLES (v5) ======================= -->
@@ -558,10 +568,51 @@
 
 <!-- ======================= DGD ======================= -->
 <section id="tab-dgd">
-  <h2 style="font-size:1.2rem;margin-bottom:8px">📄 DGD — générateur officiel multi-lignes</h2>
-  <div class="warnbox">Modèle reprenant le format IATA (rubriques 8.1) : bordure hachurée rouge, « Shipment type : non-radioactive », tableau « Nature and Quantity of Dangerous Goods », déclaration de conformité, signature. Lignes <b>verrouillées par défaut</b> (source de vérité : les colis) — déverrouillage manuel déconseillé. Impression <b>bloquée par le validateur</b> tant qu'un contrôle échoue (FRG-07 inclus). Signature manuscrite obligatoire sur l'original.</div>
+  <h2 style="font-size:1.2rem;margin-bottom:6px">📄 DGD — préparer la déclaration</h2>
+  <p class="dim" style="margin-bottom:8px">Parcours : <b>① En-tête</b> → <b>② Matières</b> (importées depuis tes colis) → <b>③ Aperçu &amp; impression</b> → <b>④ Consignes &amp; cas particuliers</b> si besoin. Lignes <b>🔒 verrouillées</b> — source de vérité : les colis. Impression bloquée par le validateur tant qu'un contrôle échoue. Signature manuscrite obligatoire sur l'original.</p>
+  <div id="dgd-status"></div>
+  <div class="toolbar" style="margin:8px 0">
+    <button class="btn" id="d-example">🧪 Voir l'exemple complet (UN 1203 — cargo)</button>
+  </div>
+  <div class="card">
+    <h3>① · En-tête de l'expédition</h3>
+    <div class="field"><label>Expéditeur (nom, adresse complète, tél. 24h/24)</label><textarea id="d-ship" rows="2" placeholder="BMPM — Détachement…, adresse complète, +33 6 XX XX XX XX"></textarea><div class="hint">Tél 24h/24 joignable pendant TOUT le transport — une ligne qui ne répond pas la nuit = refus possible.</div></div>
+    <div class="field"><label>Destinataire (nom, adresse complète)</label><textarea id="d-cons" rows="2" placeholder="Nom, adresse complète"></textarea><div class="hint">Nom + adresse complète du destinataire final — pas un simple aéroport de transit.</div></div>
+    <div class="field"><label>Compagnie aérienne (transporteur)</label><input type="text" id="d-cie" placeholder="ex. Qatar Airways"><div class="hint">Le transporteur réel — ses variations opérateur s'appliquent.</div></div>
+    <div class="field"><label>N° LTA (air waybill)</label><input type="text" id="d-awb" placeholder="157-12345675"></div><div class="hint">Préfixe transporteur 3 chiffres + 8 chiffres.</div>
+    <div class="field"><label>Référence expéditeur (shipper's ref.)</label><input type="text" id="d-ref" placeholder="facultatif"></div>
+    <div class="field"><label>Aéroport de départ</label><input type="text" id="d-dep" placeholder="Marseille (MRS)"><div class="hint">Tel qu'il figure sur la route de la LTA.</div></div>
+    <div class="field"><label>Aéroport de destination</label><input type="text" id="d-arr" placeholder="Doha (DOH)"><div class="hint">Destination finale sur la route de la LTA.</div></div>
+    <div class="field"><label>N° de vol / date (transport details)</label><input type="text" id="d-flight" placeholder="QR 40 / 05-10-2026"></div>
+    <div class="field"><label>Informations de manipulation (handling information)</label><textarea id="d-hi" rows="2" placeholder="ex. Contact urgence 24h/24 : +33 6 XX XX XX XX"></textarea><div class="hint">Contact urgence, accords, précisions utiles — sinon « N/A ».</div></div>
+    <div class="field"><label>Nom et fonction du signataire</label><input type="text" id="d-sign" placeholder="J. FONTAINE — Responsable MDD / Expéditeur"><div class="hint">Personne formée/qualifiée (CBTA en cours de validité) — signature manuscrite obligatoire sur l'original.</div></div>
+    <div class="field"><label>🇫🇷 Trajet depuis/vers la France ? (variation FRG-07)</label><select id="d-france"><option value="">Inconnu / non applicable</option><option value="oui">Oui — France impliquée</option><option value="non">Non</option></select><div class="hint">FRG-07 : tél d'urgence 24h/24 supplémentaire exigé sur la déclaration.</div></div>
+    <div class="field"><label>Téléphone d'urgence 24h/24 (FRG-07 — sur la déclaration)</label><input type="text" id="d-tel" placeholder="+33 6 XX XX XX XX"></div>
+    <div class="field"><label>Lieu et date de signature</label><input type="text" id="d-place" placeholder="Marseille — 03/10/2026"></div>
+    <p class="note">Rubriques non applicables sur la vraie déclaration : rayer proprement ou écrire « N/A » — jamais laisser vides.</p>
+  </div>
+  <div class="card">
+    <h3>② · Matières transportées (lignes du tableau)</h3>
+    <div class="toolbar">
+      <button class="btn acc" id="d-addline">➕ Ajouter une matière</button>
+      <button class="btn" id="d-fromcolis">📦 Importer depuis mes colis</button>
+      <button class="btn warn" id="d-cleardlines" style="color:var(--err)">🗑️ Vider les lignes</button>
+    </div>
+    <div id="d-lines"></div>
+  </div>
+  <div class="card">
+    <h3>③ · Aperçu &amp; impression</h3>
+    <div class="dgd-wrap"><div class="dgd" id="dgd-preview"></div></div>
+    <div class="toolbar">
+      <button class="btn acc" id="d-print">🖨️ Imprimer (A4)</button>
+      <button class="btn" id="d-copy">📄 Copier les lignes</button>
+    </div>
+    <h3 style="margin-top:12px">📋 Lignes à recopier (LTA / e-DGD)</h3>
+    <div class="copybox" id="dgd-line"></div>
+    <p class="note">La vraie DGD : format paysage, bordure hachurée rouge à 45°, texte noir sur fond blanc. Rubriques non applicables : rayer ou « N/A ». Toujours vérifier le modèle exigé par ta compagnie (certaines ont leur propre format via leur variation opérateur). <b>La DGD est en anglais, en 2 exemplaires</b> — le PSN anglais est repris automatiquement de la base ONU : vérifier la désignation exacte dans la liste 4.2 du DGR (jamais de troncature ni reformulation).</p>
+  </div>
   <details id="dgd-guide" class="card">
-    <summary style="cursor:pointer;font-weight:700">💡 Consignes de remplissage, exemples &amp; particularités</summary>
+    <summary style="cursor:pointer;font-weight:700">④ · Consignes complètes, exemples &amp; cas particuliers (référence)</summary>
     <h3 style="margin:10px 0 4px">A · En-tête — champ par champ</h3>
     <ul>
       <li><b>Expéditeur</b> : nom complet + adresse complète + <b>tél 24h/24</b> joignable pendant TOUT le transport. Piège : une ligne qui ne répond pas la nuit = refus possible. Ex. « BMPM — DIH, adresse, +33 4 91 XX XX XX (astreinte MDD) ».</li>
@@ -593,47 +644,6 @@
       <li>Toujours : <b>anglais, 2 exemplaires</b>, format paysage bordure hachurée rouge à 45°, modèle exigé par la compagnie (variation opérateur).</li>
     </ul>
   </details>
-  <div class="toolbar" style="margin:8px 0">
-    <button class="btn" id="d-example">🧪 Charger l'exemple complet (UN 1203 — cargo)</button>
-  </div>
-  <div class="card">
-    <h3>1 · En-tête de l'expédition</h3>
-    <div class="field"><label>Expéditeur (nom, adresse complète, tél. 24h/24)</label><textarea id="d-ship" rows="2" placeholder="BMPM — Détachement…, adresse complète, +33 6 XX XX XX XX"></textarea></div>
-    <div class="field"><label>Destinataire (nom, adresse complète)</label><textarea id="d-cons" rows="2" placeholder="Nom, adresse complète"></textarea></div>
-    <div class="field"><label>Compagnie aérienne (transporteur)</label><input type="text" id="d-cie" placeholder="ex. Qatar Airways"></div>
-    <div class="field"><label>N° LTA (air waybill)</label><input type="text" id="d-awb" placeholder="157-12345675"></div>
-    <div class="field"><label>Référence expéditeur (shipper's ref.)</label><input type="text" id="d-ref" placeholder="facultatif"></div>
-    <div class="field"><label>Aéroport de départ (Request it on the AWB route)</label><input type="text" id="d-dep" placeholder="Marseille (MRS)"></div>
-    <div class="field"><label>Aéroport de destination</label><input type="text" id="d-arr" placeholder="Doha (DOH)"></div>
-    <div class="field"><label>N° de vol / date (transport details)</label><input type="text" id="d-flight" placeholder="QR 40 / 05-10-2026"></div>
-    <div class="field"><label>Informations de manipulation (handling information)</label><textarea id="d-hi" rows="2" placeholder="ex. Contact urgence 24h/24 : +33 6 XX XX XX XX"></textarea></div>
-    <div class="field"><label>Nom et fonction du signataire</label><input type="text" id="d-sign" placeholder="J. FONTAINE — Responsable MDD / Expéditeur"></div>
-    <div class="field"><label>🇫🇷 Trajet depuis/vers la France ? (variation FRG-07)</label><select id="d-france"><option value="">Inconnu / non applicable</option><option value="oui">Oui — France impliquée</option><option value="non">Non</option></select></div>
-    <div class="field"><label>Téléphone d'urgence 24h/24 (FRG-07 — sur la déclaration)</label><input type="text" id="d-tel" placeholder="+33 6 XX XX XX XX"></div>
-    <div class="field"><label>Lieu et date de signature</label><input type="text" id="d-place" placeholder="Marseille — 03/10/2026"></div>
-  </div>
-  <div class="card">
-    <h3>2 · Matières transportées (lignes du tableau)</h3>
-    <div class="toolbar">
-      <button class="btn acc" id="d-addline">➕ Ajouter une matière</button>
-      <button class="btn" id="d-fromcolis">📦 Importer depuis mes colis</button>
-      <button class="btn warn" id="d-cleardlines" style="color:var(--err)">🗑️ Vider les lignes</button>
-    </div>
-    <div id="d-lines"></div>
-  </div>
-  <div class="card">
-    <h3>🖼️ Aperçu de la DGD</h3>
-    <div class="dgd-wrap"><div class="dgd" id="dgd-preview"></div></div>
-    <div class="toolbar">
-      <button class="btn acc" id="d-print">🖨️ Imprimer (A4)</button>
-      <button class="btn" id="d-copy">📄 Copier les lignes</button>
-    </div>
-  </div>
-  <div class="card">
-    <h3>📋 Lignes à recopier (LTA / e-DGD)</h3>
-    <div class="copybox" id="dgd-line"></div>
-    <p class="note">La vraie DGD : format paysage, bordure hachurée rouge à 45°, texte noir sur fond blanc. Rubriques non applicables : rayer ou « N/A ». Toujours vérifier le modèle exigé par ta compagnie (certaines ont leur propre format via leur variation opérateur). <b>La DGD est en anglais, en 2 exemplaires</b> — le PSN anglais est repris automatiquement de la base ONU : vérifier la désignation exacte dans la liste 4.2 du DGR (jamais de troncature ni reformulation).</p>
-  </div>
 </section>
 
 </main>

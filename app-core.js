@@ -179,14 +179,17 @@ var CLASSES = [
 var TABS = [
   {id:"wiz", ic:"🧭", t:"Décision"},
   {id:"rech", ic:"🔎", t:"Recherche"},
+  {id:"guides", ic:"📚", t:"Guides"},
+  {id:"regles", ic:"⚖️", t:"Règles"},
+  {id:"colis", ic:"📦", t:"Colis"},
+  {id:"dgd", ic:"📄", t:"DGD"}
+];
+var GUIDE_SUBS = [
   {id:"piles", ic:"🔋", t:"Piles"},
   {id:"gaz", ic:"💨", t:"Gaz"},
   {id:"essence", ic:"⛽", t:"Essence"},
   {id:"classes", ic:"🔢", t:"Classes"},
-  {id:"marquage", ic:"🏷️", t:"Marquage"},
-  {id:"regles", ic:"⚖️", t:"Règles"},
-  {id:"colis", ic:"📦", t:"Colis"},
-  {id:"dgd", ic:"📄", t:"DGD"}
+  {id:"marquage", ic:"🏷️", t:"Marquage"}
 ];
 var nav = document.getElementById("nav");
 TABS.forEach(function(t, i){
@@ -202,6 +205,33 @@ TABS.forEach(function(t, i){
   if(i===0) b.classList.add("on");
   nav.appendChild(b);
 });
+// ---- v15 : sous-onglets Guides (chips) — dernier guide consulté mémorisé ----
+var GUIDE_CHIPS = {};
+function showGuide(id){
+  if(!GUIDE_SUBS.some(function(g){ return g.id === id; })) id = "piles";
+  document.querySelectorAll(".gpage").forEach(function(p){ p.classList.remove("on"); });
+  var el = document.getElementById("gp-" + id);
+  if(el) el.classList.add("on");
+  Object.keys(GUIDE_CHIPS).forEach(function(k){ GUIDE_CHIPS[k].classList.remove("on"); });
+  if(GUIDE_CHIPS[id]) GUIDE_CHIPS[id].classList.add("on");
+  try { localStorage.setItem("iata-guide", id); } catch(e) {}
+  window.scrollTo(0,0);
+}
+var gchips = document.getElementById("guide-chips");
+if(gchips){
+  GUIDE_SUBS.forEach(function(g){
+    var c = document.createElement("button");
+    c.className = "chip";
+    c.setAttribute("data-guide", g.id);
+    c.textContent = g.ic + " " + g.t;
+    c.addEventListener("click", function(){ showGuide(g.id); });
+    GUIDE_CHIPS[g.id] = c;
+    gchips.appendChild(c);
+  });
+  var gsaved = "piles";
+  try { gsaved = localStorage.getItem("iata-guide") || "piles"; } catch(e) {}
+  showGuide(gsaved);
+}
 
 var cg = document.getElementById("cl-grid");
 CLASSES.forEach(function(c){
@@ -1775,6 +1805,12 @@ function dgdAddFromColis(c){
   goTab("dgd");
 }
 function goTab(id){
+  if(GUIDE_SUBS.some(function(g){ return g.id === id; })){
+    var gi = TABS.findIndex(function(t){ return t.id === "guides"; });
+    if(gi !== -1) nav.querySelectorAll("button")[gi].click();
+    showGuide(id);
+    return;
+  }
   var i = TABS.findIndex(function(t){ return t.id === id; });
   if(i !== -1) nav.querySelectorAll("button")[i].click();
 }
@@ -1832,6 +1868,22 @@ function renderDgd(){
       if(L.cao) t += " — CARGO AIRCRAFT ONLY";
       return t + ".";
     }).join("\n");
+  }
+  dgdStatusRender();
+}
+// ---- v15 : barre d'état DGD en direct (pédagogie : savoir où on en est) ----
+function dgdStatusRender(){
+  var el = document.getElementById("dgd-status");
+  if(!el) return;
+  if(!DGD_LINES.length){
+    el.innerHTML = '<span class="badge b-warn">🟡 À commencer</span> <span class="dim">② Importe tes colis, ajoute une matière — ou charge l\'exemple pour découvrir un remplissage complet.</span>';
+    return;
+  }
+  var errs = dgdValidate();
+  if(!errs.length){
+    el.innerHTML = '<span class="badge b-ok">🟢 DGD complète</span> <span class="dim">Tous les contrôles passent — ③ vérifie l\'aperçu puis imprime. Rappel : filigrane BROUILLON tant que le référentiel DGR licencié n\'est pas chargé.</span>';
+  } else {
+    el.innerHTML = '<span class="badge b-warn">🟡 ' + errs.length + ' point' + (errs.length > 1 ? 's' : '') + ' à corriger</span> <span class="dim">' + esc(errs.slice(0, 3).join(" · ")) + (errs.length > 3 ? " · …" : "") + '</span>';
   }
 }
 ["d-ship","d-cons","d-cie","d-awb","d-ref","d-dep","d-arr","d-flight","d-hi","d-france","d-tel","d-sign","d-place"].forEach(function(id){

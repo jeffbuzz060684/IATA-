@@ -58,7 +58,16 @@ T("v14 : exemple UN 1203 cohérent base vérifiée (GASOLINE via psnEn, PI 364 c
 T("v14 : exemple remplit l'en-tête complet (13 champs dont FRG-07 oui + tél 24h/24)", ["d-ship","d-cons","d-cie","d-awb","d-ref","d-dep","d-arr","d-flight","d-hi","d-france","d-tel","d-sign","d-place"].every(function(id){ return coreJs.indexOf('"' + id + '"') !== -1; }) && coreJs.indexOf('"d-france": "oui"') !== -1);
 T("v14 : exemple ligne manuelle sans srcId (brouillon 📝, jamais liée à un colis)", coreJs.indexOf('cao:false, srcId:null}') !== -1);
 T("v14 : exemple avertit avant remplacement (confirm) et l'exemple n'écrase pas silencieusement", coreJs.indexOf("Cela remplace le contenu actuel de la DGD") !== -1);
-T("10 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
+// ---- v15 : refonte UX (demande de Jade : application simple, éducative, intuitive, professionnelle) ----
+T("v15 : les guides ne sont plus des onglets de nav (TABS = 6, plus de {id:\"piles\"})", (coreJs.match(/var TABS = \[([\s\S]*?)\];/) || ["",""])[1].indexOf('id:"piles"') === -1 && (coreJs.match(/var TABS = \[([\s\S]*?)\];/) || ["",""])[1].indexOf('id:"guides"') !== -1);
+T("v15 : chips des sous-onglets Guides + dernier guide mémorisé (localStorage iata-guide)", idxHtml.indexOf('id="guide-chips"') !== -1 && coreJs.indexOf("iata-guide") !== -1 && coreJs.indexOf('data-guide') !== -1);
+T("v15 : goTab compatible anciens ids de guides (goTab(\"piles\") ouvre Guides + sélectionne)", coreJs.indexOf("showGuide(id);") !== -1 && coreJs.indexOf('function goTab(id){') !== -1);
+T("v15 : barre d'état DGD en direct (#dgd-status rendu par dgdStatusRender, appelé par renderDgd)", idxHtml.indexOf('id="dgd-status"') !== -1 && coreJs.indexOf("function dgdStatusRender()") !== -1 && coreJs.indexOf("dgdStatusRender();") !== -1);
+T("v15 : DGD parcours numéroté ①②③④", ["① · En-tête de l'expédition","② · Matières transportées","③ · Aperçu","④ · Consignes complètes"].every(function(s){ return idxHtml.indexOf(s) !== -1; }));
+T("v15 : aide contextuelle sous les champs d'en-tête DGD (≥ 8 .hint)", (idxHtml.match(/class="hint"/g) || []).length >= 8);
+T("v15 : états pédagogiques de la barre DGD (à commencer / complète / à corriger)", coreJs.indexOf("À commencer") !== -1 && coreJs.indexOf("DGD complète") !== -1 && coreJs.indexOf("à corriger") !== -1);
+T("v15 : contenu des 5 guides préservé intégralement (Power banks, ONU 3373 PI 650 note, marque Y, table 9.3.A)", idxHtml.indexOf("Power banks") !== -1 && idxHtml.indexOf("≤ 4 kg") !== -1 && idxHtml.indexOf("marque Y") !== -1 && idxHtml.indexOf("Table 9.3.A") !== -1);
+T("v15 : navigation 6 onglets + guides en sous-onglets", ["tab-wiz","tab-rech","tab-guides","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }) && ["gp-piles","gp-gaz","gp-essence","gp-classes","gp-marquage"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);
 T("import xlsx retiré (accept csv seul)", html.indexOf('accept=".csv,text/csv"') !== -1 && !/accept="[^"]*\.xlsx/.test(html));
