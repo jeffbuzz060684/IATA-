@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -7,27 +6,606 @@
 <title>Assistant IATA — Marchandises Dangereuses</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<style>html,body{margin:0;background:#0b1220;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif}#st{padding:28px 16px;text-align:center;font-size:1.05rem;line-height:1.5}</style>
+<style>
+  :root{--bg:#0b1220;--card:#121b2e;--card2:#0e1626;--txt:#e2e8f0;--mut:#8ea0bd;--acc:#38bdf8;--ok:#34d399;--warn:#fbbf24;--err:#fb7185;--bord:#22314f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font:17.5px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:72px}
+  header{position:sticky;top:0;z-index:5;background:rgba(11,18,32,.95);backdrop-filter:blur(8px);padding:12px 14px 8px;border-bottom:1px solid var(--bord)}
+  h1{font-size:1.15rem;display:flex;align-items:center;gap:8px}
+  h1 .v{font-size:.7rem;color:var(--mut);font-weight:400;margin-left:auto}
+  .search{margin-top:8px;display:flex;gap:8px}
+  .search input{flex:1;background:var(--card2);border:1px solid var(--bord);border-radius:10px;color:var(--txt);padding:10px 12px;font-size:1.05rem}
+  .search input:focus{outline:none;border-color:var(--acc)}
+  main{padding:12px 14px}
+  .card{background:var(--card);border:1px solid var(--bord);border-radius:12px;padding:12px;margin-bottom:10px}
+  .card h3{font-size:1.1rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge{display:inline-block;font-size:.8rem;padding:2px 8px;border-radius:999px;background:var(--card2);border:1px solid var(--bord);color:var(--mut)}
+  .b-cl{background:rgba(56,189,248,.15);color:var(--acc);border-color:rgba(56,189,248,.4)}
+  .b-ok{background:rgba(52,211,153,.12);color:var(--ok);border-color:rgba(52,211,153,.4)}
+  .b-err{background:rgba(251,113,133,.12);color:var(--err);border-color:rgba(251,113,133,.4)}
+  .b-warn{background:rgba(251,191,36,.12);color:var(--warn);border-color:rgba(251,191,36,.4)}
+  .b-orange{background:rgba(245,166,35,.15);color:#b45309;border-color:rgba(245,166,35,.5)}
+  table{width:100%;border-collapse:collapse;font-size:.95rem;margin:8px 0}
+  th,td{border:1px solid var(--bord);padding:6px 8px;text-align:left;vertical-align:top}
+  th{background:var(--card2);color:var(--mut);font-weight:600}
+  ul{padding-left:20px}
+  li{margin:3px 0}
+  .kv{display:grid;grid-template-columns:132px 1fr;gap:4px 10px;font-size:1rem;margin:6px 0}
+  .kv b{color:var(--mut);font-weight:600}
+  .note{font-size:.88rem;color:var(--mut);margin-top:8px;border-top:1px dashed var(--bord);padding-top:6px}
+  nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(11,18,32,.97);border-top:1px solid var(--bord);padding:6px 2px calc(6px + env(safe-area-inset-bottom));z-index:6}
+  nav button{flex:1;background:none;border:none;color:var(--mut);font-size:.7rem;padding:6px 1px;border-radius:8px}
+  nav button .ic{display:block;font-size:1.3rem;margin-bottom:2px}
+  nav button.on{color:var(--acc)}
+  section{display:none}
+  section.on{display:block}
+  input[type=number],input[type=text],select,textarea{background:var(--card2);border:1px solid var(--bord);border-radius:8px;color:var(--txt);padding:8px;width:100%;font-size:1.05rem;margin-top:2px;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--acc)}
+  .res{font-size:1.15rem;color:var(--ok);margin-top:6px}
+  .warnbox{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:10px;font-size:.95rem;margin-bottom:10px}
+  .disclaimer{font-size:.82rem;color:var(--mut);text-align:center;padding:14px}
+  .dim{color:var(--mut);font-size:.95rem}
+  .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+  .cl{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:10px;font-size:.95rem}
+  .cl b{display:block;font-size:1.05rem;margin-bottom:2px}
+  .label-diamond{display:inline-block;width:46px;height:46px;transform:rotate(45deg);margin:6px 10px 10px 6px;border:2px solid;border-radius:4px;text-align:center;vertical-align:middle}
+  .label-diamond span{display:inline-block;transform:rotate(-45deg);font-size:.7rem;font-weight:700;line-height:1.1;padding-top:10px}
+  .chip{display:inline-block;background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:12px;padding:10px 14px;font-size:1rem;margin:4px 4px 4px 0;cursor:pointer}
+  .chip.on{border-color:var(--acc);color:var(--acc);background:rgba(56,189,248,.1)}
+  .wz-label{font-size:.86rem;color:var(--mut);margin:14px 0 4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .field{margin:8px 0;font-size:.95rem}
+  .field label{color:var(--mut)}
+  .btn{background:var(--card2);border:1px solid var(--bord);color:var(--txt);border-radius:8px;padding:8px 12px;font-size:1rem;cursor:pointer}
+  .btn.acc{border-color:var(--acc);color:var(--acc)}
+  .sec-title{font-size:.84rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px;display:flex;align-items:center;gap:6px}
+  .rescard{border-left:3px solid var(--acc)}
+  .rescard.err{border-left-color:var(--err)}
+  .rescard.ok{border-left-color:var(--ok)}
+  .dgd-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .dgd{min-width:640px;background:#fff;color:#111;border:2px solid #d00;padding:10px;font-size:12px;font-family:Arial,Helvetica,sans-serif;position:relative}
+  .dgd .hatch{position:absolute;inset:0;border:6px solid transparent;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(200,0,0,.06) 4px,rgba(200,0,0,.06) 8px);pointer-events:none}
+  .dgd h4{text-align:center;font-size:13px;color:#d00;margin:2px 0 6px;text-transform:uppercase;font-weight:bold}
+  .dgd .row{display:flex;gap:6px;margin-bottom:6px}
+  .dgd .box{border:1px solid #666;padding:4px;flex:1}
+  .dgd .box .lb{font-size:8px;font-weight:700;color:#444;text-transform:uppercase}
+  .dgd .box .vl{font-size:12px;min-height:14px;color:#000}
+  .dgd table{width:100%;border-collapse:collapse;font-size:11px;margin:4px 0}
+  .dgd th,.dgd td{border:1px solid #666;padding:3px;font-size:11px;text-align:left;color:#111}
+  .dgd th{background:#eee;font-size:9px;text-transform:uppercase}
+  .dgd .decl{font-size:10px;border:1px solid #666;padding:5px;margin-top:4px;line-height:1.4}
+  .dgd .sign{display:flex;gap:6px;margin-top:6px}
+  .dgd .sign .box{min-height:40px}
+  .copybox{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:10px;font-size:.9rem;font-family:monospace;white-space:pre-wrap;word-break:break-word;margin-top:8px}
+  .colis-item{border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0;background:var(--card2)}
+  .colis-item h4{font-size:1.05rem;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .btn-mini{background:var(--card);border:1px solid var(--bord);color:var(--acc);border-radius:8px;padding:4px 8px;font-size:.88rem;margin:2px 4px 0 0;cursor:pointer}
+  .btn-mini.warn{color:var(--err)}
+  .toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+  #vernote{display:none;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.4);border-radius:10px;padding:8px 10px;font-size:.95rem;margin-bottom:10px}
+  .chk{color:var(--ok);font-weight:700}
+  .wrn{color:var(--err)}
+  .lblset{background:var(--card2);border:1px solid var(--bord);border-radius:10px;padding:8px;margin:6px 0}
+  .lblset .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .ac{position:relative}
+  .ac-list{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--acc);border-radius:0 0 10px 10px;z-index:20;max-height:240px;overflow:auto;display:none}
+  .ac-list .ac-item{padding:8px 10px;font-size:.95rem;cursor:pointer;border-bottom:1px solid var(--bord)}
+  .ac-list .ac-item:hover,.ac-list .ac-item.sel{background:rgba(56,189,248,.15)}
+  .dgline{border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0;background:var(--card2)}
+  .dgline .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}
+  .dgline .g .field{margin:2px 0}
+  .b-lq{background:rgba(250,204,21,.12);color:#a16207;border-color:rgba(250,204,21,.4)}
+  .preview{border:1px dashed var(--acc);border-radius:10px;padding:10px;margin-top:8px}
+  .warnline{color:var(--err);font-size:.95rem;margin-top:4px}
+  .infoline{color:#a16207;font-size:.95rem;margin-top:4px}
+  .okline{color:var(--ok);font-size:1rem;margin-top:4px}
+  .imp-line{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--bord);border-radius:10px;padding:10px;margin:8px 0}
+  .imp-check{padding-top:4px}
+  .imp-body{flex:1}
+  .dgline-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .ac-list .ac-item.on{background:rgba(56,189,248,.25)}
+  .dgd table.inner{width:100%;border-collapse:collapse;margin:0}
+  .dgd table.inner th,.dgd table.inner td{border:1px solid #999;font-size:.68rem;padding:3px 4px;text-align:left}
+  .lbl-warn{color:var(--err);font-weight:700;margin-top:6px}
+  #print-label,#print-dgd{display:none}
+  .dgd-wm{display:none;border:3px solid #c00;color:#c00;font-weight:bold;text-align:center;padding:6px;margin:6px 0;font-size:.8rem;transform:rotate(-3deg)}
+  @media print{
+    body{background:#fff}
+    main,header,nav,.disclaimer,#vernote{display:none !important}
+    #print-label,#print-dgd{display:block !important;background:#fff;color:#000;padding:0}
+    .lbl{width:100mm;height:100mm;border:2px solid #000;box-sizing:border-box;padding:6mm;font:10pt/1.25 Arial,sans-serif;color:#000;background:#fff;position:relative;page-break-after:always}
+    .lbl .exp{font-size:8pt;border-bottom:1px solid #000;padding:2mm 0;margin-bottom:2mm}
+    .lbl .unu{font-size:16pt;font-weight:bold;margin:3mm 0 1mm}
+    .lbl .psnn{font-size:11pt;font-weight:bold;text-transform:uppercase}
+    .lbl .pgl{font-size:10pt;margin:1mm 0}
+    .lbl .marks{position:absolute;bottom:6mm;right:6mm;display:flex;gap:4mm;align-items:flex-end;flex-wrap:wrap;max-width:70mm}
+    .lbl .qtyl{position:absolute;bottom:6mm;left:6mm;font-size:9pt}
+    .lbl svg{display:block}
+    .dgd{min-width:0;width:100%;border:none;padding:0}
+    .dgd .hatch{display:none}
+    #print-dgd{width:100%}
+    .dgd-wm{display:block !important;transform:rotate(-4deg);font-size:14pt;padding:10px;margin-bottom:12px}
+    .dgd h4{color:#000}
+  }
+</style>
 </head>
 <body>
-<div id="st">⏳ Mise à jour de l'application (v11)…<br><span style="font-size:.85rem;opacity:.7">Ne ferme pas la page — elle se recharge automatiquement.</span></div>
+<header>
+  <h1>🛫 Assistant IATA — Marchandises Dangereuses <span class="v">v11</span></h1>
+  <p class="dim" style="margin:0 0 6px">Référentiel : IATA DGR <b>67e éd.</b> — en vigueur du <b>01/01/2026</b> au <b>31/12/2026</b> (68e éd. en vigueur au 01/01/2027) · base publique ONU — croiser avec l'édition en vigueur + variations État/opérateur</p>
+  <div class="warnbox">📘 Formation MDD <b>par fonction</b> (CBTA — DGR § 1.5, approbation ICAO) : initiale puis récurrente <b>≤ 24 mois</b> avec ré-évaluation de compétence, pour tout expéditeur, emballeur ou agent d'acceptation · Classe 7 (radioactif) : <b>hors périmètre</b> de cet outil — réglementation IAEA.</div>
+  <div class="search"><input id="q" type="search" placeholder="🔎 Rechercher : n° ONU, matière, PI, classe… (base : 2349 n° ONU)" autocomplete="off"></div>
+  <div id="vernote"></div>
+</header>
+<main>
+
+<!-- ======================= DECISION ======================= -->
+<section id="tab-wiz" class="on">
+  <div class="warnbox">🧭 Dis ce que tu transportes → l'app calcule : n° ONU, PI, section, emballage, marquage, étiquetage, DGD, autorisations. Toujours vérifier l'édition du DGR en vigueur + variations État/opérateur.</div>
+  <div class="card">
+    <div class="wz-label">1 · Que transportes-tu ?</div>
+    <div id="wz-cat"></div>
+    <div id="wz-sub-wrap"><div class="wz-label" id="wz-sub-label">2 · Précision</div><div id="wz-sub"></div></div>
+    <div id="wz-params"></div>
+  </div>
+  <div id="wz-result"></div>
+</section>
+
+<!-- ======================= RECHERCHE ======================= -->
+<section id="tab-rech">
+  <div class="warnbox">⚠️ Aide-mémoire de terrain — toujours vérifier l'édition du DGR IATA en vigueur et les variations État/opérateur avant d'expédier. Les fiches détaillées s'affichent en premier, puis les entrées de la base ONU (classe, PG, risques subsidiaires). <b>➕ Sur chaque résultat : « Ajouter à mon état de colisage »</b> — choisis le colis de destination (nouveau ou existant), l'app vérifie aussitôt les incompatibilités.</div>
+  <div id="results"></div>
+</section>
+
+<!-- ======================= PILES ======================= -->
+<section id="tab-piles">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">🔋 Piles &amp; accus — vue d'ensemble</h2>
+  <div class="card">
+    <h3>Configurations &amp; PI</h3>
+    <table>
+      <tr><th>Configuration</th><th>Lithium-ion</th><th>Lithium-métal</th></tr>
+      <tr><td>Seul</td><td>UN 3480 · PI 965</td><td>UN 3090 · PI 968</td></tr>
+      <tr><td>Avec équipement</td><td>UN 3481 · PI 966</td><td>UN 3091 · PI 969</td></tr>
+      <tr><td>Dans l'équipement</td><td>UN 3481 · PI 967</td><td>UN 3091 · PI 970</td></tr>
+    </table>
+    <p class="note">⚠️ Depuis l'édition 63 (01/01/2022), les PI 965 et 968 (piles <b>seules</b>) n'ont <b>plus de Section II</b> : uniquement IA et IB.</p>
+  </div>
+  <div class="card">
+    <h3>Piles seules (PI 965 / 968) — sections IA / IB</h3>
+    <table>
+      <tr><th></th><th>Section IB</th><th>Section IA</th></tr>
+      <tr><td>li-ion (965)</td><td>Cellule ≤ 20 Wh et pile ≤ 100 Wh · ≤ 10 kg/colis</td><td>Au-delà · emballage ONU PG II</td></tr>
+      <tr><td>li-métal (968)</td><td>Cellule ≤ 1 g et pile ≤ 2 g · ≤ 2,5 kg/colis</td><td>Au-delà · emballage ONU PG II</td></tr>
+    </table>
+    <ul>
+      <li>Les deux sections : <b>interdites sur avion passagers</b> → étiquette <b>Cargo Aircraft Only</b> obligatoire.</li>
+      <li>Section IB : <b>DGD obligatoire</b> (contrairement au § II avec équipement).</li>
+      <li>SoC ≤ 30 % pour l'ensemble des piles li-ion seules (UN 3480) et sodium (UN 3551).</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>🔋 Power banks — passagers / équipage (guidance IATA du 27/03/2026)</h3>
+    <ul>
+      <li><b>Maximum 2 power banks par personne</b> — les compagnies ne peuvent pas en accepter davantage, même si jusqu'à 18 batteries de rechange sont par ailleurs autorisées.</li>
+      <li><b>Cabine uniquement</b> — jamais en bagage enregistré (retirer les power banks si le bagage part en soute à la passerelle).</li>
+      <li>≤ 100 Wh sans accord ; 100–160 Wh : accord compagnie obligatoire ; &gt; 160 Wh : interdit.</li>
+      <li><b>Ne pas utiliser en vol</b> pour recharger un appareil, et ne pas recharger le power bank à bord (ports USB de la cabine).</li>
+      <li>Endommagés / gonflés / déformés / rappés : interdits à bord.</li>
+      <li>Applicable avec la 67e éd. jusqu'au <b>31/12/2026</b> ; au <b>01/01/2027</b> (DGR 68, § 2.3.1.4) : power banks &gt; 100 Wh <b>interdits</b> pour passagers et équipage.</li>
+    </ul>
+    <p class="note">🔎 Vérifié web 04/10/2026 — IATA Guidance to Operators : Power Banks (27/03/2026) + guidance passagers batteries lithium 2026 + changements DGR 68 (2027).</p>
+  </div>
+  <div class="card">
+    <h3>Avec / dans équipement (PI 966-967 / 969-970)</h3>
+    <ul>
+      <li><b>Section II</b> : cellule ≤ 20 Wh, pile ≤ 100 Wh (li-ion) ou ≤ 1 g / ≤ 2 g (li-métal), ≤ <b>5 kg/colis</b> — pas de DGD, marquage lithium, mention sur la LTA.</li>
+      <li><b>Section I</b> : au-delà de 100 Wh — DGD obligatoire, emballage ONU PG II, étiquette Classe 9. Limites par colis : 5 kg (pax) / 35 kg (CAO).</li>
+      <li>Exception marquage : piles bouton dans l'équipement ou petites consignations (≤ 2 colis, ≤ 4 cellules / 2 piles par colis) → marquage lithium non requis.</li>
+      <li>SoC ≤ 30 % (capacité indiquée ≤ 25 %) dès le <b>01/01/2026</b> — <b>OBLIGATOIRE pour la PI 966</b> (UN 3481 <b>emballées avec</b> l'équipement, Sections I et II, cellules/piles &gt; 2,7 Wh) et les véhicules UN 3556 (&gt; 100 Wh) ; <b>RECOMMANDÉ pour la PI 967</b> (piles <b>contenues dans</b> l'équipement) — dérogation possible : approbation d'État SP A331.</li>
+      <li>Test de chute 1,2 m pour les colis § II (966/969) et § IB (965/968).</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Exigences transversales</h3>
+    <ul>
+      <li><b>UN 38.3</b> : résumé d'essais du fabricant à disposition.</li>
+      <li>Marquage lithium : min 100×100 mm (100×70 pour petits colis), n° de téléphone de renseignement.</li>
+      <li>Étiquette Classe 9 « lithium-ion » ≠ « lithium-métal » (pictogrammes différents).</li>
+      <li>Piles défectueuses/endommagées/rappelées : <b>interdites</b> en transport aérien.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>🧮 Calculateur Wh</h3>
+    <p class="dim">Wh = Ah × V</p>
+    <p><input type="number" id="wh-ah" placeholder="Ah" step="0.01"> <input type="number" id="wh-v" placeholder="V" step="0.01">
+    <button id="wh-go" class="btn">= Wh</button></p>
+    <div class="res" id="wh-out"></div>
+    <div id="wh-class" class="dim"></div>
+  </div>
+  <div class="card">
+    <h3>Bagages passagers (2.3.A)</h3>
+    <ul>
+      <li>Rechange seule : cabine uniquement, ≤ 100 Wh (2 piles 100-160 Wh max avec accord compagnie). Interdite en soute.</li>
+      <li>Équipement ≤ 100 Wh : cabine ou soute. Power banks / e-cigarettes : sur soi, cabine uniquement.</li>
+      <li>Piles endommagées/rappelées : interdites partout.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= GAZ ======================= -->
+<section id="tab-gaz">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">💨 Gaz — classe 2</h2>
+  <div class="card">
+    <h3>Divisions</h3>
+    <table>
+      <tr><th>Division</th><th>Risque</th><th>Exemples</th></tr>
+      <tr><td><b>2.1</b></td><td>Inflammable</td><td>Butane, propane, hydrogène</td></tr>
+      <tr><td><b>2.2</b></td><td>Non inflammable, non toxique</td><td>Azote, air comprimé, CO₂</td></tr>
+      <tr><td><b>2.3</b></td><td>Toxique</td><td>Chlore, ammoniac</td></tr>
+    </table>
+    <p class="dim">L'oxygène comprimé (UN 1072) : 2.2 avec risque subsidiaire <b>5.1 (comburant)</b>.</p>
+  </div>
+  <div class="card">
+    <h3>Oxygène comprimé (UN 1072) — PI 200</h3>
+    <ul>
+      <li>Étiquettes 2.2 <b>+ 5.1</b>. Bouteilles : pression de service ≤ 2/3 de la pression d'épreuve.</li>
+      <li>Bouteilles médicales passagers : accord compagnie (souvent ≤ 2 bouteilles + concentrateurs selon les variations opérateur).</li>
+      <li>Générateurs chimiques d'oxygène (UN 3356) : <b>interdits</b> en fret et bagages.</li>
+      <li>Air comprimé (UN 1002) : 2.2, PI 200, sans 5.1.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Glace carbonique — UN 1845 · PI 954</h3>
+    <ul>
+      <li>Classe 9 — réfrigérant courant (échantillons, denrées). Quantité nette max/colis selon PI 954 + limites compagnie.</li>
+      <li>Emballage permettant l'évacuation du gaz (jamais hermétique), ventilé.</li>
+      <li><b>Mention LTA obligatoire</b> : « Dry Ice, UN 1845, n° de colis, quantité nette totale » (DGR 8.2.3) — même si elle refroidit des marchandises non dangereuses.</li>
+      <li>DGD requise si elle refroidit des MDD réglementées (ajoutée comme ligne) ; information au transporteur toujours obligatoire.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Aérosols (UN 1950) — PI 203 / Y203 (LQ)</h3>
+    <ul>
+      <li>2.1 le plus souvent (2.2 si contenu non inflammable).</li>
+      <li>LQ PI Y203 : colis ≤ 30 kg, flacons ≤ 1 L — marque « Y » (losange), pas de DGD.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Extincteurs (UN 1044)</h3>
+    <ul><li>2.2 selon gaz contenu (CO₂/azote), PI 213 selon gaz propulseur — beaucoup de compagnies les refusent. Vérifier les variations opérateur.</li></ul>
+  </div>
+  <div class="card">
+    <h3>Brassières / gilets de sauvetage</h3>
+    <ul>
+      <li>Gonflants CO₂ : engins de sauvetage autogonflants = <b>UN 2990, classe 9, PI 955</b>. Accord compagnie ; en bagages : généralement 1 gilet porté + 1 en bagage avec cartouches (certaines compagnies ≤ 60 g CO₂/cartouche).</li>
+      <li>Avec fusées : UN 0191 / 0323 (1.4G) — accord obligatoire, souvent refusées. En bagages, UN 2990 non autorisé sauf exception prévue (2.3).</li>
+      <li>Avec pile lithium : régime UN 3481 (§ II de PI 967/970 en général).</li>
+      <li>Mousse : pas de restriction MDD.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Gaz inflammables courants</h3>
+    <table>
+      <tr><th>Matière</th><th>ONU</th><th>Cl.</th><th>PI</th></tr>
+      <tr><td>Butane</td><td>UN 1011</td><td>2.1</td><td>200</td></tr>
+      <tr><td>Propane</td><td>UN 1978</td><td>2.1</td><td>200</td></tr>
+      <tr><td>Gaz de pétrole liquéfié</td><td>UN 1965</td><td>2.1</td><td>200</td></tr>
+      <tr><td>Hydrogène comprimé</td><td>UN 1049</td><td>2.1</td><td>200</td></tr>
+      <tr><td>Récipients rechargeables (camping)</td><td>UN 2037</td><td>2.1</td><td>200</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ======================= ESSENCE ======================= -->
+<section id="tab-essence">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">⛽ Essence &amp; liquides inflammables — classe 3</h2>
+  <div class="card">
+    <h3>Essence — UN 1203</h3>
+    <ul>
+      <li>Classe 3, <b>PG II</b>, étiquette 3 + orientations. PI <b>353</b> (pax, 5 L) / <b>364</b> (cargo, 60 L) — emballages ONU : fûts, jerricans, combinaisons.</li>
+      <li>LQ : PI <b>Y341</b> — emballages intérieurs limités, colis ≤ 30 kg (vérifier la table de l'édition en vigueur).</li>
+      <li><b>Interdite en bagages</b>. Essence-éthanol : UN 3475.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Carburants &amp; apparentés</h3>
+    <table>
+      <tr><th>Matière</th><th>ONU</th><th>Cl.</th><th>PG</th><th>PI</th></tr>
+      <tr><td>Gasoil / diesel</td><td>UN 1202</td><td>3</td><td>III</td><td>366 / Y344</td></tr>
+      <tr><td>Kérosène</td><td>UN 1223</td><td>3</td><td>II/III</td><td>366 / Y344</td></tr>
+      <tr><td>Fioul léger</td><td>UN 1863</td><td>3</td><td>III</td><td>366</td></tr>
+      <tr><td>Éthanol / alcool à brûler</td><td>UN 1170</td><td>3</td><td>II/III</td><td>355/366</td></tr>
+      <tr><td>Peintures, vernis</td><td>UN 1263</td><td>3</td><td>II/III</td><td>355/366 · Y343/Y344</td></tr>
+    </table>
+    <p class="note">PG selon point éclair : II si &lt; +23 °C, III si +23 à 60,5 °C. PI 355 (PG I-II) / 366 (PG III) — vérifier la table 4.2 du DGR en vigueur.</p>
+  </div>
+  <div class="card">
+    <h3>Moteurs &amp; machines</h3>
+    <table>
+      <tr><th>ONU</th><th>Désignation</th><th>Classe</th><th>PI</th></tr>
+      <tr><td>UN 3528</td><td>Moteur/machine à combustion, carburant <b>liquide</b> inflammable</td><td><b>3</b> (PG III)</td><td><b>378</b></td></tr>
+      <tr><td>UN 3529</td><td>Moteur/machine à combustion, carburant <b>gaz</b> inflammable</td><td>2.1</td><td>voir DGR</td></tr>
+      <tr><td>UN 3530</td><td>Moteur/machine, carburant <b>polluant marin</b> uniquement</td><td>9</td><td>972</td></tr>
+    </table>
+    <ul>
+      <li>Générateurs, tronçonneuses, tondeuses (essence) : <b>UN 3528 · PI 378</b> — la plupart des compagnies exigent réservoir <b>vidé et purgé</b>, bouchons sécurisés.</li>
+      <li>Étiquette 3 + DGD ; accord compagnie fréquent. La PI 378 autorise une petite quantité résiduelle de carburant selon ses conditions exactes (vérifier DGR).</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Allumettes &amp; briquets</h3>
+    <ul>
+      <li>Allumettes sûres UN 1944 (4.1) / frottantes UN 1945 / fumigènes UN 1947 — fret uniquement, accord.</li>
+      <li>Briquets gaz (UN 1057) : 1 sur soi en cabine, jamais en soute. Briquets essence : interdits partout.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= CLASSES ======================= -->
+<section id="tab-classes">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">🔢 Les 9 classes</h2>
+  <div class="cl-grid" id="cl-grid"></div>
+  <div class="card">
+    <h3>Étiquettes — rappel</h3>
+    <div>
+      <div class="label-diamond" style="border-color:#e11d48;background:#e11d48"><span style="color:#fff">1<br>EXPLOSIFS</span></div>
+      <div class="label-diamond" style="border-color:#16a34a;background:#16a34a"><span style="color:#fff">2.1<br>GAZ INFL.</span></div>
+      <div class="label-diamond" style="border-color:#65a30d;background:#65a30d"><span style="color:#fff">2.2</span></div>
+      <div class="label-diamond" style="border-color:#dc2626;background:#dc2626"><span style="color:#fff">3</span></div>
+      <div class="label-diamond" style="border-color:#f59e0b;background:#f59e0b"><span style="color:#000">4</span></div>
+      <div class="label-diamond" style="border-color:#0891b2;background:#0891b2"><span style="color:#fff">5.1</span></div>
+      <div class="label-diamond" style="border-color:#f59e0b;background:#f59e0b"><span style="color:#000">6</span></div>
+      <div class="label-diamond" style="border-color:#eab308;background:#eab308"><span style="color:#000">7</span></div>
+      <div class="label-diamond" style="border-color:#3b82f6;background:#3b82f6"><span style="color:#fff">8</span></div>
+      <div class="label-diamond" style="border-color:#334155;background:#334155"><span style="color:#fff">9<br>MDD DIV.</span></div>
+    </div>
+    <p class="note">Étiquettes min 100×100 mm (100×70 petits colis). Couleurs/pictogrammes exacts : DGR en vigueur.</p>
+  </div>
+</section>
+
+<!-- ======================= MARQUAGE ======================= -->
+<section id="tab-marquage">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">🏷️ Marquage &amp; étiquetage — checklist colis</h2>
+  <div class="card">
+    <h3>Marquage (inscriptions)</h3>
+    <ul>
+      <li>☐ Expéditeur et destinataire (nom et adresse complets)</li>
+      <li>☐ <b>N° ONU + PSN</b> (« UN 1203, ESSENCE ») — PSN en majuscules</li>
+      <li>☐ Groupe d'emballage si applicable (PG II/III)</li>
+      <li>☐ Quantité nette par colis (et par emballage intérieur pour LQ)</li>
+      <li>☐ Quantités exceptées : « Quantity » + code EQ</li>
+      <li>☐ Quantités limitées (LQ) : <b>marque « Y »</b> — losange min 100×100 mm, bandes noires haut/bas, « Y » au centre</li>
+      <li>☐ Marquage lithium le cas échéant (avec n° de téléphone)</li>
+      <li>☐ Caractères ≥ 12 mm (6 mm si colis ≤ 30 L/30 kg)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Étiquetage</h3>
+    <ul>
+      <li>☐ Risque principal + subsidiaires, même face que le marquage, visibles, non recouverts</li>
+      <li>☐ <b>« CARGO AIRCRAFT ONLY »</b> si applicable (3480/3090 seuls, PG interdits pax…)</li>
+      <li>☐ Étiquettes d'orientation (2 opposées) pour liquides</li>
+      <li>☐ Un seul jeu par colis ; overpack → reproduire marques/étiquettes du contenu</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Overpack</h3>
+    <ul>
+      <li>Reproduire marquages et étiquettes du contenu (sauf si visibles).</li>
+      <li>Mention « OVERPACK » à côté du marquage ONU.</li>
+      <li>L'overpack ne remplace pas l'emballage agréé.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= REGLES (v5) ======================= -->
+<section id="tab-regles">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">⚖️ Règles — incompatibilités, exceptions, quantités, autorisations</h2>
+  <div class="card">
+    <h3>🚫 Incompatibilités &amp; séparation entre colis</h3>
+    <p class="dim">Séparation des colis dans un même chargement ou overpack — <b>Table 9.3.A IATA</b> (points vérifiés, édition 2023/2026). Toujours confirmer dans la Table 9.3.A de l'édition en vigueur et les règles de la compagnie.</p>
+    <ul>
+      <li><b>Classe 1 (explosifs, sauf 1.4S)</b> : séparation avec <b>toutes</b> les autres classes. <b>1.4B</b> : uniquement avec 1.4S.</li>
+      <li><b>Paires interdites</b> (X mutuelles) :
+        <table>
+          <tr><th>Classe A</th><th>Classe B</th><th>Notes</th></tr>
+          <tr><td>2.1 (gaz inflammables)</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+          <tr><td>3 (liquides inflam.)</td><td>5.1 (comburants)</td><td>sauf UN 3528 moteurs</td></tr>
+          <tr><td>3</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+          <tr><td>4.1 (solides inflam.)</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+          <tr><td>4.2 (inflammation spontanée)</td><td>5.1</td><td>séparation obligatoire</td></tr>
+          <tr><td>4.3 (au contact de l'eau)</td><td>8 (corrosifs)</td><td>séparation obligatoire</td></tr>
+          <tr><td>5.1</td><td>Piles seules*</td><td>séparation obligatoire</td></tr>
+        </table>
+        * <b>Piles seules</b> = lithium-ion / lithium-métal / sodium-ion expédiées seules (UN 3480, 3090, 3551 — PI 965/968/976).</li>
+      <li><b>Pas de séparation requise</b> : 1.4S, classes 6, 7 et 9 (hors piles seules ci-dessus).</li>
+      <li><b>Overpack</b> : deux matières devant être séparées (Table 9.3.A) sont <b>interdites dans le même overpack</b> ; des substances pouvant réagir dangereusement ensemble ne doivent jamais y être combinées.</li>
+    </ul>
+    <div id="reg-check"></div>
+  </div>
+  <div class="card">
+    <h3>📦 Quantités limitées (LQ)</h3>
+    <ul>
+      <li>PI aérienne préfixée <b>« Y »</b> (ex. Y203 aérosols, Y341 essence, Y343/Y344 peintures) — quantités nettes max. par emballage intérieur : voir la PI Y exacte du DGR.</li>
+      <li>Colis ≤ <b>30 kg brut</b>.</li>
+      <li>Marque <b>« Y »</b> aérienne obligatoire (losange, bandes noires haut/bas) — <b>pas</b> la marque « LIMITED QUANTITY » du régime terrestre ADR.</li>
+      <li><b>Pas de DGD exigée</b> en régime LQ.</li>
+      <li>L'acceptation du régime LQ peut varier selon la matière et la compagnie — vérifier l'édition du DGR en vigueur et les variations État/opérateur.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>🧪 Quantités exceptées (EQ)</h3>
+    <ul>
+      <li>Code <b>E0</b> (régime interdit) à <b>E5</b> — colonne « EQ » des listes de matières du DGR (sections 2.6/2.7).</li>
+      <li>Limites de quantités par code : <b>Table 2.7.A</b> du DGR (ne pas se fier à des valeurs de mémoire — vérifier la table).</li>
+      <li>Marque <b>« E »</b> + code (ex. E2) sur le colis + quantité nette par emballage intérieur.</li>
+      <li><b>Pas de DGD exigée</b> en quantités exceptées.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>✅ Exceptions courantes</h3>
+    <ul>
+      <li><b>Piles au plomb étanches (VRLA, UN 2800)</b> : PI 872, régime « exceptées » possible si critères du SP A67 remplis (pas de liquide libre, bornes protégées…) — alors « Not Restricted » + mention A67 sur la LTA.</li>
+      <li><b>Piles lithium § II</b> (UN 3481/3091, PI 966–970 ; sodium 3552, PI 977/978) : <b>pas de DGD</b>, mais <b>mention obligatoire sur la LTA</b>. Piles seules (965/968/976) : pas de § II, DGD obligatoire en IB.</li>
+      <li><b>Glace carbonique (UN 1845)</b> : mention obligatoire sur la LTA (« Dry Ice, UN 1845, x kg ») ; DGD uniquement si elle refroidit d'autres marchandises dangereuses.</li>
+      <li><b>Liquides PE &gt; 60,5 °C</b> : non réglementés classe 3.</li>
+      <li><b>Bagages</b> : annexes 2.3.A / 2.3.B du DGR (piles de secours, aérosols, cartouches de gaz…) selon compagnie.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>📝 Autorisations &amp; interdictions</h3>
+    <ul>
+      <li><b>Cargo Aircraft Only</b> : piles seules (UN 3480, 3090, 3551), et matières interdites en passagers selon le DGR (PG I, toxiques inhalation…).</li>
+      <li><b>Accord / approbation</b> : certaines matières exigent une approbation d'État ou un accord préalable de la compagnie — vérifier les dispositions spéciales et les variations État/opérateur.</li>
+      <li><b>Quasi toujours refusées</b> : générateurs chimiques d'oxygène (UN 3356 — interdits fret), briquets à essence, fusées de détresse (UN 0191/0323 — conditions strictes + accord).</li>
+      <li><b>Explosifs</b> : fret uniquement, autorisations et compatibilités groupes A–S à vérifier.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>⚠️ Particularités à ne pas oublier</h3>
+    <ul>
+      <li><b>Piles lithium / sodium-ion</b> : <b>SoC ≤ 30 %</b> pour les piles seules (PI 965/968/976) ; <b>obligatoire</b> dès le 01/01/2026 pour la PI 966 (emballées avec, Sections I et II, cellules/piles &gt; 2,7 Wh) et les véhicules UN 3556 (&gt; 100 Wh) ; <b>recommandé</b> pour la PI 967 (dans l'équipement) — dérogation approbation d'État SP A331 ; test <b>UN 38.3</b> ; marquage lithium avec <b>n° de téléphone 24h/24</b>.</li>
+      <li><b>Overpack</b> : mention « OVERPACK » + reproduire marquages et étiquettes du contenu.</li>
+      <li><b>Mentions LTA</b> : piles § II, glace carbonique, CARGO AIRCRAFT ONLY.</li>
+      <li>Les PI non vérifiables dans l'app s'affichent « voir DGR » — toujours trancher avec l'édition en vigueur.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= COLIS (état de colisage) ======================= -->
+<section id="tab-colis">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">📦 Mon état de colisage</h2>
+  <div class="warnbox">Tes colis sont enregistrés <b>uniquement sur ton appareil</b> (sauvegarde auto). L'app calcule automatiquement les <b>étiquettes requises</b> (diamants de classe, CAO, marque Y, marquage lithium, orientations), te prévient des <b>oublis de conformité</b>, génère la <b>DGD</b> et l'<b>étiquette imprimable</b> pour chaque colis.</div>
+  <div class="card">
+    <h3>🧪 Analyse d'un fichier de colisage (CSV)</h3>
+    <p class="dim">Importe ton état de colisage au format <b>CSV</b> (depuis Excel : Fichier → Enregistrer sous → CSV) : l'app <b>identifie chaque matière dangereuse</b> (n° ONU, classe, PG, PI, étiquettes, particularités) via la base des 2349 n° ONU + synonymes, <b>signale les anomalies</b> (CAO manquant, orientations, interdictions), puis propose le colisage — tout reste <b>modifiable</b> avant et après import.</p>
+    <div class="field"><label>Fichier .csv (colonnes libres : ONU, matière, quantité, colis, emballage, expéditeur, destinataire…)</label><input type="file" id="imp-file" accept=".csv,text/csv"></div>
+    <div id="imp-result"></div>
+    <div class="toolbar" id="imp-actions" style="display:none">
+      <button class="btn acc" id="imp-add">➕ Ajouter les lignes cochées à mes colis</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧭 Contexte d'expédition</h3>
+    <div class="field"><label>Date d'expédition — détermine l'édition DGR applicable</label><input type="date" id="t-date"></div>
+    <div class="field"><label>Type de transport</label><select id="t-mode"><option value="fret">Fret (cargo)</option><option value="passager">Passager / bagage</option><option value="equipage">Équipage</option><option value="operateur">Matériel opérateur</option></select></div>
+    <div class="field"><label>🛡️ Pays d'origine (variations État)</label><input type="text" id="t-origin" placeholder="ex. France"></div>
+    <div class="field"><label>🛡️ Pays de destination (variations État)</label><input type="text" id="t-dest" placeholder="ex. Qatar"></div>
+    <div class="field"><label>Pays de transit (plusieurs : séparer par des virgules)</label><input type="text" id="t-transit" placeholder="optionnel"></div>
+    <div class="field"><label>Exploitant / compagnie aérienne (variations opérateur)</label><input type="text" id="t-operateur" placeholder="code + nom"></div>
+    <div class="field"><label>📥 Référentiel DGR licencié (.json — format dgr-schema.json)</label><input type="file" id="t-load-dgr" accept=".json,application/json"></div>
+    <p class="note" id="t-edinfo"></p>
+    <p class="note" id="t-dgrinfo">🟡 Référentiel DGR licencié non chargé — verdict 🟢 READY et impression de production verrouillés (fail-safe V11). Un jeu de données DGR détenu sous licence peut être chargé ici (édition en vigueur, complete=true + variationsComplete=true) pour libérer la décision finale. Le DGR complet n'est pas et ne sera pas embarqué dans cette application.</p>
+  </div>
+  <div class="card">
+    <h3 id="c-title">➕ Nouveau colis</h3>
+    <div class="field ac"><label>Matière — tape un n° ONU ou un nom (base : 2349 n° ONU)</label>
+      <input type="text" id="c-mat" placeholder="ex. 1203, essence, 3480, oxygène…" autocomplete="off">
+      <div class="ac-list" id="c-ac"></div>
+    </div>
+    <div class="field"><label>N° ONU</label><input type="text" id="c-un" placeholder="ex. 1203"></div>
+    <div class="field"><label>PSN — désignation officielle (majuscules à la DGD)</label><input type="text" id="c-psn" placeholder="ex. ESSENCE"></div>
+    <div class="field"><label>Classe / division</label><input type="text" id="c-cl" placeholder="ex. 3 · 2.2 · 9"></div>
+    <div class="field"><label>Risques subsidiaires</label><input type="text" id="c-sub" placeholder="ex. 5.1 (vide si aucun)"></div>
+    <div class="field"><label>Groupe d'emballage</label><input type="text" id="c-pg" placeholder="II / III / vide si non applicable"></div>
+    <div class="field"><label>État de la marchandise</label><select id="c-etat"><option value="sain">Saine / non endommagée</option><option value="endommage">Endommagée / défectueuse / rappelée</option></select></div>
+    <div class="field"><label>✅ Classification confirmée ? (responsabilité expéditeur — DGR § 1)</label><select id="c-confirm"><option value="non">Non — à confirmer</option><option value="oui">Oui — classification validée</option></select></div>
+    <div class="field"><label>Base de classification</label><select id="c-clsbase"><option value="">—</option><option value="SDS">SDS / fiche de données de sécurité</option><option value="fabricant">Fabricant / product data sheet</option><option value="laboratoire">Laboratoire / essai UN</option><option value="autorité">Autorité compétente</option><option value="saisie">Saisie utilisateur</option></select></div>
+    <div class="field"><label>Expéditeur</label><input type="text" id="c-ship" placeholder="Nom + adresse + tél. 24h/24"></div>
+    <div class="field"><label>Destinataire</label><input type="text" id="c-cons" placeholder="Nom + adresse"></div>
+    <div class="field"><label>Quantité nette</label><input type="text" id="c-qty" placeholder="ex. 12 kg / 8 L"></div>
+    <div class="field"><label>Nombre de colis</label><input type="number" id="c-nb" value="1" min="1"></div>
+    <div class="field"><label>Type d'emballage</label><input type="text" id="c-pkg" placeholder="ex. 1 caisse ONU 4G/X…"></div>
+    <div class="field"><label>🛡️ Code d'emballage ONU (V11 — ex. 4G)</label><input type="text" id="c-pkgcode" placeholder="ex. 4G / 1H1 / 4HW"></div>
+    <div class="field"><label>🛡️ Spécification d'emballage (V11)</label><input type="text" id="c-pkgspec" placeholder="ex. 4G/X45/S/24 F/Y…"></div>
+    <div class="field"><label><input type="checkbox" id="c-pkgver" style="width:auto;margin-right:6px"> Emballage déclaré vérifié compatible avec la PI applicable (V11)</label></div>
+    <div class="field"><label>🛡️ Quantité nette — valeur structurée (V11)</label><input type="number" id="c-qval" min="0" step="0.001" placeholder="ex. 5"></div>
+    <div class="field"><label>🛡️ Unité de quantité (V11)</label><select id="c-qunit"><option value="">— choisir —</option><option value="kg">kg</option><option value="g">g</option><option value="L">L</option><option value="mL">mL</option><option value="Wh">Wh</option><option value="unites">unités</option></select></div>
+    <div class="field"><label>🛡️ Mention LTA/AWB vérifiée (V11 — UN 1845, 3373…)</label><input type="text" id="c-awbinfo" placeholder="mention exacte vérifiée sur la LTA"></div>
+    <div class="field"><label>PI + section</label><input type="text" id="c-pi" placeholder="ex. 965 IB — prérempli selon matière"></div>
+    <div class="field"><label>⚠️ Cargo Aircraft Only</label><select id="c-cao"><option value="">Non</option><option value="oui">Oui</option></select></div>
+    <div class="field"><label>Régime Limited Quantity (marque Y)</label><select id="c-lq"><option value="">Non</option><option value="oui">Oui — LQ</option></select></div>
+    <div class="field"><label>Particularités / remarques</label><input type="text" id="c-notes" placeholder="SoC 30 %, marquage lithium, accord compagnie…"></div>
+    <div class="field"><label>SoC — état de charge (%) — batteries</label><input type="number" id="c-soc" min="0" max="100" placeholder="ex. 30"></div>
+    <div class="field"><label>Téléphone 24h/24 (marquage batterie / urgence)</label><input type="text" id="c-tel" placeholder="+33 6 XX XX XX XX"></div>
+    <div id="c-batdiv"></div>
+    <div id="c-preview"></div>
+    <div class="toolbar">
+      <button class="btn acc" id="c-add">➕ Ajouter le colis</button>
+      <button class="btn" id="c-cancel" style="display:none">✖️ Annuler la modification</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📋 Mes colis enregistrés</h3>
+    <div id="c-list"></div>
+    <div id="accept-check"></div>
+    <div class="toolbar">
+      <button class="btn" id="c-xlsx">⬇️ Export Excel (.xlsx)</button>
+      <button class="btn" id="c-csv">⬇️ Export CSV</button>
+      <button class="btn" id="c-json">💾 Sauvegarde (JSON)</button>
+      <button class="btn" id="c-imp">⬆️ Importer CSV</button>
+      <input type="file" id="c-file" accept=".csv,text/csv" style="display:none">
+      <button class="btn" id="c-dgd-all" style="border-color:var(--acc);color:var(--acc)">📄 Générer la DGD de toute la liste</button>
+      <button class="btn warn" id="c-clear" style="color:var(--err)">🗑️ Tout effacer</button>
+    </div>
+    <p class="note">Le fichier Excel contient l'état complet du colisage — un onglet, prêt pour Excel/Sheets. Pour ré-importer dans l'app : exporter en <b>CSV</b> (ou enregistrer le xlsx en CSV depuis Excel).</p>
+  </div>
+</section>
+
+<!-- ======================= DGD ======================= -->
+<section id="tab-dgd">
+  <h2 style="font-size:1.2rem;margin-bottom:8px">📄 DGD — générateur officiel multi-lignes</h2>
+  <div class="warnbox">Modèle reprenant le format IATA (rubriques 8.1) : bordure hachurée rouge, « Shipment type : non-radioactive », tableau « Nature and Quantity of Dangerous Goods », déclaration de conformité, signature. Lignes <b>verrouillées par défaut</b> (source de vérité : les colis) — déverrouillage manuel déconseillé. Impression <b>bloquée par le validateur</b> tant qu'un contrôle échoue (FRG-07 inclus). Signature manuscrite obligatoire sur l'original.</div>
+  <div class="card">
+    <h3>1 · En-tête de l'expédition</h3>
+    <div class="field"><label>Expéditeur (nom, adresse complète, tél. 24h/24)</label><textarea id="d-ship" rows="2" placeholder="BMPM — Détachement…, adresse complète, +33 6 XX XX XX XX"></textarea></div>
+    <div class="field"><label>Destinataire (nom, adresse complète)</label><textarea id="d-cons" rows="2" placeholder="Nom, adresse complète"></textarea></div>
+    <div class="field"><label>Compagnie aérienne (transporteur)</label><input type="text" id="d-cie" placeholder="ex. Qatar Airways"></div>
+    <div class="field"><label>N° LTA (air waybill)</label><input type="text" id="d-awb" placeholder="157-12345675"></div>
+    <div class="field"><label>Référence expéditeur (shipper's ref.)</label><input type="text" id="d-ref" placeholder="facultatif"></div>
+    <div class="field"><label>Aéroport de départ (Request it on the AWB route)</label><input type="text" id="d-dep" placeholder="Marseille (MRS)"></div>
+    <div class="field"><label>Aéroport de destination</label><input type="text" id="d-arr" placeholder="Doha (DOH)"></div>
+    <div class="field"><label>N° de vol / date (transport details)</label><input type="text" id="d-flight" placeholder="QR 40 / 05-10-2026"></div>
+    <div class="field"><label>Informations de manipulation (handling information)</label><textarea id="d-hi" rows="2" placeholder="ex. Contact urgence 24h/24 : +33 6 XX XX XX XX"></textarea></div>
+    <div class="field"><label>Nom et fonction du signataire</label><input type="text" id="d-sign" placeholder="J. FONTAINE — Responsable MDD / Expéditeur"></div>
+    <div class="field"><label>🇫🇷 Trajet depuis/vers la France ? (variation FRG-07)</label><select id="d-france"><option value="">Inconnu / non applicable</option><option value="oui">Oui — France impliquée</option><option value="non">Non</option></select></div>
+    <div class="field"><label>Téléphone d'urgence 24h/24 (FRG-07 — sur la déclaration)</label><input type="text" id="d-tel" placeholder="+33 6 XX XX XX XX"></div>
+    <div class="field"><label>Lieu et date de signature</label><input type="text" id="d-place" placeholder="Marseille — 03/10/2026"></div>
+  </div>
+  <div class="card">
+    <h3>2 · Matières transportées (lignes du tableau)</h3>
+    <div class="toolbar">
+      <button class="btn acc" id="d-addline">➕ Ajouter une matière</button>
+      <button class="btn" id="d-fromcolis">📦 Importer depuis mes colis</button>
+      <button class="btn warn" id="d-cleardlines" style="color:var(--err)">🗑️ Vider les lignes</button>
+    </div>
+    <div id="d-lines"></div>
+  </div>
+  <div class="card">
+    <h3>🖼️ Aperçu de la DGD</h3>
+    <div class="dgd-wrap"><div class="dgd" id="dgd-preview"></div></div>
+    <div class="toolbar">
+      <button class="btn acc" id="d-print">🖨️ Imprimer (A4)</button>
+      <button class="btn" id="d-copy">📄 Copier les lignes</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📋 Lignes à recopier (LTA / e-DGD)</h3>
+    <div class="copybox" id="dgd-line"></div>
+    <p class="note">La vraie DGD : format paysage, bordure hachurée rouge à 45°, texte noir sur fond blanc. Rubriques non applicables : rayer ou « N/A ». Toujours vérifier le modèle exigé par ta compagnie (certaines ont leur propre format via leur variation opérateur). <b>La DGD est en anglais, en 2 exemplaires</b> — le PSN anglais est repris automatiquement de la base ONU : vérifier la désignation exacte dans la liste 4.2 du DGR (jamais de troncature ni reformulation).</p>
+  </div>
+</section>
+
+</main>
+<nav id="nav"></nav>
+<div id="print-label"></div>
+<div id="print-dgd"></div>
+<div class="disclaimer">🛫 Assistant de terrain — source : DGR IATA (édition en vigueur) + base publique des n° ONU. Vérifier systématiquement les variations État/opérateur et l'édition du DGR avant toute expédition. Étiquettes générées = modèles à vérifier avant impression.</div>
+<script src="db-onu.js"></script>
+<script src="app-core.js"></script>
 <script>
-(function(){
-  var st = document.getElementById("st");
-  var tries = 0;
-  try { tries = parseInt(sessionStorage.getItem("v11b-tries") || "0", 10) || 0; } catch(e){}
-  function save(n){ try { sessionStorage.setItem("v11b-tries", String(n)); } catch(e){} }
-  function fail(m){ st.innerHTML = "⚠️ Mise à jour impossible : " + m + "<br>Vérifie ta connexion puis <b>recharge la page</b>."; }
-  if (!("serviceWorker" in navigator)) { fail("navigateur sans service worker."); return; }
-  var reloaded = false;
-  function reloadNow(reset){ if (reloaded) return; reloaded = true; save(reset ? 0 : tries + 1); location.reload(); }
-  navigator.serviceWorker.addEventListener("controllerchange", function(){ reloadNow(true); });
-  navigator.serviceWorker.register("./sw.js").then(function(){
-    if (tries >= 3) { fail("l'application n'arrive pas à démarrer malgré la mise à jour — signale-le avec une capture d'écran."); return; }
-    var wait = tries === 0 ? 6000 : 12000;
-    setTimeout(function(){ if (!reloaded) reloadNow(false); }, wait);
-  }).catch(function(e){ fail("installation du service worker (" + (e && e.message ? e.message : e) + ")"); });
-})();
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").catch(function(){});
+}
 </script>
 </body>
 </html>
