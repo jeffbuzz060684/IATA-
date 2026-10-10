@@ -1847,6 +1847,35 @@ if(dFrom) dFrom.addEventListener("click", function(){
   dgdRenderLines();
   alert(COLIS.length + " colis importés dans la DGD.");
 });
+// ---- v14 : exemple complet chargeable (DGD guidée — consignes, exemples, particularités) ----
+function dgdLoadExample(){
+  if(DGD_LINES.length || ["d-ship","d-cons","d-awb","d-sign"].some(function(id){ return gv(id); })){
+    if(!confirm("Charger l'exemple complet ? Cela remplace le contenu actuel de la DGD (en-tête + lignes).")) return;
+  }
+  DGD_LINES = [];
+  // Ligne exemple : UN 1203 GASOLINE — PI 364 cargo (60 L max/colis, PG II), données vérifiées DGR (base app 04/10/2026)
+  DGD_LINES.push({un:"1203", psn: psnEn("1203", "Carburant essence"), cl:"3", sub:"", pg:"II", qty:"30 L", nb:2, pkg:"bidon acier ONU 3A1", pi:"364", auth:"", cao:false, srcId:null});
+  var ex = {
+    "d-ship": "BMPM — Détachement d'Intervention Héliporté, 13015 Marseille, France — tél 24h/24 : +33 4 91 00 00 00 (astreinte MDD)",
+    "d-cons": "Qatar Civil Defence — Division logistique, Doha, Qatar",
+    "d-cie": "Qatar Airways Cargo",
+    "d-awb": "157-12345675",
+    "d-ref": "BMPM-DIH-2026-042",
+    "d-dep": "Marseille (MRS)",
+    "d-arr": "Doha (DOH)",
+    "d-flight": "QR 40 / 15-10-2026",
+    "d-hi": "Emergency contact 24 h : +33 4 91 00 00 00 (astreinte MDD)",
+    "d-france": "oui",
+    "d-tel": "+33 4 91 00 00 00",
+    "d-sign": "J. FONTAINE — Responsable MDD (personne qualifiée)",
+    "d-place": "Marseille — 12/10/2026"
+  };
+  Object.keys(ex).forEach(function(id){ var el = document.getElementById(id); if(el) el.value = ex[id]; });
+  dgdRenderLines();
+  alert("Exemple chargé : expédition fictive UN 1203 (essence, cargo PI 364). Vérifie l'aperçu ci-dessous — données fictives, à remplacer par les vraies.");
+}
+var dEx = document.getElementById("d-example");
+if(dEx) dEx.addEventListener("click", dgdLoadExample);
 function dgdAddFromColisQuiet(c){ if(parseCls(c.cl).concat(parseCls(c.sub||"")).indexOf("7") !== -1) return; DGD_LINES.push({un: c.un, psn: psnEn(c.un, c.psn), cl: c.cl, sub: c.sub||"", pg: (c.pg||"") === "—" ? "" : c.pg, qty: c.qty, nb: c.nb, pkg: c.pkg, pi: c.pi, auth: "", cao: !!c.cao, srcId: c.id || null}); }
 var dClear = document.getElementById("d-cleardlines");
 if(dClear) dClear.addEventListener("click", function(){ DGD_LINES = []; dgdRenderLines(); });

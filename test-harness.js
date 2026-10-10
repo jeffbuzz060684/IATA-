@@ -46,6 +46,18 @@ T("v13 : contenu du bandeau repliable (#hdr-fold)", fs.readFileSync(path.join(DI
 T("v13 : CSS état replié (header.folded masque #hdr-fold)", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf("header.folded #hdr-fold{display:none}") !== -1);
 T("v13 : repli persistant localStorage + replié par défaut", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf("iata-hdr-fold") !== -1 && fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('saved !== "0"') !== -1);
 T("v13 : script de repli sécurisé (try/catch complet)", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('btn.addEventListener("click", function(){') !== -1);
+// ---- v14 : DGD guidée (demande de Jade : consignes + exemples + particularités plutôt qu'un formulaire nu) ----
+var idxHtml = fs.readFileSync(path.join(DIR, "index.html"), "utf8");
+var coreJs = fs.readFileSync(path.join(DIR, "app-core.js"), "utf8");
+T("v14 : panneau consignes repliable <details id=\"dgd-guide\">", idxHtml.indexOf('id="dgd-guide"') !== -1 && idxHtml.indexOf("<summary") !== -1);
+T("v14 : consignes champ par champ (expéditeur 24h/24, FRG-07, signature manuscrite)", idxHtml.indexOf("joignable pendant TOUT le transport") !== -1 && idxHtml.indexOf("signature manuscrite obligatoire sur l'original") !== -1 && idxHtml.indexOf("FRG-07") !== -1);
+T("v14 : mode d'emploi des lignes (PSN liste 4.2 jamais tronqué, source de vérité = colis)", idxHtml.indexOf("liste 4.2") !== -1 && idxHtml.indexOf("jamais tronqué ni reformulé") !== -1 && idxHtml.indexOf("corriger le colis, pas la DGD") !== -1);
+T("v14 : particularités — cas SANS DGD (lithium Section II, UN 3373 PI 650, UN 1845, LQ, CAO, classe 7)", idxHtml.indexOf("Section II") !== -1 && idxHtml.indexOf("PI 650") !== -1 && idxHtml.indexOf("Dry Ice, UN 1845") !== -1 && idxHtml.indexOf("marque Y") !== -1 && idxHtml.indexOf("CARGO AIRCRAFT ONLY") !== -1 && idxHtml.indexOf("IAEA") !== -1);
+T("v14 : bouton exemple complet (#d-example)", idxHtml.indexOf('id="d-example"') !== -1 && coreJs.indexOf("dgdLoadExample") !== -1);
+T("v14 : exemple UN 1203 cohérent base vérifiée (GASOLINE via psnEn, PI 364 cargo, PG II)", coreJs.indexOf('psnEn("1203"') !== -1 && coreJs.indexOf('pi:"364"') !== -1 && coreJs.indexOf('pg:"II"') !== -1);
+T("v14 : exemple remplit l'en-tête complet (13 champs dont FRG-07 oui + tél 24h/24)", ["d-ship","d-cons","d-cie","d-awb","d-ref","d-dep","d-arr","d-flight","d-hi","d-france","d-tel","d-sign","d-place"].every(function(id){ return coreJs.indexOf('"' + id + '"') !== -1; }) && coreJs.indexOf('"d-france": "oui"') !== -1);
+T("v14 : exemple ligne manuelle sans srcId (brouillon 📝, jamais liée à un colis)", coreJs.indexOf('cao:false, srcId:null}') !== -1);
+T("v14 : exemple avertit avant remplacement (confirm) et l'exemple n'écrase pas silencieusement", coreJs.indexOf("Cela remplace le contenu actuel de la DGD") !== -1);
 T("10 onglets présents", ["tab-wiz","tab-rech","tab-piles","tab-gaz","tab-essence","tab-classes","tab-marquage","tab-regles","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);

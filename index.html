@@ -560,6 +560,42 @@
 <section id="tab-dgd">
   <h2 style="font-size:1.2rem;margin-bottom:8px">📄 DGD — générateur officiel multi-lignes</h2>
   <div class="warnbox">Modèle reprenant le format IATA (rubriques 8.1) : bordure hachurée rouge, « Shipment type : non-radioactive », tableau « Nature and Quantity of Dangerous Goods », déclaration de conformité, signature. Lignes <b>verrouillées par défaut</b> (source de vérité : les colis) — déverrouillage manuel déconseillé. Impression <b>bloquée par le validateur</b> tant qu'un contrôle échoue (FRG-07 inclus). Signature manuscrite obligatoire sur l'original.</div>
+  <details id="dgd-guide" class="card">
+    <summary style="cursor:pointer;font-weight:700">💡 Consignes de remplissage, exemples &amp; particularités</summary>
+    <h3 style="margin:10px 0 4px">A · En-tête — champ par champ</h3>
+    <ul>
+      <li><b>Expéditeur</b> : nom complet + adresse complète + <b>tél 24h/24</b> joignable pendant TOUT le transport. Piège : une ligne qui ne répond pas la nuit = refus possible. Ex. « BMPM — DIH, adresse, +33 4 91 XX XX XX (astreinte MDD) ».</li>
+      <li><b>Destinataire</b> : nom + adresse complète (pas un simple aéroport de transit).</li>
+      <li><b>N° LTA</b> : préfixe transporteur 3 chiffres + 8 chiffres — ex. « 157-12345675 ».</li>
+      <li><b>Aéroports départ / destination</b> : tels qu'ils figurent sur la route de la LTA — ex. « Marseille (MRS) » / « Doha (DOH) ».</li>
+      <li><b>Handling information</b> : contact urgence, accords, précisions utiles à la manutention — sinon « N/A ».</li>
+      <li><b>🇫🇷 FRG-07</b> : dès que la France est impliquée (depuis/vers), <b>tél d'urgence 24h/24 supplémentaire exigé sur la déclaration</b>.</li>
+      <li><b>Signataire</b> : nom + fonction de la personne formée/qualifiée ; <b>signature manuscrite obligatoire sur l'original</b> + lieu et date.</li>
+      <li><b>Rubriques non applicables</b> : rayer proprement ou écrire « N/A » — jamais laisser vides.</li>
+    </ul>
+    <h3 style="margin:10px 0 4px">B · Lignes matière — mode d'emploi</h3>
+    <ul>
+      <li><b>Toujours importer depuis l'onglet 📦 Colis</b> (lignes 🔒 verrouillées) : le colis est la source de vérité — corriger le colis, pas la DGD.</li>
+      <li>Ordre officiel du tableau : UN/ID No → PSN → Class (Sub) → PG → Quantity &amp; Type of Packing → PI → Auth.</li>
+      <li><b>PSN en anglais exact de la liste 4.2</b> — jamais tronqué ni reformulé (pré-rempli auto : ex. UN 1203 → GASOLINE).</li>
+      <li>Quantité : <b>nette par colis</b> + nombre × type d'emballage — ex. « 30 L — 2 × bidon acier ONU 3A1 ».</li>
+      <li>PI : instruction + section (ex. 364). Autorisation A## / SC si requise.</li>
+      <li>⚠️ Manuelle 📝 = brouillon sans lien avec les colis : à réserver aux exercices/entraînement.</li>
+    </ul>
+    <h3 style="margin:10px 0 4px">C · Particularités — quand PAS de DGD (mention LTA à la place)</h3>
+    <ul>
+      <li><b>Lithium Section II</b> (PI 965–967 ionique / 968–970 métal) : pas de DGD, mention LTA « Piles au lithium… en conformité avec la Section II de la PI … ».</li>
+      <li><b>UN 3373 PI 650</b> (biologique catégorie B) : pas de DGD, mention LTA personne responsable, colis ≤ 4 kg.</li>
+      <li><b>Glace carbonique UN 1845</b> (PI 954) seule : pas de DGD, mention LTA « Dry Ice, UN 1845, n° colis, qté nette totale » (8.2.3) — DGD requise si elle refroidit des MDD réglementées.</li>
+      <li><b>LQ (quantités limitées, marque Y)</b> : pas de DGD — vérifier la variation opérateur pour la mention LTA.</li>
+      <li><b>CAO</b> : mention CARGO AIRCRAFT ONLY — limites quantités fret uniquement.</li>
+      <li><b>Classe 7 (radioactif)</b> : hors périmètre de cet outil — procédure IAEA dédiée.</li>
+      <li>Toujours : <b>anglais, 2 exemplaires</b>, format paysage bordure hachurée rouge à 45°, modèle exigé par la compagnie (variation opérateur).</li>
+    </ul>
+  </details>
+  <div class="toolbar" style="margin:8px 0">
+    <button class="btn" id="d-example">🧪 Charger l'exemple complet (UN 1203 — cargo)</button>
+  </div>
   <div class="card">
     <h3>1 · En-tête de l'expédition</h3>
     <div class="field"><label>Expéditeur (nom, adresse complète, tél. 24h/24)</label><textarea id="d-ship" rows="2" placeholder="BMPM — Détachement…, adresse complète, +33 6 XX XX XX XX"></textarea></div>
