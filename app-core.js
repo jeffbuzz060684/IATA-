@@ -9,7 +9,9 @@ var FICHES = [
   { un:"3090", psn:"Piles au lithium-métal", cl:"9", pi:"968 (IA/IB)", pg:"—", lbl:"9 (lithium-métal) + CAO", pax:"INTERDIT avion passagers", cargo:"DGD obligatoire (IA et IB)",
     notes:"Section II supprimée depuis 2022. IB : cellule ≤ 1 g, pile ≤ 2 g, ≤ 2,5 kg/colis. IA au-delà. Étiquette 9 lithium-métal spécifique." },
   { un:"3091", psn:"Piles au lithium-métal avec/dans équipement", cl:"9", pi:"969 / 970", pg:"—", lbl:"9 (lithium-métal)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
-    notes:"§ II : ≤ 1 g/cellule, ≤ 2 g/pile, ≤ 5 kg/colis. Pas de DGD, marquage lithium, mention LTA. § I : DGD + ONU PG II. Test summary UN 38.3." },
+    notes:"§ II : ≤ 1 g/cellule, ≤ 2 g/pile, ≤ 5 kg/colis. Pas de DGD, marquage lithium, mention LTA. § I : DGD + ONU PG II. Test summary UN 38.3. AP4C (détecteur chimique) : pile Saft 2LSH20GP Li-SOCl₂, ≈ 3,8 g Li/élément LSH20 > 2 g → Section I OBLIGATOIRE — PI 970 (contenues dans l'équipement) / 969 (emballées avec), DGD. Vérifié web 03/11/2026." },
+  { un:"3479", psn:"Cartouches pour pile à combustible (avec/dans équipement), hydrogène en hydrure métallique", cl:"2.1", pi:"215 (pax 1 kg / cargo 15 kg) · LQ Y215 (0,5 kg)", pg:"—", lbl:"2.1", pax:"Autorisé fret (1 kg/colis) — INTERDIT bagages", cargo:"Autorisé fret (15 kg/colis)",
+    notes:"Vérifié web 03/11/2026 (DGR 67e éd.) : classe 2.1, E0 (quantités exceptées interdites), ERG 10L. DP A146 (conception empêchant toute fuite — emballées avec / contenues dans un équipement) + A162 (cartouches H2/hydrure : capacité en eau ≤ 120 mL). DGD obligatoire (E0, sauf régime LQ Y215 ≤ 0,5 kg/colis). INTERDIT en bagages passagers (2.3.5.9 exige A162 ≤ 120 mL). AP4C (Proengin) : stockeur H2 d'hydrure certifié UN 3479 par le constructeur (≈ 12 h). Expédition type : AP4C + stockeur UN 3479 + pile UN 3091 § I dans le MÊME colis → UNE seule DGD avec 2 entrées, étiquettes 2.1 + 9 lithium-métal, emballage spécification ONU." },
   { un:"3551", psn:"Piles sodium-ion", cl:"9", pi:"976 (IA/IB)", pg:"—", lbl:"9 (sodium-ion) + CAO", pax:"INTERDIT avion passagers", cargo:"SoC ≤ 30 % · DGD obligatoire",
     notes:"PI propres au sodium-ion depuis l'éd. 66 : 3551 seules (976, toujours CAO), 3552 avec équipement (977) / dans équipement (978), avec § I/II. Vérifier l'édition en vigueur." },
   { un:"3552", psn:"Piles sodium-ion avec/dans équipement", cl:"9", pi:"977 (avec) / 978 (dans)", pg:"—", lbl:"9 (sodium-ion)", pax:"Autorisé (limites § II)", cargo:"Autorisé",
@@ -73,6 +75,7 @@ var AIRX = {
   "3481":{pi:"966 / 967",li:"ion"},
   "3090":{pi:"968 IA/IB",cao:true,li:"metal",dgd:true},
   "3091":{pi:"969 / 970",li:"metal"},
+  "3479":{pi:"215 (pax 1 kg / cargo 15 kg) · LQ Y215 (0,5 kg)",dgd:true},
   "3551":{pi:"976 IA/IB",cao:true,li:"na",dgd:true},
   "3552":{pi:"977 (avec) / 978 (dans équipement)",li:"na"},
   "2794":{pi:"870",cao:true,dgd:true},"2795":{pi:"870",cao:true,dgd:true},
@@ -120,7 +123,8 @@ var SRC = {
   "3480":"PI 965 IA/IB · CAO · SoC ≤ 30 % — vérifié web 10/2026",
   "3481":"PI 966/967 · SoC ≤ 30 % OBLIGATOIRE dès 01/01/2026 pour PI 966 (emballées avec, Sections I et II, cellules/piles > 2,7 Wh) et véhicules UN 3556 (> 100 Wh) ; PI 967 (dans l'équipement) : RECOMMANDÉ — vérifié web 04/10/2026",
   "3090":"PI 968 IA/IB · CAO — vérifié web 10/2026",
-  "3091":"PI 969/970 — vérifié web 10/2026",
+  "3091":"PI 969/970 — vérifié web 10/2026 ; AP4C : Saft 2LSH20GP ≈ 3,8 g Li/élément → Section I — vérifié web 03/11/2026",
+  "3479":"Classe 2.1 · PI 215 (pax 1 kg / cargo 15 kg) · LQ Y215 0,5 kg · E0 · DP A146/A162 · ERG 10L — vérifié web 03/11/2026 (pages DGR photographiées + extraits DGR croisés)",
   "3551":"PI 976 IA/IB · CAO — vérifié web 04/10/2026",
   "3552":"PI 977/978 — vérifié web 04/10/2026",
   "3171":"Véhicules : PI 952 · SoC ≤ 30 % dès 01/01/2026 (SP A331) — vérifié web 04/10/2026",
@@ -160,7 +164,8 @@ var SYNONYMES = {
   "supercondensateur":"3499","condensateur":"3499","edlc":"3499",
   "allumettes":"1944","briquet":"1057",
   "chlorhydrique":"1789","acide chlorhydrique":"1789","soude":"1824","hydroxyde de sodium":"1823","sulfurique":"1830","acide sulfurique":"1830","nitrique":"2031",
-  "vehicule":"3171","véhicule":"3171","trottinette":"3171","velo electrique":"3171","vélo électrique":"3171","hoverboard":"3171"
+  "vehicule":"3171","véhicule":"3171","trottinette":"3171","velo electrique":"3171","vélo électrique":"3171","hoverboard":"3171",
+  "cartouche pile a combustible":"3479","pile a combustible":"3479","stockeur hydrogene":"3479","cartouche hydrogene":"3479","hydrogene hydrure":"3479","ap4c":"3479"
 };
 
 var CLASSES = [
@@ -1094,7 +1099,7 @@ function labelSvg(kind){
     + '</svg>';
 }
 // ====================== COLIS v4 : état de colisage ======================
-var APP_VERSION = 17;
+var APP_VERSION = 18;
 // Référentiel réglementaire — version des données séparée de la version logicielle (DGR 68e éd. en vigueur au 01/01/2027)
 var REGULATORY_DATA = { authority:"IATA", document:"Dangerous Goods Regulations", edition:"67", applicableFrom:"2026-01-01", applicableTo:"2026-12-31", nextEdition:"68 (en vigueur 2027-01-01)", datasetVersion:"2026.10.04-v11" };
 // v10 : éditions DGR avec date d'effet — le moteur choisit l'édition selon la date d'expédition

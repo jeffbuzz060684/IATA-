@@ -14,9 +14,9 @@ function T(name, cond) {
 ["index.html", "app-core.js", "manifest.webmanifest", "sw.js", "icon.svg", "tools/gen-icons.js", ".github/workflows/pages.yml", "version.json", "db-onu.js"].forEach(function (f) {
   T("fichier présent " + f, fs.existsSync(path.join(DIR, f)));
 });
-T("badge v17 (vérification visuelle de la mise à jour sur téléphone)", html.indexOf(">v17<") !== -1);
+T("badge v18 (vérification visuelle de la mise à jour sur téléphone)", html.indexOf(">v18<") !== -1);
 T("dgr-schema.json présent (V11)", fs.existsSync(path.join(DIR, "dgr-schema.json")));
-T("v17 : sw cache bump iata-mdd-v17 (≠ v12) — déclenche la mise à jour du SW sur les téléphones", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v17") !== -1);
+T("v18 : sw cache bump iata-mdd-v18 (≠ v12) — déclenche la mise à jour du SW sur les téléphones", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("iata-mdd-v18") !== -1);
 T("sw inclut db-onu.js", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("db-onu.js") !== -1);
 T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8").indexOf("version.json") !== -1);
 // V11.0.1 — bugfix déploiement : le SHELL du sw ne doit référencer QUE des fichiers réellement présents (sinon install du sw échoue → PWA jamais mise à jour)
@@ -32,7 +32,7 @@ T("sw ne cache pas version.json", fs.readFileSync(path.join(DIR, "sw.js"), "utf8
   T("sw SHELL : aucun PNG binaire (icônes SVG uniquement)", !/\.png"/.test(shell));
 })();
 T("manifest : icônes SVG uniquement (aucun PNG à déployer)", (function(){ var m = fs.readFileSync(path.join(DIR, "manifest.webmanifest"), "utf8"); return m.indexOf("icon.svg") !== -1 && m.indexOf("image/png") === -1; })());
-T("version.json v17", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 17);
+T("version.json v18", JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 18);
 // ---- v12 : redéploiement monolithique en fichiers directs (suppression du chargeur v11b à blocs compressés) ----
 T("v12 : index.html référence app-core.js", fs.readFileSync(path.join(DIR, "index.html"), "utf8").indexOf('src="app-core.js"') !== -1);
 T("v12 : index.html léger (HTML/CSS seul)", fs.statSync(path.join(DIR, "index.html")).size < 60000);
@@ -91,8 +91,8 @@ T("v17 : Règles = sous-onglet des Guides (GUIDE_SUBS + gp-regles avec Table 9.3
 T("v17 : goTab redirige l'ancien id \"rech\" vers la Décision (rétro-compatibilité)", coreJs.indexOf('if(id === "rech") id = "wiz";') !== -1);
 T("v17 : wizard retiré de l'UI, refreshWiz sécurisé par garde", idxHtml.indexOf('id="wz-cat"') === -1 && coreJs.indexOf('if(!document.getElementById("wz-cat")) return;') !== -1);
 T("v17 : express → fiche détaillée (bouton #ex-more alimente la recherche)", coreJs.indexOf('id="ex-more"') !== -1 && coreJs.indexOf('getElementById("ex-more")') !== -1);
-T("v17 : version cohérente partout (badge v17 + APP_VERSION 17 + version.json 17)", idxHtml.indexOf(">v17<") !== -1 && coreJs.indexOf("var APP_VERSION = 17;") !== -1 && JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 17);
-T("v17 : sw réseau-d'abord pour tout (fix du cache-first qui figeait app-core.js en v12 sur les téléphones)", (function(){ var s = fs.readFileSync(path.join(DIR, "sw.js"), "utf8"); return s.indexOf("iata-mdd-v17") !== -1 && s.indexOf("iata-mdd-v12") === -1 && s.indexOf("respondWith(fetch(e.request)") !== -1 && s.indexOf("caches.match(e.request)") !== -1; })());
+T("v17 : version cohérente partout (badge v18 + APP_VERSION 18 + version.json 18)", idxHtml.indexOf(">v18<") !== -1 && coreJs.indexOf("var APP_VERSION = 18;") !== -1 && JSON.parse(fs.readFileSync(path.join(DIR, "version.json"), "utf8")).version === 18);
+T("v17 : sw réseau-d'abord pour tout (fix du cache-first qui figeait app-core.js en v12 sur les téléphones)", (function(){ var s = fs.readFileSync(path.join(DIR, "sw.js"), "utf8"); return s.indexOf("iata-mdd-v18") !== -1 && s.indexOf("iata-mdd-v12") === -1 && s.indexOf("respondWith(fetch(e.request)") !== -1 && s.indexOf("caches.match(e.request)") !== -1; })());
 T("v17 : navigation 4 onglets + guides & règles en sous-onglets", ["tab-wiz","tab-guides","tab-colis","tab-dgd"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }) && html.indexOf('id="tab-rech"') === -1 && html.indexOf('id="tab-regles"') === -1 && ["gp-piles","gp-gaz","gp-essence","gp-classes","gp-marquage","gp-regles"].every(function(id){ return html.indexOf('id="'+id+'"') !== -1; }));
 T("bouton « Ajouter au colisage » sur les résultats de recherche", html.indexOf("data-colisadd") !== -1 && html.indexOf("Ajouter à mon état de colisage") !== -1);
 T("polices agrandies (body 17.5px)", html.indexOf("font:17.5px/1.5") !== -1);
@@ -153,7 +153,18 @@ T("UN 2990 = classe 9 (IATA)", dbByUn("2990") && dbByUn("2990")[2] === "9");
 T("UN 1072 : subsidiaire 5.1", dbByUn("1072") && dbByUn("1072")[4] === "5.1");
 
 // ---- Corrections réglementaires v4 ----
-T("APP_VERSION = 17", typeof APP_VERSION !== "undefined" && APP_VERSION === 17);
+T("APP_VERSION = 18", typeof APP_VERSION !== "undefined" && APP_VERSION === 18);
+// ---- v18 : dossier AP4C (UN 3479 + UN 3091) — vérifié web 03/11/2026 ----
+T("v18 : fiche UN 3479 présente (classe 2.1, PI 215)", (function(){ var f = FICHES.filter(function(x){return x.un==="3479";})[0]; return !!f && f.cl === "2.1" && String(f.pi).indexOf("215") !== -1; })());
+T("v18 : fiche 3479 — limites 1 kg pax / 15 kg cargo + LQ Y215 0,5 kg", (function(){ var f = FICHES.filter(function(x){return x.un==="3479";})[0]; return String(f.pi).indexOf("1 kg") !== -1 && String(f.pi).indexOf("15 kg") !== -1 && String(f.pi).indexOf("Y215") !== -1; })());
+T("v18 : fiche 3479 — DP A146 + A162 (≤ 120 mL) + interdit bagages passagers", (function(){ var f = FICHES.filter(function(x){return x.un==="3479";})[0]; return /A146/.test(f.notes) && /A162/.test(f.notes) && /120 mL/.test(f.notes) && (/INTERDIT bagages/.test(f.pax) || /INTERDIT en bagages/.test(f.notes)); })());
+T("v18 : AIRX 3479 → DGD obligatoire", !!(AIRX["3479"] && AIRX["3479"].dgd === true));
+T("v18 : SRC 3479 et 3091 datés 03/11/2026", /03\/11\/2026/.test(SRC["3479"]||"") && /03\/11\/2026/.test(SRC["3091"]||""));
+T("v18 : fiche 3091 enrichie AP4C (Saft 2LSH20GP ≈ 3,8 g Li → Section I)", (function(){ var f = FICHES.filter(function(x){return x.un==="3091";})[0]; return /AP4C/.test(f.notes) && /3,8 g/.test(f.notes) && /Section I/.test(f.notes); })());
+T("v18 : base ONU 3479 = classe 2.1 (croisement fiche/base)", dbByUn("3479") && dbByUn("3479")[2] === "2.1");
+T("v18 : detectMatiere('AP4C') → UN 3479 (synonyme)", (function(){ var d = detectMatiere("AP4C"); return d && String(d.un) === "3479"; })());
+T("v18 : detectMatiere('stockeur hydrogène') → UN 3479", (function(){ var d = detectMatiere("stockeur hydrogène"); return d && String(d.un) === "3479"; })());
+T("v18 : detectMatiere('cartouche pile à combustible') → UN 3479", (function(){ var d = detectMatiere("cartouche pile à combustible"); return d && String(d.un) === "3479"; })());
 T("REGULATORY_DATA défini (édition ≠ version logicielle)", typeof REGULATORY_DATA === "object" && REGULATORY_DATA.edition === "67" && REGULATORY_DATA.applicableFrom === "2026-01-01" && REGULATORY_DATA.applicableTo === "2026-12-31");
 var rM = compute("carb", "moteur", {});
 T("UN 3528 → PI 378 (plus jamais 970)", rM.pi.indexOf("378") !== -1 && rM.pi.indexOf("970") === -1);

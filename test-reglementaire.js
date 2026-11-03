@@ -46,7 +46,9 @@ var REG = [
   // — Fiche aérosols : classe 2.1 (inflammable) — vérifié web 04/10/2026
   { un: "1950", ficheCl: "2.1", cl: "2.1", subVide: true, src: "web 04/10/2026 (sub 8 : variantes corrosives seulement)" },
   { un: "1005", cl: "2.3", sub: "8", src: "web 04/10/2026" },
-  { un: "3318", cl: "2.3", sub: "8", src: "web 04/10/2026" }
+  { un: "3318", cl: "2.3", sub: "8", src: "web 04/10/2026" },
+  // — Dossier AP4C (UN 3479 cartouche H2/hydrure + pile UN 3091) — vérifié web 03/11/2026
+  { un: "3479", pi: ["215"], cl: "2.1", ficheCl: "2.1", src: "web 03/11/2026 (DGR 67e éd. : classe 2.1, PI 215, pax 1 kg / cargo 15 kg, LQ Y215 0,5 kg, E0, DP A146/A162, ERG 10L)" }
 ];
 
 // ---- Stubs DOM (minimum pour évaluer le script principal) ----

@@ -1,5 +1,5 @@
 {
-  "version": 17,
-  "date": "2026-10-10",
-  "note": "v17 — refonte navigation : 🧭 Décision = fusion recherche express + recherche détaillée (tout-en-un), 📚 Guides & Règles en sous-dossiers (piles, gaz, essence, classes, marquage, règles), 📦 Colis auto-rempli + compatibilités, 📄 DGD. Fix service worker : réseau-d'abord (l'ancien cache-first figeait app-core.js en v12 sur les téléphones). Badge v17 visible en haut à droite pour vérifier la mise à jour."
+  "version": 18,
+  "date": "2026-11-03",
+  "note": "v18 — dossier AP4C : fiche UN 3479 (cartouches pile à combustible hydrogène/hydrure métallique : classe 2.1, PI 215, 1 kg passagers / 15 kg fret, LQ Y215 0,5 kg, E0, DP A146+A162 ≤ 120 mL, ERG 10L, interdit bagages) + fiche UN 3091 enrichie (pile Saft 2LSH20GP Li-SOCl₂ ≈ 3,8 g Li/élément → Section I obligatoire, DGD) + synonymes AP4C / stockeur hydrogène. Expédition type : UN 3479 + UN 3091 dans le même colis, une seule DGD à 2 entrées."
 }
